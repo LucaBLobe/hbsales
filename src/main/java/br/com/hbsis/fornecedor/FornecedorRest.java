@@ -33,14 +33,14 @@ public class FornecedorRest {
 
     @PutMapping("/{id}")
     public FornecedorDTO update(@PathVariable("id") Long id, @RequestBody FornecedorDTO fornecedorDTO) {
-        LOGGER.info("Recebendo Update para Dornecedor de ID: {}", id);
+        LOGGER.info("Recebendo Update para fornecedor de ID: {}", id);
         LOGGER.debug("Payload: {}", fornecedorDTO);
         return this.fornecedorService.update(fornecedorDTO, id);
 
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
-        LOGGER.info("Recebendo Delete para Usuário de ID: {}", id);
+        LOGGER.info("Recebendo Delete para fornecedor de ID: {}", id);
 
         this.fornecedorService.delete(id);
     }
