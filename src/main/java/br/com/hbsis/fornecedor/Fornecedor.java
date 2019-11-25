@@ -3,7 +3,7 @@ package br.com.hbsis.fornecedor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "seg_fornecedor")
+@Table(name = "cad_fornecedor")
 public class Fornecedor {
 
     @Id
@@ -11,15 +11,15 @@ public class Fornecedor {
     private Long id;
     @Column(name = "razao_social", unique = true, nullable = false, length = 255)
     private String razaoSocial;
-    @Column(name = "CNPJ", unique = true, nullable = false, length = 25)
+    @Column(name = "cnpj", unique = true, nullable = false, length = 25)
     private String CNPJ;
     @Column(name = "nome_fantasia", nullable = false, length = 100)
     private String nomeFantasia;
     @Column(name = "endereco", nullable = false, length = 255)
     private String endereco;
-    @Column(name = "telefone_de_contato", nullable = false, length = 14)
-    private Long telefoneContato;
-    @Column(name = "E-mail", nullable = false, length = 100)
+    @Column(name = "telefone_contato", nullable = false, length = 14)
+    private String telefoneContato;
+    @Column(name = "Email", nullable = false, length = 100)
     private String email;
 
     public Long getId() {
@@ -42,7 +42,7 @@ public class Fornecedor {
         return endereco;
     }
 
-    public Long getTelefoneContato() {
+    public String getTelefoneContato() {
         return telefoneContato;
     }
 
@@ -70,7 +70,7 @@ public class Fornecedor {
         this.endereco = endereco;
     }
 
-    public void setTelefoneContato(Long telefoneContato) {
+    public void setTelefoneContato(String telefoneContato) {
         this.telefoneContato = telefoneContato;
     }
 

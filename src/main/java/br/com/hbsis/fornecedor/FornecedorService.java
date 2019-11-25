@@ -1,6 +1,5 @@
 package br.com.hbsis.fornecedor;
 
-import br.com.hbsis.usuario.UsuarioDTO;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +18,10 @@ public class FornecedorService {
         this.iFornecedorRepository = iFornecedorRepository;
     }
 
-    public void save(FornecedorDTO fornecedorDTO) {
+    public FornecedorDTO save(FornecedorDTO fornecedorDTO) {
         this.validate(fornecedorDTO);
 
-        LOGGER.info("Salvando usuário");
+        LOGGER.info("Salvando fornecedor");
         LOGGER.debug("Usuario: {}", fornecedorDTO);
 
         Fornecedor fornecedor = new Fornecedor();
@@ -31,7 +30,7 @@ public class FornecedorService {
         fornecedor.setEmail(fornecedorDTO.getEmail());
         fornecedor.setNomeFantasia(fornecedorDTO.getNomeFantasia());
         fornecedor.setEndereco(fornecedorDTO.getEndereco());
-        fornecedor.setTelefoneContato(fornecedorDTO.getTelefoneContado());
+        fornecedor.setTelefoneContato(fornecedorDTO.getTelefoneContato());
 
         fornecedor = this.iFornecedorRepository.save(fornecedor);
 
@@ -61,7 +60,7 @@ public class FornecedorService {
         if (StringUtils.isEmpty(fornecedorDTO.getEmail())) {
             throw new IllegalArgumentException("E-mail não deve ser nula/vazia");
         }
-        if (StringUtils.isEmpty(fornecedorDTO.getTelefoneContado())) {
+        if (StringUtils.isEmpty(fornecedorDTO.getTelefoneContato())) {
             throw new IllegalArgumentException("Telefone de contato não deve ser nula/vazia");
         }
 
@@ -91,7 +90,7 @@ public class FornecedorService {
             fornecedorExistente.setRazaoSocial(fornecedorDTO.getRazaoSocial());
             fornecedorExistente.setNomeFantasia(fornecedorDTO.getNomeFantasia());
             fornecedorExistente.setEndereco(fornecedorDTO.getEndereco());
-            fornecedorExistente.setTelefoneContato(fornecedorDTO.getTelefoneContado());
+            fornecedorExistente.setTelefoneContato(fornecedorDTO.getTelefoneContato());
             fornecedorExistente.setCNPJ(fornecedorDTO.getCNPJ());
             fornecedorExistente.setEmail(fornecedorDTO.getEmail());
 

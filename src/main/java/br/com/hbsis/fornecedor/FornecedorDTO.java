@@ -4,19 +4,24 @@ public class FornecedorDTO {
 
     private Long id;
     private String razaoSocial;
-    private String CNPJ;
+    private String cnpj;
     private String nomeFantasia;
     private String endereco;
-    private Long telefoneContado;
+    private String telefoneContato;
     private String email;
 
     public FornecedorDTO() {
     }
 
-    public FornecedorDTO(Long id, Long cnpj, String nomeFantasia, String razaoSocial, String endereco, String email) {
-    }
 
-    public FornecedorDTO(Long id, String cnpj, String nomeFantasia, String razaoSocial, String endereco, String email) {
+    public FornecedorDTO(Long id, String razaoSocial, String cnpj, String nomeFantasia, String endereco, String telefoneContado, String email) {
+        this.id = id;
+        this.razaoSocial = razaoSocial;
+        this.cnpj = cnpj;
+        this.nomeFantasia = nomeFantasia;
+        this.endereco = endereco;
+        this.telefoneContato = telefoneContado;
+        this.email = email;
     }
 
     public static FornecedorDTO of(Fornecedor fornecedor) {
@@ -26,7 +31,8 @@ public class FornecedorDTO {
                 fornecedor.getNomeFantasia(),
                 fornecedor.getRazaoSocial(),
                 fornecedor.getEndereco(),
-                fornecedor.getEmail()
+                fornecedor.getEmail(),
+                fornecedor.getTelefoneContato()
         );
     }
 
@@ -39,7 +45,7 @@ public class FornecedorDTO {
     }
 
     public String getCNPJ() {
-        return CNPJ;
+        return cnpj;
     }
 
     public String getNomeFantasia() {
@@ -50,8 +56,8 @@ public class FornecedorDTO {
         return endereco;
     }
 
-    public Long getTelefoneContado() {
-        return telefoneContado;
+    public String getTelefoneContato() {
+        return telefoneContato;
     }
 
     public String getEmail() {
@@ -66,8 +72,8 @@ public class FornecedorDTO {
         this.razaoSocial = razaoSocial;
     }
 
-    public void setCNPJ(String CNPJ) {
-        this.CNPJ = CNPJ;
+    public void setCNPJ(String cnpj) {
+        this.cnpj = cnpj;
     }
 
     public void setNomeFantasia(String nomeFantasia) {
@@ -78,8 +84,8 @@ public class FornecedorDTO {
         this.endereco = endereco;
     }
 
-    public void setTelefoneContado(Long telefoneContado) {
-        this.telefoneContado = telefoneContado;
+    public void setTelefoneContato(String telefoneContado) {
+        this.telefoneContato = telefoneContado;
     }
 
     public void setEmail(String email) {
@@ -91,10 +97,10 @@ public class FornecedorDTO {
         return "FornecedorDTO{" +
                 "id=" + id +
                 ", Razão Social='" + razaoSocial + '\'' +
-                ", CNPJ ='" + CNPJ + '\'' +
+                ", CNPJ ='" + cnpj + '\'' +
                 ", Nome Fantasia ='" + nomeFantasia + '\'' +
                 ", Endereço ='" + endereco + '\'' +
-                ", Telefone de contato ='" + telefoneContado + '\'' +
+                ", Telefone de contato ='" + telefoneContato + '\'' +
                 ", E=mail ='" + email + '\'' +
                 '}';
     }

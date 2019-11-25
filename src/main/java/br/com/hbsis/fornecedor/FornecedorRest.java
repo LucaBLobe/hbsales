@@ -1,12 +1,8 @@
 package br.com.hbsis.fornecedor;
 
-import br.com.hbsis.usuario.UsuarioDTO;
-import br.com.hbsis.usuario.UsuarioService;
-import com.sun.javafx.logging.JFRInputEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -36,7 +32,7 @@ public class FornecedorRest {
     }
 
     @PutMapping("/{id}")
-    public FornecedorDTO update(@PathVariable("id") Long id @RequestBody FornecedorDTO fornecedorDTO) {
+    public FornecedorDTO update(@PathVariable("id") Long id, @RequestBody FornecedorDTO fornecedorDTO) {
         LOGGER.info("Recebendo Update para Dornecedor de ID: {}", id);
         LOGGER.debug("Payload: {}", fornecedorDTO);
         return this.fornecedorService.update(fornecedorDTO, id);
