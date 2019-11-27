@@ -4,6 +4,9 @@ package br.com.hbsis.categoria;
 import br.com.hbsis.fornecedor.Fornecedor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.opencsv.bean.CsvBindByName,
+import com.opencsv.bean.CsvBindByPosition;
+
 
 public class CategoriaDTO {
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoriaDTO.class);

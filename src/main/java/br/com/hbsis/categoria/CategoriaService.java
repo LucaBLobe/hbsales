@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CategoriaService {
@@ -99,6 +101,15 @@ public class CategoriaService {
     public List<Categoria> findAll() {
         List<Categoria> categoriaOptional = this.iCategoriaRepositoy.findAll();
             return categoriaOptional;
+    }
+
+    public List<String> listCategoria(){
+        List<Categoria>lista = new ArrayList<>();
+
+
+
+        return categoria;
 
     }
+
 }

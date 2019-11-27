@@ -3,6 +3,10 @@ package br.com.hbsis.categoria;
 import br.com.hbsis.fornecedor.Fornecedor;
 
 import javax.persistence.*;
+import com.opencsv.bean.CsvBindByName,
+import com.opencsv.bean.CsvBindByPosition;
+
+
 
 @Entity
 @Table(name = "cad_categoria")
@@ -39,6 +43,8 @@ public class Categoria {
         this.nomeCategoria = nomeCategoria;
         this.fornecedorCategoria = fornecedorCategoria;
     }
+
+
 
     public Long getId() {
         return id;
