@@ -1,7 +1,11 @@
 package br.com.hbsis.fornecedor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class FornecedorDTO {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(FornecedorDTO.class);
     private Long id;
     private String razaoSocial;
     private String cnpj;
@@ -25,14 +29,15 @@ public class FornecedorDTO {
     }
 
     public static FornecedorDTO of(Fornecedor fornecedor) {
+
         return new FornecedorDTO(
                 fornecedor.getId(),
+                fornecedor.getRazaoSocial(),
                 fornecedor.getCNPJ(),
                 fornecedor.getNomeFantasia(),
-                fornecedor.getRazaoSocial(),
                 fornecedor.getEndereco(),
-                fornecedor.getEmail(),
-                fornecedor.getTelefoneContato()
+                fornecedor.getTelefoneContato(),
+                fornecedor.getEmail()
         );
     }
 
