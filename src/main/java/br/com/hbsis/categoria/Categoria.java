@@ -3,9 +3,10 @@ package br.com.hbsis.categoria;
 import br.com.hbsis.fornecedor.Fornecedor;
 
 import javax.persistence.*;
-import com.opencsv.bean.CsvBindByName,
+import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
 
+import java.util.List;
 
 
 @Entity
@@ -22,28 +23,21 @@ public class Categoria {
     @Column(name = "nome_categoria", unique = true, nullable = false,length = 255)
     private String nomeCategoria;
 
-
     @ManyToOne
-    @JoinColumn(name = "fornecedor_categoria", referencedColumnName = "id")
-    private Fornecedor fornecedorCategoria;
+    @JoinColumn(name = "fornecedor_id", referencedColumnName = "id")
+    private Fornecedor fornecedorId;
 
     public Categoria(){
 
     };
 
-    public Categoria(String codigoCategoria, String nomeCategoria, Fornecedor fornecedorCategoria) {
-        this.codigoCategoria = codigoCategoria;
-        this.nomeCategoria = nomeCategoria;
-        this.fornecedorCategoria = fornecedorCategoria;
-    }
 
-    public Categoria(Long id, String codigoCategoria, String nomeCategoria, Long id_forcenedor, Fornecedor fornecedorCategoria) {
+
+    public Categoria(Long id, String codigoCategoria, Fornecedor fornecedorId) {
         this.id = id;
         this.codigoCategoria = codigoCategoria;
-        this.nomeCategoria = nomeCategoria;
-        this.fornecedorCategoria = fornecedorCategoria;
+        this.fornecedorId = fornecedorId;
     }
-
 
 
     public Long getId() {
@@ -71,12 +65,12 @@ public class Categoria {
     }
 
 
-    public Fornecedor getFornecedorCategoria() {
-        return fornecedorCategoria;
+    public Fornecedor getFornecedorId() {
+        return fornecedorId;
     }
 
-    public void setFornecedorCategoria(Fornecedor fornecedorCategoria) {
-        this.fornecedorCategoria = fornecedorCategoria;
+    public void setFornecedorId(Fornecedor fornecedorId) {
+        this.fornecedorId = fornecedorId;
     }
 
     @Override
@@ -84,7 +78,7 @@ public class Categoria {
         return "Produto{" +
                 "ID:"+ id+
                 "Codigo Categoria= " + codigoCategoria + '\'' +
-                ", Fornecedor Categoria='" + fornecedorCategoria + '\'' +
+                ", Fornecedor Id='" + fornecedorId + '\'' +
                 ", Nome Categoria ='" + nomeCategoria + '\'' +
                 '}';
     }

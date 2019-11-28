@@ -68,8 +68,9 @@ public class FornecedorService {
     public FornecedorDTO findById(Long id) {
         Optional<Fornecedor> fornecedorOptional = this.iFornecedorRepository.findById(id);
         if (fornecedorOptional.isPresent()) {
-            LOGGER.info("Recebendo find by LUCA... id: [{}]",FornecedorDTO.of(fornecedorOptional.get()));
-            return FornecedorDTO.of(fornecedorOptional.get());
+            Fornecedor fornecedor = fornecedorOptional.get();
+            LOGGER.info("Recebendo find by ID... id: [{}]",FornecedorDTO.of(fornecedor));
+            return FornecedorDTO.of(fornecedor);
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
 

@@ -59,11 +59,11 @@ public class CategoriaRest {
         LOGGER.info("Recebendo Delete para Categoria de ID: {}", id);
         this.categoriaService.delete(id);
     }
-    @GetMapping("/export-categoria")
+  /*  @GetMapping("/export-categoria")
     public void exportCSV(HttpServletResponse response) throws Exception {
 
         //set file name and content type
-        String filename = "users.csv";
+        String filename = "Categorias.csv";
 
         response.setContentType("text/csv");
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
@@ -79,7 +79,7 @@ public class CategoriaRest {
         //write all users to csv file
         writer.write(CategoriaService.listCategoria());
 
-    }
 
+    }*/
 
 }

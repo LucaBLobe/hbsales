@@ -2,42 +2,41 @@ package br.com.hbsis.categoria;
 
 
 import br.com.hbsis.fornecedor.Fornecedor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.opencsv.bean.CsvBindByName,
-import com.opencsv.bean.CsvBindByPosition;
+import br.com.hbsis.fornecedor.IFornecedorRepository;
 
 
 public class CategoriaDTO {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CategoriaDTO.class);
+
     private Long id;
     private String codigoCategoria;
-    private Fornecedor fornecedorCategoria;
+    // private Fornecedor fornecedorCategoria;
+    private Long fornecedorId;
     private String nomeCategoria;
 
 
     public CategoriaDTO() {
     }
 
-    public CategoriaDTO(String codigoCategoria, Fornecedor fornecedorCategoria, String nomeCategoria) {
+    /*public CategoriaDTO(Long id, String codigoCategoria, Long fornecedorId, String nomeCategoria) {
+    }
+*/
+
+
+
+    public CategoriaDTO(Long id, String codigoCategoria, Long fornecedorId, String nomeCategoria) {
+        this.id = id;
         this.codigoCategoria = codigoCategoria;
-        this.fornecedorCategoria = fornecedorCategoria;
+        this.fornecedorId = fornecedorId;
         this.nomeCategoria = nomeCategoria;
     }
 
-    public CategoriaDTO(Long id, String codigoCategoria, Fornecedor fornecedorCategoria, String nomeCategoria) {
-        this.id = id;
-        this.codigoCategoria = codigoCategoria;
-        this.fornecedorCategoria = fornecedorCategoria;
-        this.nomeCategoria = nomeCategoria;
-    }
 
     public static CategoriaDTO of(Categoria categoria) {
 
         return new CategoriaDTO(
                 categoria.getId(),
                 categoria.getCodigoCategoria(),
-                categoria.getFornecedorCategoria(),
+                categoria.getFornecedorId(),
                 categoria.getNomeCategoria()
         );
     }
@@ -59,12 +58,12 @@ public class CategoriaDTO {
         this.codigoCategoria = codigoCategoria;
     }
 
-    public Fornecedor getFornecedorCategoria() {
-        return fornecedorCategoria;
+    public Long getFornecedorId() {
+        return fornecedorId;
     }
 
-    public void setFornecedorCategoria(Fornecedor fornecedorCategoria) {
-        this.fornecedorCategoria = fornecedorCategoria;
+    public void setFornecedorId(Long fornecedorId) {
+        this.fornecedorId = fornecedorId;
     }
 
     public String getNomeCategoria() {
@@ -79,9 +78,9 @@ public class CategoriaDTO {
     public String toString() {
         return "CategoriaDTO{" +
                 "id=" + id +
-                ", Codigo da Categoria ='" + codigoCategoria + '\'' +"" +
+                ", Codigo da Categoria ='" + codigoCategoria + '\'' + "" +
                 ", Nome da categoria ='" + nomeCategoria + '\'' +
-                ", Fornecedor da Categoria ='" + fornecedorCategoria + '\'' +
+                ", Fornecedor ID ='" + fornecedorId + '\'' +
                 '}';
     }
 }
