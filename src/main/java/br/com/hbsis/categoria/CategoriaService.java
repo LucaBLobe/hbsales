@@ -103,7 +103,4 @@ public class CategoriaService {
         List<Categoria> categoriaOptional = this.iCategoriaRepositoy.findAll();
         return categoriaOptional;
     }
-
-
-
 }
