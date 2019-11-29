@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class FornecedorRest {
     private static final Logger LOGGER = LoggerFactory.getLogger(FornecedorRest.class);
 
-    private FornecedorService fornecedorService = null;
+    private FornecedorService fornecedorService;
 
     @Autowired
     public FornecedorRest(FornecedorService fornecedorService) {this.fornecedorService = fornecedorService;}

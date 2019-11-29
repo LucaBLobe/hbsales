@@ -35,8 +35,6 @@ public class FornecedorService {
         fornecedor = this.iFornecedorRepository.save(fornecedor);
 
         return fornecedorDTO.of(fornecedor);
-
-
     }
 
     private void validate(FornecedorDTO fornecedorDTO) {
@@ -70,7 +68,18 @@ public class FornecedorService {
     public FornecedorDTO findById(Long id) {
         Optional<Fornecedor> fornecedorOptional = this.iFornecedorRepository.findById(id);
         if (fornecedorOptional.isPresent()) {
+            LOGGER.info("Recebendo find by LUCA... id: [{}]",FornecedorDTO.of(fornecedorOptional.get()));
             return FornecedorDTO.of(fornecedorOptional.get());
+        }
+        throw new IllegalArgumentException(String.format("ID %s não existe", id));
+
+
+    }
+
+    public Fornecedor findFornecedorById(Long id) {
+        Optional<Fornecedor> fornecedorOptional = this.iFornecedorRepository.findById(id);
+        if (fornecedorOptional.isPresent()) {
+            return fornecedorOptional.get();
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
 
