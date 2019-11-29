@@ -29,8 +29,6 @@ public class Categoria {
 
     }
 
-    ;
-
 
     public Categoria(Long id, String codigoCategoria, Fornecedor fornecedorId) {
         this.id = id;
