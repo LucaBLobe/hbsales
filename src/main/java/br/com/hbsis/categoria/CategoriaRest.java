@@ -40,6 +40,7 @@ public class CategoriaRest {
         return this.categoriaService.findById(id);
 
     }
+
     @RequestMapping("/all")
     public CategoriaDTO findAll() {
 
@@ -103,7 +104,7 @@ public class CategoriaRest {
         ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
                 CsvPreference.STANDARD_PREFERENCE);
 
-        String[] header = { "id", "codigoCategoria", "nomeCategoria", "fornecedorId" };
+        String[] header = {"id", "codigoCategoria", "nomeCategoria", "fornecedorId"};
 
         csvWriter.writeHeader(header);
 

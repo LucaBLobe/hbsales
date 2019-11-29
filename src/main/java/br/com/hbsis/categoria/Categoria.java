@@ -15,20 +15,21 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "codigo_categoria", unique = true, nullable = false,length = 10)
+    @Column(name = "codigo_categoria", unique = true, nullable = false, length = 10)
     private String codigoCategoria;
 
-    @Column(name = "nome_categoria", unique = true, nullable = false,length = 255)
+    @Column(name = "nome_categoria", unique = true, nullable = false, length = 255)
     private String nomeCategoria;
 
     @ManyToOne
     @JoinColumn(name = "fornecedor_categoria", referencedColumnName = "id")
     private Fornecedor fornecedorId;
 
-    public Categoria(){
+    public Categoria() {
 
-    };
+    }
 
+    ;
 
 
     public Categoria(Long id, String codigoCategoria, Fornecedor fornecedorId) {
@@ -74,7 +75,7 @@ public class Categoria {
     @Override
     public String toString() {
         return "Produto{" +
-                "ID:"+ id+
+                "ID:" + id +
                 "Codigo Categoria= " + codigoCategoria + '\'' +
                 ", Fornecedor Id='" + fornecedorId + '\'' +
                 ", Nome Categoria ='" + nomeCategoria + '\'' +
