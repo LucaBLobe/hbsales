@@ -3,8 +3,6 @@ package br.com.hbsis.categoria;
 import br.com.hbsis.fornecedor.Fornecedor;
 
 import javax.persistence.*;
-import com.opencsv.bean.CsvBindByName;
-import com.opencsv.bean.CsvBindByPosition;
 
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class Categoria {
     private String nomeCategoria;
 
     @ManyToOne
-    @JoinColumn(name = "fornecedor_id", referencedColumnName = "id")
+    @JoinColumn(name = "fornecedor_categoria", referencedColumnName = "id")
     private Fornecedor fornecedorId;
 
     public Categoria(){

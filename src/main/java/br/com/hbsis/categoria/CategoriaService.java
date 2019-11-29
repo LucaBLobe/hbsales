@@ -25,6 +25,7 @@ public class CategoriaService {
 
     public CategoriaDTO save(CategoriaDTO categoriaDTO) {
 
+        categoriaDTO.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId().getId()));
         this.validate(categoriaDTO);
 
         LOGGER.info("Salvando categoria");
@@ -32,7 +33,7 @@ public class CategoriaService {
 
         Categoria categoria = new Categoria();
         categoria.setCodigoCategoria(categoriaDTO.getCodigoCategoria());
-        categoria.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
+        categoria.setFornecedorId(categoriaDTO.getFornecedorId());
         categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
 
@@ -75,12 +76,14 @@ public class CategoriaService {
         if (categoriaExistenteOptional.isPresent()) {
             Categoria categoriaExistente = categoriaExistenteOptional.get();
 
+            categoriaDTO.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId().getId()));
+
             LOGGER.info("Atualizado categoria... id: [{}]", categoriaExistente.getId());
             LOGGER.debug("Payload: {}", categoriaDTO);
             LOGGER.debug("Categoria Existente: {}", categoriaExistente);
 
             categoriaExistente.setCodigoCategoria(categoriaDTO.getCodigoCategoria());
-            categoriaExistente.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
+            categoriaExistente.setFornecedorId(categoriaDTO.getFornecedorId());
             categoriaExistente.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
             categoriaExistente = this.iCategoriaRepositoy.save(categoriaExistente);

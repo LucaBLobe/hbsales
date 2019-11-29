@@ -1,15 +1,16 @@
 package br.com.hbsis.categoria;
 
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 
 @RestController
@@ -82,4 +83,36 @@ public class CategoriaRest {
 
     }*/
 
+    @RequestMapping(value = "/export-categoria")
+    public void downloadCSV(HttpServletResponse response) throws IOException {
+
+        String csvFileName = "categorias.csv";
+
+        response.setContentType("text/csv");
+
+        // creates mock data
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"",
+                csvFileName);
+        response.setHeader(headerKey, headerValue);
+
+
+        List<Categoria> lista = categoriaService.findAll();
+
+        // uses the Super CSV API to generate CSV data from the model data
+        ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
+                CsvPreference.STANDARD_PREFERENCE);
+
+        String[] header = { "id", "codigoCategoria", "nomeCategoria", "fornecedorId" };
+
+        csvWriter.writeHeader(header);
+
+        for (Categoria categoria : lista) {
+            csvWriter.write(categoria, header);
+        }
+
+        csvWriter.close();
+    }
 }
+
+
