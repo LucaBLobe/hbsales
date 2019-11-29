@@ -98,29 +98,12 @@ public class CategoriaService {
         this.iCategoriaRepositoy.deleteById(id);
     }
 
-  /*  public String ExportCSV(String[] data) {
-        return Stream.of(data)
-                .map(this::escapeSpecialCharacters)
-                .collect(Collectors.joining(","));
-    }
-*/
 
     public List<Categoria> findAll() {
         List<Categoria> categoriaOptional = this.iCategoriaRepositoy.findAll();
         return categoriaOptional;
     }
 
-  /*      public static List<Categoria> listCategoria(){
-            List<Categoria> lista = new ArrayList<>();
 
-            for (Categoria categoria : categoriaOptional
-            ) {
-                lista.add(new Categoria(categoria.getId(), categoria.getCodigoCategoria(), categoria.getFornecedorId()));
-
-            }
-
-
-        }
-    }*/
 
 }

@@ -90,7 +90,7 @@ public class CategoriaRest {
 
         response.setContentType("text/csv");
 
-        // creates mock data
+
         String headerKey = "Content-Disposition";
         String headerValue = String.format("attachment; filename=\"%s\"",
                 csvFileName);
@@ -99,7 +99,7 @@ public class CategoriaRest {
 
         List<Categoria> lista = categoriaService.findAll();
 
-        // uses the Super CSV API to generate CSV data from the model data
+
         ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
                 CsvPreference.STANDARD_PREFERENCE);
 
