@@ -1,9 +1,6 @@
 package br.com.hbsis.categoria;
 
 
-import br.com.hbsis.fornecedor.Fornecedor;
-
-
 public class CategoriaDTO {
 
     private Long id;

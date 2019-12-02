@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +32,7 @@ public class CategoriaService {
 
         Categoria categoria = new Categoria();
         categoria.setCodigoCategoria(categoriaDTO.getCodigoCategoria());
-        fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId());
+        categoria.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
         categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
 
@@ -70,7 +69,7 @@ public class CategoriaService {
 
     public CategoriaDTO update(CategoriaDTO categoriaDTO, Long id) {
         Optional<Categoria> categoriaExistenteOptional = this.iCategoriaRepositoy.findById(id);
-        // Buscar diretamente do Fornecedor
+
 
 
         if (categoriaExistenteOptional.isPresent()) {
@@ -82,7 +81,7 @@ public class CategoriaService {
             LOGGER.debug("Categoria Existente: {}", categoriaExistente);
 
             categoriaExistente.setCodigoCategoria(categoriaDTO.getCodigoCategoria());
-            fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId());
+            categoriaExistente.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
             categoriaExistente.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
             categoriaExistente = this.iCategoriaRepositoy.save(categoriaExistente);

@@ -4,8 +4,6 @@ import br.com.hbsis.fornecedor.Fornecedor;
 
 import javax.persistence.*;
 
-import java.util.List;
-
 
 @Entity
 @Table(name = "cad_categoria")
@@ -22,7 +20,7 @@ public class Categoria {
     private String nomeCategoria;
 
     @ManyToOne
-    @JoinColumn(name = "fornecedor_categoria", referencedColumnName = "id")
+    @JoinColumn(name = "fornecedor_Id", referencedColumnName = "id")
     private Fornecedor fornecedorId;
 
     public Categoria() {
