@@ -4,12 +4,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.supercsv.cellprocessor.Optional;
+import org.supercsv.cellprocessor.ParseDate;
+import org.supercsv.cellprocessor.ParseDouble;
+import org.supercsv.cellprocessor.ParseInt;
+import org.supercsv.cellprocessor.constraint.NotNull;
+import org.supercsv.cellprocessor.constraint.UniqueHashCode;
+import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.CsvBeanReader;
 import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanReader;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,6 +43,13 @@ public class CategoriaRest {
 
         return this.categoriaService.save(categoriaDTO);
     }
+  /*  @PostMapping("/import_csv")
+    public CategoriaDTO importCsv(@RequestBody CategoriaDTO categoriaDTO) {
+        LOGGER.info("Resebendo Solicitação de persistencia de categoria...");
+        LOGGER.debug("Payload {}", categoriaDTO);
+
+        return this.categoriaService.importCsv(categoriaDTO);
+    }*/
 
     @GetMapping("/{id}")
     public CategoriaDTO find(@PathVariable("id") Long id) {
@@ -114,6 +132,68 @@ public class CategoriaRest {
 
         csvWriter.close();
     }
-}
 
+    /*@PostMapping("/import_csv")
+    public static void readCsv(String csvFileName) throws IOException {
+
+        ICsvBeanReader beanReader = null;
+        try {
+            beanReader = new CsvBeanReader(new FileReader(csvFileName), CsvPreference.STANDARD_PREFERENCE);
+
+
+            final String[] header = beanReader.getHeader(true);
+            final CellProcessor[] processors = getProcessors();
+
+            Categoria categoria;
+            while ((categoria = beanReader.read(Categoria.class, header, processors)) != null) {
+
+                System.out.println(categoria);
+            }
+        } finally {
+            if (beanReader != null) {
+                beanReader.close();
+            }
+        }
+    }
+
+    private static CellProcessor[] getProcessors(){
+        return new CellProcessor[] {
+                new ParseInt(),
+                new NotNull(),
+                new Optional(),
+                new ParseDouble(),
+                new ParseDate("dd/MM/yyyy")};
+    }*/
+    @PostMapping("/import_csv")
+    public static void ImportCSV() throws IOException {
+
+        List<Categoria> lista = new ArrayList<Categoria>();
+        ICsvBeanReader beanReader = new CsvBeanReader(new FileReader("categoria.csv"), CsvPreference.STANDARD_PREFERENCE);
+
+
+        final String[] nameMapping = new String[]{"id", "codigoCategoria", "nomeCategoria", "fornecedorId"};
+
+        final CellProcessor[] processors = getProcessors();
+        Categoria categoria;
+        while ((categoria = beanReader.read(Categoria.class, nameMapping, processors)) != null) {
+            lista.add(categoria);
+        }
+        System.out.println(lista);
+        beanReader.close();
+
+    }
+
+    private static CellProcessor[] getProcessors() {
+        final CellProcessor[] processors = new CellProcessor[]{
+                new UniqueHashCode(),
+                new NotNull(),
+                new Optional(),
+                new NotNull()
+        };
+        return processors;
+
+
+    }
+
+}
 
