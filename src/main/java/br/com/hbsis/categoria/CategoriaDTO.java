@@ -5,7 +5,6 @@ public class CategoriaDTO {
 
     private Long id;
     private String codigoCategoria;
-    // private Fornecedor fornecedorCategoria;
     private Long fornecedorId;
     private String nomeCategoria;
 

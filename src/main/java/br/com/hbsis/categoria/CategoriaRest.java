@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.ParseDate;
 import org.supercsv.cellprocessor.ParseDouble;
@@ -43,13 +44,6 @@ public class CategoriaRest {
 
         return this.categoriaService.save(categoriaDTO);
     }
-  /*  @PostMapping("/import_csv")
-    public CategoriaDTO importCsv(@RequestBody CategoriaDTO categoriaDTO) {
-        LOGGER.info("Resebendo Solicitação de persistencia de categoria...");
-        LOGGER.debug("Payload {}", categoriaDTO);
-
-        return this.categoriaService.importCsv(categoriaDTO);
-    }*/
 
     @GetMapping("/{id}")
     public CategoriaDTO find(@PathVariable("id") Long id) {
@@ -79,28 +73,6 @@ public class CategoriaRest {
         LOGGER.info("Recebendo Delete para Categoria de ID: {}", id);
         this.categoriaService.delete(id);
     }
-  /*  @GetMapping("/export-categoria")
-    public void exportCSV(HttpServletResponse response) throws Exception {
-
-        //set file name and content type
-        String filename = "Categorias.csv";
-
-        response.setContentType("text/csv");
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + filename + "\"");
-
-        //create a csv writer
-        StatefulBeanToCsv<Categoria> writer = new StatefulBeanToCsvBuilder<Categoria>(response.getWriter())
-                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
-                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
-                .withOrderedResults(false)
-                .build();
-
-        //write all users to csv file
-        writer.write(CategoriaService.listCategoria());
-
-
-    }*/
 
     @RequestMapping(value = "/export-categoria")
     public void downloadCSV(HttpServletResponse response) throws IOException {
@@ -133,8 +105,15 @@ public class CategoriaRest {
         csvWriter.close();
     }
 
+    @PostMapping("/import_csv")
+    public void importCsv(@RequestParam("file") MultipartFile file) throws IOException {
+        LOGGER.info("Recebendo Arquivo CSV para Categoria de ID: {}");
+        this.categoriaService.importCsv(categoriaService.readAll);
+    }
+
+
     /*@PostMapping("/import_csv")
-    public static void readCsv(String csvFileName) throws IOException {
+    public static void readCsv() throws IOException {
 
         ICsvBeanReader beanReader = null;
         try {
@@ -144,11 +123,10 @@ public class CategoriaRest {
             final String[] header = beanReader.getHeader(true);
             final CellProcessor[] processors = getProcessors();
 
-            Categoria categoria;
-            while ((categoria = beanReader.read(Categoria.class, header, processors)) != null) {
-
-                System.out.println(categoria);
+            List<Categoria> lista = categoriaService.findAll();
             }
+
+
         } finally {
             if (beanReader != null) {
                 beanReader.close();
@@ -156,15 +134,16 @@ public class CategoriaRest {
         }
     }
 
-    private static CellProcessor[] getProcessors(){
-        return new CellProcessor[] {
-                new ParseInt(),
+    private static CellProcessor[] getProcessors() {
+        return new CellProcessor[]{
+                new UniqueHashCode(),
                 new NotNull(),
-                new Optional(),
-                new ParseDouble(),
-                new ParseDate("dd/MM/yyyy")};
-    }*/
-    @PostMapping("/import_csv")
+                new NotNull(),
+                new NotNull(),
+        };
+
+    }
+    /*@PostMapping("/import_csv")
     public static void ImportCSV() throws IOException {
 
         List<Categoria> lista = new ArrayList<Categoria>();
@@ -187,13 +166,13 @@ public class CategoriaRest {
         final CellProcessor[] processors = new CellProcessor[]{
                 new UniqueHashCode(),
                 new NotNull(),
-                new Optional(),
-                new NotNull()
+                new NotNull(),
+                new NotNull(),
         };
         return processors;
 
 
-    }
+    }*/
 
 }
 

@@ -1,11 +1,26 @@
 package br.com.hbsis.categoria;
 
+import br.com.hbsis.fornecedor.Fornecedor;
 import br.com.hbsis.fornecedor.FornecedorService;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.supercsv.cellprocessor.constraint.NotNull;
+import org.supercsv.cellprocessor.constraint.UniqueHashCode;
+import org.supercsv.cellprocessor.ift.CellProcessor;
+import org.supercsv.io.CsvBeanReader;
+import org.supercsv.io.CsvListReader;
+import org.supercsv.io.CsvMapReader;
+import org.supercsv.io.ICsvBeanReader;
+import org.supercsv.prefs.CsvPreference;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,7 +86,6 @@ public class CategoriaService {
         Optional<Categoria> categoriaExistenteOptional = this.iCategoriaRepositoy.findById(id);
 
 
-
         if (categoriaExistenteOptional.isPresent()) {
             Categoria categoriaExistente = categoriaExistenteOptional.get();
 
@@ -98,7 +112,37 @@ public class CategoriaService {
 
 
     public List<Categoria> findAll() {
+
+
         List<Categoria> categoriaOptional = this.iCategoriaRepositoy.findAll();
         return categoriaOptional;
     }
+
+
+    public void importCsv(MultipartFile file) throws IOException {
+
+        Reader reader = new InputStreamReader(file.getInputStream());
+        CSVReader read = new CSVReaderBuilder(reader).withSkipLines(1).build();
+        List<String[]> lista = read.readAll();
+        Categoria categoriaImport = new Categoria();
+
+
+        for (String[] categoria : lista) {
+            String[] colunacategoria = categoria[0].replaceAll("\"", "").split(";");
+
+            Fornecedor fornecedor = new Fornecedor();
+            fornecedor = fornecedorService.findFornecedorById(Long.parseLong(colunacategoria[2]));
+            categoriaImport.setFornecedorId(fornecedor);
+            categoriaImport.setCodigoCategoria(colunacategoria[1]);
+            categoriaImport.setNomeCategoria(colunacategoria[0]);
+
+
+            this.iCategoriaRepositoy.save(categoriaImport);
+
+        }
+
+
+    }
 }
+
+
