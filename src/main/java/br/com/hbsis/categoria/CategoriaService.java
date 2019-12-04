@@ -4,6 +4,7 @@ import br.com.hbsis.fornecedor.Fornecedor;
 import br.com.hbsis.fornecedor.FornecedorService;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,7 +120,7 @@ public class CategoriaService {
     }
 
 
-    public void importCsv(MultipartFile file) throws IOException {
+    public void importCsv(MultipartFile file) throws IOException, CsvException {
 
         Reader reader = new InputStreamReader(file.getInputStream());
         CSVReader read = new CSVReaderBuilder(reader).withSkipLines(1).build();
@@ -130,11 +131,12 @@ public class CategoriaService {
         for (String[] categoria : lista) {
             String[] colunacategoria = categoria[0].replaceAll("\"", "").split(";");
 
-            Fornecedor fornecedor = new Fornecedor();
-            fornecedor = fornecedorService.findFornecedorById(Long.parseLong(colunacategoria[2]));
-            categoriaImport.setFornecedorId(fornecedor);
+
             categoriaImport.setCodigoCategoria(colunacategoria[1]);
-            categoriaImport.setNomeCategoria(colunacategoria[0]);
+            categoriaImport.setNomeCategoria(colunacategoria[2]);
+            Fornecedor fornecedor = new Fornecedor();
+            fornecedor = fornecedorService.findFornecedorById(Long.parseLong(colunacategoria[3]));
+            categoriaImport.setFornecedorId(fornecedor);
 
 
             this.iCategoriaRepositoy.save(categoriaImport);

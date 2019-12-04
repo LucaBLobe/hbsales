@@ -12,11 +12,11 @@ import org.supercsv.cellprocessor.ParseInt;
 import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.constraint.UniqueHashCode;
 import org.supercsv.cellprocessor.ift.CellProcessor;
-import org.supercsv.io.CsvBeanReader;
-import org.supercsv.io.CsvBeanWriter;
-import org.supercsv.io.ICsvBeanReader;
-import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.io.*;
 import org.supercsv.prefs.CsvPreference;
+import com.opencsv.CSVReader;
+import com.opencsv.*;
+import com.opencsv.exceptions.CsvException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileReader;
@@ -83,32 +83,33 @@ public class CategoriaRest {
 
 
         String headerKey = "Content-Disposition";
-        String headerValue = String.format("attachment; filename=\"%s\"",
-                csvFileName);
+        String headerValue = String.format("attachment; filename=\"%s\"", csvFileName);
         response.setHeader(headerKey, headerValue);
 
 
         List<Categoria> lista = categoriaService.findAll();
 
 
-        ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
-                CsvPreference.STANDARD_PREFERENCE);
+        //ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
+        //        CsvPreference.STANDARD_PREFERENCE);
+
+        ICSVWriter csvWriter = new CSVWriterBuilder(response.getWriter()).withSeparator(';').build();
 
         String[] header = {"id", "codigoCategoria", "nomeCategoria", "fornecedorId"};
 
-        csvWriter.writeHeader(header);
+        csvWriter.writeNext(header);
 
         for (Categoria categoria : lista) {
-            csvWriter.write(categoria, header);
+            csvWriter.writeNext(new String[]{categoria.getId().toString(),categoria.getCodigoCategoria(),categoria.getNomeCategoria(),categoria.getFornecedorId().getId().toString()});
         }
 
         csvWriter.close();
     }
 
     @PostMapping("/import_csv")
-    public void importCsv(@RequestParam("file") MultipartFile file) throws IOException {
+    public void importCsv(@RequestParam("file") MultipartFile file) throws IOException, CsvException {
         LOGGER.info("Recebendo Arquivo CSV para Categoria de ID: {}");
-        this.categoriaService.importCsv(categoriaService.readAll);
+        this.categoriaService.importCsv(file);
     }
 
 
