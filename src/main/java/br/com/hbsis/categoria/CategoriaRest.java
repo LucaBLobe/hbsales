@@ -1,28 +1,14 @@
 package br.com.hbsis.categoria;
 
+import com.opencsv.exceptions.CsvException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.supercsv.cellprocessor.Optional;
-import org.supercsv.cellprocessor.ParseDate;
-import org.supercsv.cellprocessor.ParseDouble;
-import org.supercsv.cellprocessor.ParseInt;
-import org.supercsv.cellprocessor.constraint.NotNull;
-import org.supercsv.cellprocessor.constraint.UniqueHashCode;
-import org.supercsv.cellprocessor.ift.CellProcessor;
-import org.supercsv.io.*;
-import org.supercsv.prefs.CsvPreference;
-import com.opencsv.CSVReader;
-import com.opencsv.*;
-import com.opencsv.exceptions.CsvException;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @RestController
@@ -76,104 +62,18 @@ public class CategoriaRest {
 
     @RequestMapping(value = "/export-categoria")
     public void downloadCSV(HttpServletResponse response) throws IOException {
+        LOGGER.info("Recebendo Delete para Categoria de ID: {}",response);
+        this.categoriaService.exportCsv(response);
 
-        String csvFileName = "categorias.csv";
-
-        response.setContentType("text/csv");
-
-
-        String headerKey = "Content-Disposition";
-        String headerValue = String.format("attachment; filename=\"%s\"", csvFileName);
-        response.setHeader(headerKey, headerValue);
-
-
-        List<Categoria> lista = categoriaService.findAll();
-
-
-        //ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
-        //        CsvPreference.STANDARD_PREFERENCE);
-
-        ICSVWriter csvWriter = new CSVWriterBuilder(response.getWriter()).withSeparator(';').build();
-
-        String[] header = {"id", "codigoCategoria", "nomeCategoria", "fornecedorId"};
-
-        csvWriter.writeNext(header);
-
-        for (Categoria categoria : lista) {
-            csvWriter.writeNext(new String[]{categoria.getId().toString(),categoria.getCodigoCategoria(),categoria.getNomeCategoria(),categoria.getFornecedorId().getId().toString()});
-        }
-
-        csvWriter.close();
     }
 
     @PostMapping("/import_csv")
     public void importCsv(@RequestParam("file") MultipartFile file) throws IOException, CsvException {
-        LOGGER.info("Recebendo Arquivo CSV para Categoria de ID: {}");
+        LOGGER.info("Recebendo Arquivo CSV para Categoria de ID: {}",file);
         categoriaService.importCsv(file);
     }
 
 
-    /*@PostMapping("/import_csv")
-    public static void readCsv() throws IOException {
-
-        ICsvBeanReader beanReader = null;
-        try {
-            beanReader = new CsvBeanReader(new FileReader(csvFileName), CsvPreference.STANDARD_PREFERENCE);
-
-
-            final String[] header = beanReader.getHeader(true);
-            final CellProcessor[] processors = getProcessors();
-
-            List<Categoria> lista = categoriaService.findAll();
-            }
-
-
-        } finally {
-            if (beanReader != null) {
-                beanReader.close();
-            }
-        }
-    }
-
-    private static CellProcessor[] getProcessors() {
-        return new CellProcessor[]{
-                new UniqueHashCode(),
-                new NotNull(),
-                new NotNull(),
-                new NotNull(),
-        };
-
-    }
-    /*@PostMapping("/import_csv")
-    public static void ImportCSV() throws IOException {
-
-        List<Categoria> lista = new ArrayList<Categoria>();
-        ICsvBeanReader beanReader = new CsvBeanReader(new FileReader("categoria.csv"), CsvPreference.STANDARD_PREFERENCE);
-
-
-        final String[] nameMapping = new String[]{"id", "codigoCategoria", "nomeCategoria", "fornecedorId"};
-
-        final CellProcessor[] processors = getProcessors();
-        Categoria categoria;
-        while ((categoria = beanReader.read(Categoria.class, nameMapping, processors)) != null) {
-            lista.add(categoria);
-        }
-        System.out.println(lista);
-        beanReader.close();
-
-    }
-
-    private static CellProcessor[] getProcessors() {
-        final CellProcessor[] processors = new CellProcessor[]{
-                new UniqueHashCode(),
-                new NotNull(),
-                new NotNull(),
-                new NotNull(),
-        };
-        return processors;
-
-
-    }*/
 
 }
 

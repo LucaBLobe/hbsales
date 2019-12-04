@@ -4,23 +4,19 @@ import br.com.hbsis.fornecedor.Fornecedor;
 import br.com.hbsis.fornecedor.FornecedorService;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.CSVWriterBuilder;
+import com.opencsv.ICSVWriter;
 import com.opencsv.exceptions.CsvException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.supercsv.cellprocessor.constraint.NotNull;
-import org.supercsv.cellprocessor.constraint.UniqueHashCode;
-import org.supercsv.cellprocessor.ift.CellProcessor;
-import org.supercsv.io.CsvBeanReader;
-import org.supercsv.io.CsvListReader;
-import org.supercsv.io.CsvMapReader;
-import org.supercsv.io.ICsvBeanReader;
-import org.supercsv.prefs.CsvPreference;
 
-import java.io.*;
-import java.nio.file.Files;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -143,6 +139,34 @@ public class CategoriaService {
             saveLista.add(categoriaImport);
         }
          this.iCategoriaRepositoy.saveAll(saveLista);
+    }
+
+    public void exportCsv(HttpServletResponse response) throws IOException {
+
+
+        String file = "categorias.csv";
+
+        response.setContentType("text/csv");
+
+
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"", file);
+        response.setHeader(headerKey, headerValue);
+
+
+        List<Categoria> lista = iCategoriaRepositoy.findAll();
+
+        ICSVWriter csvWriter = new CSVWriterBuilder(response.getWriter()).withSeparator(';').build();
+
+        String[] header = {"id", "codigoCategoria", "nomeCategoria", "fornecedorId"};
+
+        csvWriter.writeNext(header);
+
+        for (Categoria categoria : lista) {
+            csvWriter.writeNext(new String[]{categoria.getId().toString(),categoria.getCodigoCategoria(),categoria.getNomeCategoria(),categoria.getFornecedorId().getId().toString()});
+        }
+
+        csvWriter.close();
     }
 }
 
