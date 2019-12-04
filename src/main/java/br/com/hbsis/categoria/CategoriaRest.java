@@ -109,7 +109,7 @@ public class CategoriaRest {
     @PostMapping("/import_csv")
     public void importCsv(@RequestParam("file") MultipartFile file) throws IOException, CsvException {
         LOGGER.info("Recebendo Arquivo CSV para Categoria de ID: {}");
-        this.categoriaService.importCsv(file);
+        categoriaService.importCsv(file);
     }
 
 

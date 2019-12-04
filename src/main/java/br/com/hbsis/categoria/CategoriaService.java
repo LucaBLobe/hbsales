@@ -33,6 +33,7 @@ public class CategoriaService {
     private final ICategoriaRepositoy iCategoriaRepositoy;
     private final FornecedorService fornecedorService;
 
+
     public CategoriaService(ICategoriaRepositoy iCategoriaRepositoy, FornecedorService fornecedorService) {
         this.iCategoriaRepositoy = iCategoriaRepositoy;
         this.fornecedorService = fornecedorService;
@@ -125,25 +126,23 @@ public class CategoriaService {
         Reader reader = new InputStreamReader(file.getInputStream());
         CSVReader read = new CSVReaderBuilder(reader).withSkipLines(1).build();
         List<String[]> lista = read.readAll();
-        Categoria categoriaImport = new Categoria();
+        List<Categoria> saveLista = new ArrayList<>();
+
 
 
         for (String[] categoria : lista) {
-            String[] colunacategoria = categoria[0].replaceAll("\"", "").split(";");
+            String[] colunaCategoria = categoria[0].replaceAll("\"", "").split(";");
+            Categoria categoriaImport = new Categoria();
 
-
-            categoriaImport.setCodigoCategoria(colunacategoria[1]);
-            categoriaImport.setNomeCategoria(colunacategoria[2]);
+            categoriaImport.setCodigoCategoria(colunaCategoria[1]);
+            categoriaImport.setNomeCategoria(colunaCategoria[2]);
             Fornecedor fornecedor = new Fornecedor();
-            fornecedor = fornecedorService.findFornecedorById(Long.parseLong(colunacategoria[3]));
+            fornecedor = fornecedorService.findFornecedorById(Long.parseLong(colunaCategoria[3]));
             categoriaImport.setFornecedorId(fornecedor);
 
-
-            this.iCategoriaRepositoy.save(categoriaImport);
-
+            saveLista.add(categoriaImport);
         }
-
-
+         this.iCategoriaRepositoy.saveAll(saveLista);
     }
 }
 
