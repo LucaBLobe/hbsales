@@ -78,6 +78,15 @@ public class CategoriaService {
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
+    public Categoria findCategoriaById(Long id) {
+        Optional<Categoria> categoriaOptional = this.iCategoriaRepositoy.findById(id);
+        if (categoriaOptional.isPresent()) {
+            return categoriaOptional.get();
+        }
+        throw new IllegalArgumentException(String.format("ID %s não existe", id));
+
+
+    }
 
 
     public CategoriaDTO update(CategoriaDTO categoriaDTO, Long id) {
@@ -111,7 +120,6 @@ public class CategoriaService {
 
     public List<Categoria> findAll() {
 
-
         List<Categoria> categoriaOptional = this.iCategoriaRepositoy.findAll();
         return categoriaOptional;
     }
@@ -123,7 +131,6 @@ public class CategoriaService {
         CSVReader read = new CSVReaderBuilder(reader).withSkipLines(1).build();
         List<String[]> lista = read.readAll();
         List<Categoria> saveLista = new ArrayList<>();
-
 
 
         for (String[] categoria : lista) {
