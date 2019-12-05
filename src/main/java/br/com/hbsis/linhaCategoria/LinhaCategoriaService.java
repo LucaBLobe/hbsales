@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -75,6 +74,14 @@ public class LinhaCategoriaService {
         if (linhaCategoriaOptional.isPresent()) {
             LOGGER.info("Recebendo find by ID... id: [{}]", LinhaCategoriaDTO.of(linhaCategoriaOptional.get()));
             return LinhaCategoriaDTO.of(linhaCategoriaOptional.get());
+        }
+        throw new IllegalArgumentException(String.format("ID %s não existe", id));
+    }
+
+    public LinhaCategoria findLinhaCategoriaById(Long id) {
+        Optional<LinhaCategoria> linhaCategoriaOptional = this.iLinhaCategoriaRepository.findById(id);
+        if (linhaCategoriaOptional.isPresent()) {
+            return linhaCategoriaOptional.get();
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
