@@ -1,6 +1,5 @@
 package br.com.hbsis.linhaCategoria;
 
-import br.com.hbsis.categoria.CategoriaDTO;
 import com.opencsv.exceptions.CsvException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +17,7 @@ public class LinhaCategoriaRest {
     private static final Logger LOGGER = LoggerFactory.getLogger(br.com.hbsis.linhaCategoria.LinhaCategoriaRest.class);
 
     private LinhaCategoriaService linhaCategoriaService;
-    private LinhaCategoriaService LinhaCategoriaService;
+
 
     @Autowired
     public LinhaCategoriaRest(LinhaCategoriaService linhaCategoriaService) {
@@ -30,7 +29,7 @@ public class LinhaCategoriaRest {
         LOGGER.info("Resebendo Solicitação de persistencia de categoria...");
         LOGGER.debug("Payload {}", linhaCategoriaDTO);
 
-        return this.LinhaCategoriaService.save(linhaCategoriaDTO);
+        return this.linhaCategoriaService.save(linhaCategoriaDTO);
     }
     @GetMapping("/{id}")
     public LinhaCategoriaDTO find(@PathVariable("id") Long id) {
@@ -45,26 +44,26 @@ public class LinhaCategoriaRest {
         return (LinhaCategoriaDTO) this.linhaCategoriaService.findAll();
     }
     @PutMapping("/{id}")
-    public CategoriaDTO update(@PathVariable("id") Long id, @RequestBody CategoriaDTO categoriaDTO) {
-        LOGGER.info("Recebendo Upadate para categoria de ID: {}", id);
-        LOGGER.debug("Payload {}", categoriaDTO);
+    public LinhaCategoriaDTO update(@PathVariable("id") Long id, @RequestBody LinhaCategoriaDTO linhaCategoriaDTO) {
+        LOGGER.info("Recebendo Upadate para linha de categoria de ID: {}", id);
+        LOGGER.debug("Payload {}", linhaCategoriaDTO);
 
-        return this.linhaCategoriaService.update(categoriaDTO, id);
+        return this.linhaCategoriaService.update(linhaCategoriaDTO, id);
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
-        LOGGER.info("Recebendo Delete para Categoria de ID: {}", id);
+        LOGGER.info("Recebendo Delete para linha de categoria de ID: {}", id);
         this.linhaCategoriaService.delete(id);
     }
-    @RequestMapping(value = "/export-categoria")
+    @RequestMapping(value = "/export_csv")
     public void downloadCSV(HttpServletResponse response) throws IOException {
-        LOGGER.info("Recebendo Delete para Categoria de ID: {}", response);
+        LOGGER.info("Recebendo Delete para linha de categoria de ID: {}", response);
         this.linhaCategoriaService.exportCsv(response);
 
     }
     @PostMapping("/import_csv")
     public void importCsv(@RequestParam("file") MultipartFile file) throws IOException, CsvException {
-        LOGGER.info("Recebendo Arquivo CSV para Categoria de ID: {}", file);
+        LOGGER.info("Recebendo Arquivo CSV para linha de ategoria de ID: {}", file);
         linhaCategoriaService.importCsv(file);
     }
 

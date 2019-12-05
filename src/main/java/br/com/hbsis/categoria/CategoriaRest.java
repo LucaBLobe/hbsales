@@ -59,7 +59,7 @@ public class CategoriaRest {
         this.categoriaService.delete(id);
     }
 
-    @RequestMapping(value = "/export-categoria")
+    @RequestMapping(value = "/export_csv")
     public void downloadCSV(HttpServletResponse response) throws IOException {
         LOGGER.info("Recebendo Delete para Categoria de ID: {}", response);
         this.categoriaService.exportCsv(response);

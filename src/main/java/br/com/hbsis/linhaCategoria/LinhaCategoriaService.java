@@ -1,7 +1,6 @@
 package br.com.hbsis.linhaCategoria;
 
 import br.com.hbsis.categoria.Categoria;
-import br.com.hbsis.categoria.CategoriaDTO;
 import br.com.hbsis.categoria.CategoriaService;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
@@ -115,7 +114,7 @@ public class LinhaCategoriaService {
     public void exportCsv(HttpServletResponse response) throws IOException {
 
 
-        String file = "categorias.csv";
+        String file = "linhas_categorias.csv";
 
         response.setContentType("text/csv");
 
@@ -129,7 +128,7 @@ public class LinhaCategoriaService {
 
         ICSVWriter csvWriter = new CSVWriterBuilder(response.getWriter()).withSeparator(';').build();
 
-        String[] header = {"id", "codigoCategoria", "nomeCategoria", "categoriaId"};
+        String[] header = {"id", "codLinhaCategoria", "nomeLinhaCategoria", "categoriaId"};
 
         csvWriter.writeNext(header);
 
