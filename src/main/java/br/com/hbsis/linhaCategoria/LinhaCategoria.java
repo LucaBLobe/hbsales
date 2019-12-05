@@ -48,9 +48,7 @@ public class LinhaCategoria {
             this.codLinhaCategoria = codLinhaCategoria;
         }
 
-        public String getNomeLinhaCategoria() {
-            return nomeLinhaCategoria;
-        }
+        public String getNomeLinhaCategoria() { return nomeLinhaCategoria; }
 
         public void setNomeLinhaCategoria(String nomeLinhaCategoria) {
             this.nomeLinhaCategoria = nomeLinhaCategoria;

@@ -28,8 +28,8 @@ public class LinhaCategoriaDTO {
         return new LinhaCategoriaDTO(
                 linhaCategoria.getId(),
                 linhaCategoria.getCodLinhaCategoria(),
-                linhaCategoria.getCategoriaId().getId(),
-                linhaCategoria.getNomeLinhaCategoria()
+                linhaCategoria.getNomeLinhaCategoria(),
+                linhaCategoria.getCategoriaId().getId()
         );
     }
 

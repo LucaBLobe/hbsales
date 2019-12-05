@@ -3,7 +3,6 @@ package br.com.hbsis.linhaCategoria;
 import br.com.hbsis.categoria.Categoria;
 import br.com.hbsis.categoria.CategoriaDTO;
 import br.com.hbsis.categoria.CategoriaService;
-import br.com.hbsis.fornecedor.Fornecedor;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriterBuilder;
@@ -46,7 +45,7 @@ public class LinhaCategoriaService {
         LOGGER.debug("Linha categoria: {}", linhaCategoriaDTO.getCategoriaId());
 
         LinhaCategoria linhaCategoria = new LinhaCategoria();
-        linhaCategoria.getCodLinhaCategoria(linhaCategoriaDTO.getCodLinhaCategoria());
+        linhaCategoria.setCodLinhaCategoria(linhaCategoriaDTO.getCodLinhaCategoria());
         linhaCategoria.setCategoriaId(categoriaService.findCategoriaById(linhaCategoriaDTO.getCategoriaId()));
         linhaCategoria.setNomeLinhaCategoria(linhaCategoriaDTO.getNomeLinhaCategoria());
 
@@ -73,16 +72,16 @@ public class LinhaCategoriaService {
     }
 
     public LinhaCategoriaDTO findById(Long id) {
-        Optional<LinhaCategoria> linhaCategoriaOptional = this.iLinhaCategoriaRepositoy.findById(id);
+        Optional<LinhaCategoria> linhaCategoriaOptional = this.iLinhaCategoriaRepository.findById(id);
         if (linhaCategoriaOptional.isPresent()) {
             LOGGER.info("Recebendo find by ID... id: [{}]", LinhaCategoriaDTO.of(linhaCategoriaOptional.get()));
-            return CategoriaDTO.of(linhaCategoriaOptional.get());
+            return LinhaCategoriaDTO.of(linhaCategoriaOptional.get());
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
 
     public LinhaCategoriaDTO update(LinhaCategoriaDTO linhaCategoriaDTO, Long id) {
-        Optional<LinhaCategoria> linhaCategoriaExistenteOptional = this.iLinhaCategoriaRepositoy.findById(id);
+        Optional<LinhaCategoria> linhaCategoriaExistenteOptional = this.iLinhaCategoriaRepository.findById(id);
 
 
         if (linhaCategoriaExistenteOptional.isPresent()) {
@@ -97,7 +96,7 @@ public class LinhaCategoriaService {
             linhaCategoriaExistente.setCategoriaId(categoriaService.findCategoriaById(linhaCategoriaDTO.getCategoriaId()));
             linhaCategoriaExistente.setNomeLinhaCategoria(linhaCategoriaDTO.getNomeLinhaCategoria());
 
-            linhaCategoriaExistente = this.iLinhaCategoriaRepositoy.save(linhaCategoriaExistente);
+            linhaCategoriaExistente = this.iLinhaCategoriaRepository.save(linhaCategoriaExistente);
 
             return linhaCategoriaDTO.of(linhaCategoriaExistente);
         }
@@ -106,11 +105,11 @@ public class LinhaCategoriaService {
 
     public void delete(Long id) {
         LOGGER.info("Executando delete para categoria de ID: [{}]", id);
-        this.iLinhaCategoriaRepositoy.deleteById(id);
+        this.iLinhaCategoriaRepository.deleteById(id);
     }
     public List<LinhaCategoria> findAll() {
 
-        List<LinhaCategoria> linhaCategoriaOptional = this.iLinhaCategoriaRepositoy.findAll();
+        List<LinhaCategoria> linhaCategoriaOptional = this.iLinhaCategoriaRepository.findAll();
         return linhaCategoriaOptional;
     }
     public void exportCsv(HttpServletResponse response) throws IOException {
@@ -126,7 +125,7 @@ public class LinhaCategoriaService {
         response.setHeader(headerKey, headerValue);
 
 
-        List<LinhaCategoria> lista = iLinhaCategoriaRepositoy.findAll();
+        List<LinhaCategoria> lista = iLinhaCategoriaRepository.findAll();
 
         ICSVWriter csvWriter = new CSVWriterBuilder(response.getWriter()).withSeparator(';').build();
 
@@ -160,7 +159,7 @@ public class LinhaCategoriaService {
 
             saveLista.add(linhaCategoriaImport);
         }
-        this.iLinhaCategoriaRepositoy.saveAll(saveLista);
+        this.iLinhaCategoriaRepository.saveAll(saveLista);
     }
 }
 
