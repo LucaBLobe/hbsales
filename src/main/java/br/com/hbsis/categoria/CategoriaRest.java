@@ -1,9 +1,14 @@
 package br.com.hbsis.categoria;
 
+import com.opencsv.exceptions.CsvException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 @RestController
@@ -31,8 +36,8 @@ public class CategoriaRest {
 
         LOGGER.info("Recebendo find by ID... id: [{}]", id);
         return this.categoriaService.findById(id);
-
     }
+
     @RequestMapping("/all")
     public CategoriaDTO findAll() {
 
@@ -54,4 +59,19 @@ public class CategoriaRest {
         this.categoriaService.delete(id);
     }
 
+    @RequestMapping(value = "/export_csv")
+    public void downloadCSV(HttpServletResponse response) throws IOException {
+        LOGGER.info("Recebendo Delete para Categoria de ID: {}", response);
+        this.categoriaService.exportCsv(response);
+
+    }
+
+    @PostMapping("/import_csv")
+    public void importCsv(@RequestParam("file") MultipartFile file) throws IOException, CsvException {
+        LOGGER.info("Recebendo Arquivo CSV para Categoria de ID: {}", file);
+        categoriaService.importCsv(file);
+    }
+
+
 }
+

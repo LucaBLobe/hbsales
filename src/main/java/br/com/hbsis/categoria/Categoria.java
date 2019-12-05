@@ -4,6 +4,7 @@ import br.com.hbsis.fornecedor.Fornecedor;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "cad_categoria")
 public class Categoria {
@@ -12,33 +13,27 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "codigo_categoria", unique = true, nullable = false,length = 10)
+    @Column(name = "codigo_categoria", unique = true, nullable = false, length = 10)
     private String codigoCategoria;
 
-    @Column(name = "nome_categoria", unique = true, nullable = false,length = 255)
+    @Column(name = "nome_categoria", unique = true, nullable = false, length = 255)
     private String nomeCategoria;
 
-
     @ManyToOne
-    @JoinColumn(name = "fornecedor_categoria", referencedColumnName = "id")
-    private Fornecedor fornecedorCategoria;
+    @JoinColumn(name = "fornecedor_Id", referencedColumnName = "id")
+    private Fornecedor fornecedorId;
 
-    public Categoria(){
+    public Categoria() {
 
-    };
-
-    public Categoria(String codigoCategoria, String nomeCategoria, Fornecedor fornecedorCategoria) {
-        this.codigoCategoria = codigoCategoria;
-        this.nomeCategoria = nomeCategoria;
-        this.fornecedorCategoria = fornecedorCategoria;
     }
 
-    public Categoria(Long id, String codigoCategoria, String nomeCategoria, Long id_forcenedor, Fornecedor fornecedorCategoria) {
+
+    public Categoria(Long id, String codigoCategoria, Fornecedor fornecedorId) {
         this.id = id;
         this.codigoCategoria = codigoCategoria;
-        this.nomeCategoria = nomeCategoria;
-        this.fornecedorCategoria = fornecedorCategoria;
+        this.fornecedorId = fornecedorId;
     }
+
 
     public Long getId() {
         return id;
@@ -65,20 +60,20 @@ public class Categoria {
     }
 
 
-    public Fornecedor getFornecedorCategoria() {
-        return fornecedorCategoria;
+    public Fornecedor getFornecedorId() {
+        return fornecedorId;
     }
 
-    public void setFornecedorCategoria(Fornecedor fornecedorCategoria) {
-        this.fornecedorCategoria = fornecedorCategoria;
+    public void setFornecedorId(Fornecedor fornecedorId) {
+        this.fornecedorId = fornecedorId;
     }
 
     @Override
     public String toString() {
         return "Produto{" +
-                "ID:"+ id+
+                "ID:" + id +
                 "Codigo Categoria= " + codigoCategoria + '\'' +
-                ", Fornecedor Categoria='" + fornecedorCategoria + '\'' +
+                ", Fornecedor Id='" + fornecedorId + '\'' +
                 ", Nome Categoria ='" + nomeCategoria + '\'' +
                 '}';
     }

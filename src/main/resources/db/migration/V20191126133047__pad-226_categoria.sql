@@ -5,8 +5,8 @@ create table cad_categoria
     id BIGINT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     codigo_categoria           VARCHAR(100) NOT NULL,
     nome_categoria             VARCHAR(100) NOT NULL,
-    fornecedor_categoria BIGINT
-    FOREIGN KEY REFERENCES cad_fornecedor (id)
+    fornecedor_Id BIGINT NOT NULL,
+    FOREIGN KEY (fornecedor_Id) REFERENCES cad_fornecedor (id)
 
 );
 

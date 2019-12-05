@@ -1,0 +1,1 @@
+DROP INDEX ix_cad_categoria_01 ON cad_categoria

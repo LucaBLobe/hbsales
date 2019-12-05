@@ -25,24 +25,6 @@ public class Fornecedor {
     public Fornecedor() {
     }
 
-    public Fornecedor(String razaoSocial, String CNPJ, String nomeFantasia, String endereco, String telefoneContato, String email) {
-        this.razaoSocial = razaoSocial;
-        this.CNPJ = CNPJ;
-        this.nomeFantasia = nomeFantasia;
-        this.endereco = endereco;
-        this.telefoneContato = telefoneContato;
-        this.email = email;
-    }
-
-    public Fornecedor(Long id, String razaoSocial, String CNPJ, String nomeFantasia, String endereco, String telefoneContato, String email) {
-        this.id = id;
-        this.razaoSocial = razaoSocial;
-        this.CNPJ = CNPJ;
-        this.nomeFantasia = nomeFantasia;
-        this.endereco = endereco;
-        this.telefoneContato = telefoneContato;
-        this.email = email;
-    }
 
     public Long getId() {
         return id;
