@@ -9,17 +9,17 @@ public class Fornecedor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "razao_social", unique = true, nullable = false, length = 255)
+    @Column(name = "razao_social", unique = true, nullable = false, length = 100)
     private String razaoSocial;
-    @Column(name = "cnpj", unique = true, nullable = false, length = 11)
+    @Column(name = "cnpj", unique = true, nullable = false, length = 14)
     private String CNPJ;
     @Column(name = "nome_fantasia", nullable = false, length = 100)
     private String nomeFantasia;
-    @Column(name = "endereco", nullable = false, length = 255)
+    @Column(name = "endereco", nullable = false, length = 100)
     private String endereco;
-    @Column(name = "telefone_contato", nullable = false, length = 14)
+    @Column(name = "telefone_contato", nullable = false, length = 12)
     private String telefoneContato;
-    @Column(name = "Email", nullable = false, length = 100)
+    @Column(name = "email", nullable = false, length = 50)
     private String email;
 
     public Fornecedor() {

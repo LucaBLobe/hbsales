@@ -1,0 +1,1 @@
+alter table cad_fornecedor alter column telefone_contato varchar(14)
