@@ -70,8 +70,11 @@ public class FornecedorService {
         if (!(StringUtils.isNumeric(fornecedorDTO.getTelefoneContato()))) {
             throw new IllegalArgumentException("Telefone não pode conter letras.");
         }
-        if (!(fornecedorDTO.getTelefoneContato().startsWith("9"))) {
+        if (Integer.parseInt(String.valueOf(fornecedorDTO.getTelefoneContato().charAt(5))) != 9) {
             throw new IllegalArgumentException("Telefone de contato deve ser numero de celular.");
+        }
+        if (fornecedorDTO.getTelefoneContato().length() != 14) {
+            throw new IllegalArgumentException("Telefone com numerção incorreta");
         }
 
 

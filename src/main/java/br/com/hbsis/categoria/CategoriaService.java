@@ -68,6 +68,8 @@ public class CategoriaService {
         if (StringUtils.isEmpty(categoriaDTO.getNomeCategoria())) {
             throw new IllegalArgumentException("Nome da categoria não deve ser nulo");
         }
+
+
     }
 
     public CategoriaDTO findById(Long id) {
