@@ -140,12 +140,12 @@ public class LinhaCategoriaService {
 
         ICSVWriter csvWriter = new CSVWriterBuilder(response.getWriter()).withSeparator(';').build();
 
-        String[] header = {"id", "codLinhaCategoria", "nomeLinhaCategoria", "categoriaId"};
+        String[] header = {"Codigo Linha Categoria", "Nome Linha Categoria", "Codigo Categoria, Nome da Categoria"};
 
         csvWriter.writeNext(header);
 
         for (LinhaCategoria linhaCategoria : lista) {
-            csvWriter.writeNext(new String[]{linhaCategoria.getId().toString(),linhaCategoria.getCodLinhaCategoria(),linhaCategoria.getNomeLinhaCategoria(),linhaCategoria.getCategoriaId().getId().toString()});
+            csvWriter.writeNext(new String[]{linhaCategoria.getCodLinhaCategoria(),linhaCategoria.getNomeLinhaCategoria(),linhaCategoria.getCategoriaId().getCodigoCategoria(),linhaCategoria.getCategoriaId().getNomeCategoria()});
         }
 
         csvWriter.close();
