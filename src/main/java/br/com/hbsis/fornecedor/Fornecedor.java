@@ -9,10 +9,10 @@ public class Fornecedor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "razao_social", unique = true, nullable = false, length = 100)
+    @Column(name = "razao_social", nullable = false, length = 100)
     private String razaoSocial;
     @Column(name = "cnpj", unique = true, nullable = false, length = 14)
-    private String CNPJ;
+    private String cnpj;
     @Column(name = "nome_fantasia", nullable = false, length = 100)
     private String nomeFantasia;
     @Column(name = "endereco", nullable = false, length = 100)
@@ -34,8 +34,8 @@ public class Fornecedor {
         return razaoSocial;
     }
 
-    public String getCNPJ() {
-        return CNPJ;
+    public String getCnpj() {
+        return cnpj;
     }
 
     public String getNomeFantasia() {
@@ -62,8 +62,8 @@ public class Fornecedor {
         this.razaoSocial = razaoSocial;
     }
 
-    public void setCNPJ(String CNPJ) {
-        this.CNPJ = CNPJ;
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 
     public void setNomeFantasia(String nomeFantasia) {
@@ -86,7 +86,7 @@ public class Fornecedor {
     public String toString() {
         return "Fornecedor{" +
                 "Razão Social= " + razaoSocial + '\'' +
-                ", CNPJ='" + CNPJ + '\'' +
+                ", CNPJ='" + cnpj + '\'' +
                 ", Nome Fantasia ='" + nomeFantasia + '\'' +
                 ", Endereço ='" + endereco + '\'' +
                 ", Telefone de Contato ='" + telefoneContato + '\'' +

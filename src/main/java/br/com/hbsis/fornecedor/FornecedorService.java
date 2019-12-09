@@ -26,7 +26,7 @@ public class FornecedorService {
 
         Fornecedor fornecedor = new Fornecedor();
         fornecedor.setRazaoSocial(fornecedorDTO.getRazaoSocial());
-        fornecedor.setCNPJ(fornecedorDTO.getCNPJ());
+        fornecedor.setCnpj(fornecedorDTO.getCnpj());
         fornecedor.setEmail(fornecedorDTO.getEmail());
         fornecedor.setNomeFantasia(fornecedorDTO.getNomeFantasia());
         fornecedor.setEndereco(fornecedorDTO.getEndereco());
@@ -52,13 +52,13 @@ public class FornecedorService {
         if (StringUtils.isEmpty(fornecedorDTO.getEndereco())) {
             throw new IllegalArgumentException("Endereço não deve ser nula/vazia");
         }
-        if (StringUtils.isEmpty(fornecedorDTO.getCNPJ())) {
+        if (StringUtils.isEmpty(fornecedorDTO.getCnpj())) {
             throw new IllegalArgumentException("CNPJ não deve ser nula/vazia");
         }
-        if (!(StringUtils.isNumeric(fornecedorDTO.getCNPJ()))) {
+        if (!(StringUtils.isNumeric(fornecedorDTO.getCnpj()))) {
             throw new IllegalArgumentException("CNPJ deve ser apenas numeros");
         }
-        if (fornecedorDTO.getCNPJ().length() != 14) {
+        if (fornecedorDTO.getCnpj().length() != 14) {
             throw new IllegalArgumentException("CNPJ deve ter 14 digitos");
         }
         if (StringUtils.isEmpty(fornecedorDTO.getEmail())) {
@@ -89,6 +89,8 @@ public class FornecedorService {
 
     }
 
+
+
     public Fornecedor findFornecedorById(Long id) {
         Optional<Fornecedor> fornecedorOptional = this.iFornecedorRepository.findById(id);
         if (fornecedorOptional.isPresent()) {
@@ -114,7 +116,7 @@ public class FornecedorService {
             fornecedorExistente.setNomeFantasia(fornecedorDTO.getNomeFantasia());
             fornecedorExistente.setEndereco(fornecedorDTO.getEndereco());
             fornecedorExistente.setTelefoneContato(fornecedorDTO.getTelefoneContato());
-            fornecedorExistente.setCNPJ(fornecedorDTO.getCNPJ());
+            fornecedorExistente.setCnpj(fornecedorDTO.getCnpj());
             fornecedorExistente.setEmail(fornecedorDTO.getEmail());
 
             fornecedorExistente = this.iFornecedorRepository.save(fornecedorExistente);
@@ -129,4 +131,11 @@ public class FornecedorService {
         this.iFornecedorRepository.deleteById(id);
     }
 
+    public Fornecedor findByCnpj(String cnpj) {
+        Optional<Fornecedor> fornecedorOptional = Optional.ofNullable(this.iFornecedorRepository.findByCnpj(cnpj));
+        if (fornecedorOptional.isPresent()) {
+            return fornecedorOptional.get();
+        }
+        throw new IllegalArgumentException(String.format("ID %s não existe", cnpj));
+    }
 }

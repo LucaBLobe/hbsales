@@ -60,7 +60,7 @@ public class CategoriaService {
             categoriaDigito = "00"+categoriaDTO.getCodigoCategoria();
         }else { throw new IllegalArgumentException("Nome da categoria não deve ser nulo");}
 
-        categoria.setCodigoCategoria("CAT"+categoria.getFornecedorId().getCNPJ().substring(10,14)+categoriaDigito);
+        categoria.setCodigoCategoria("CAT"+categoria.getFornecedorId().getCnpj().substring(10,14)+categoriaDigito);
         categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
 
@@ -102,6 +102,8 @@ public class CategoriaService {
 
 
     }
+
+
 
 
     public CategoriaDTO update(CategoriaDTO categoriaDTO, Long id) {
@@ -149,16 +151,22 @@ public class CategoriaService {
 
 
         for (String[] categoria : lista) {
+            try {
+
+
             String[] colunaCategoria = categoria[0].replaceAll("\"", "").split(";");
             Categoria categoriaImport = new Categoria();
 
-            categoriaImport.setCodigoCategoria(colunaCategoria[1]);
-            categoriaImport.setNomeCategoria(colunaCategoria[2]);
+            categoriaImport.setCodigoCategoria(colunaCategoria[0]);
+            categoriaImport.setNomeCategoria(colunaCategoria[1]);
             Fornecedor fornecedor = new Fornecedor();
-            fornecedor = fornecedorService.findFornecedorById(Long.parseLong(colunaCategoria[3]));
+            fornecedor = fornecedorService.findByCnpj(colunaCategoria[3].replaceAll("\\D", ""));
             categoriaImport.setFornecedorId(fornecedor);
 
             saveLista.add(categoriaImport);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
          this.iCategoriaRepositoy.saveAll(saveLista);
     }
@@ -189,7 +197,7 @@ public class CategoriaService {
         csvWriter.writeNext(header);
 
         for (Categoria categoria : lista) {
-            csvWriter.writeNext(new String[]{categoria.getCodigoCategoria(),categoria.getNomeCategoria(),categoria.getFornecedorId().getRazaoSocial(),mascaraCnpj.valueToString(categoria.getFornecedorId().getCNPJ())});
+            csvWriter.writeNext(new String[]{categoria.getCodigoCategoria(),categoria.getNomeCategoria(),categoria.getFornecedorId().getRazaoSocial(),mascaraCnpj.valueToString(categoria.getFornecedorId().getCnpj())});
         }
 
         csvWriter.close();
