@@ -1,6 +1,7 @@
 package br.com.hbsis.categoria;
 
 import br.com.hbsis.fornecedor.Fornecedor;
+import br.com.hbsis.fornecedor.FornecedorDTO;
 import br.com.hbsis.fornecedor.FornecedorService;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
@@ -43,9 +44,22 @@ public class CategoriaService {
         LOGGER.info("Salvando categoria");
         LOGGER.debug("Categoria: {}", categoriaDTO.getFornecedorId());
 
+        FornecedorDTO fornecedorDTO = new FornecedorDTO();
         Categoria categoria = new Categoria();
-        categoria.setCodigoCategoria(categoriaDTO.getCodigoCategoria());
         categoria.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
+        categoria.getFornecedorId().getCNPJ();
+        String categoriaDigito;
+        if (categoriaDTO.getCodigoCategoria().length() == 3){
+            categoriaDigito = categoriaDTO.getCodigoCategoria();
+        }
+        if (categoriaDTO.getCodigoCategoria().length()== 2){
+            categoriaDigito = "0"+categoriaDTO.getCodigoCategoria();
+        }
+        if (categoriaDTO.getCodigoCategoria().length()== 1){
+            categoriaDigito = "00"+categoriaDTO.getCodigoCategoria();
+        }else { throw new IllegalArgumentException("Nome da categoria não deve ser nulo");}
+
+        categoria.setCodigoCategoria("CAT"+categoria.getFornecedorId().getCNPJ().substring(9,13)+categoriaDigito);
         categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
 

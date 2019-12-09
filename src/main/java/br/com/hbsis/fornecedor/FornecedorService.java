@@ -95,9 +95,8 @@ public class FornecedorService {
             return fornecedorOptional.get();
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
-
-
     }
+
 
     public FornecedorDTO update(FornecedorDTO fornecedorDTO, Long id) {
         Optional<Fornecedor> fornecedorExistenteOptional = this.iFornecedorRepository.findById(id);

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 public interface IFornecedorRepository extends JpaRepository<Fornecedor, Long> {
 
 
+
 }

@@ -17,7 +17,7 @@ public class Fornecedor {
     private String nomeFantasia;
     @Column(name = "endereco", nullable = false, length = 100)
     private String endereco;
-    @Column(name = "telefone_contato", nullable = false, length = 12)
+    @Column(name = "telefone_contato", nullable = false, length = 13)
     private String telefoneContato;
     @Column(name = "email", nullable = false, length = 50)
     private String email;

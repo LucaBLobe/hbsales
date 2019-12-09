@@ -14,6 +14,4 @@ alter table cad_fornecedor alter column Email varchar(50)
 
 alter table cad_fornecedor alter column Email varchar(50)
 
-
 create unique index ix_cad_fornecedor_02 on cad_fornecedor (cnpj asc);
-
