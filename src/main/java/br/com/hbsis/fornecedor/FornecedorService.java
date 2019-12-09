@@ -70,7 +70,7 @@ public class FornecedorService {
         if (!(StringUtils.isNumeric(fornecedorDTO.getTelefoneContato()))) {
             throw new IllegalArgumentException("Telefone não pode conter letras.");
         }
-        if (!(fornecedorDTO.getTelefoneContato().startsWith("9"))) {
+        if (!(Integer.parseInt(String.valueOf(fornecedorDTO.getTelefoneContato().charAt(4))) == 9)) {
             throw new IllegalArgumentException("Telefone de contato deve ser numero de celular.");
         }
 
@@ -89,8 +89,6 @@ public class FornecedorService {
 
     }
 
-
-
     public Fornecedor findFornecedorById(Long id) {
         Optional<Fornecedor> fornecedorOptional = this.iFornecedorRepository.findById(id);
         if (fornecedorOptional.isPresent()) {
@@ -105,7 +103,10 @@ public class FornecedorService {
     public FornecedorDTO update(FornecedorDTO fornecedorDTO, Long id) {
         Optional<Fornecedor> fornecedorExistenteOptional = this.iFornecedorRepository.findById(id);
 
+
         if (fornecedorExistenteOptional.isPresent()) {
+            this.validate(fornecedorDTO);
+
             Fornecedor fornecedorExistente = fornecedorExistenteOptional.get();
 
             LOGGER.info("Atualizado fornecedor... id: [{}]", fornecedorExistente.getId());

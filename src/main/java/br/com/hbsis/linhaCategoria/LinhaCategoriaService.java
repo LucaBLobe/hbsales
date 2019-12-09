@@ -43,7 +43,12 @@ public class LinhaCategoriaService {
         LOGGER.debug("Linha categoria: {}", linhaCategoriaDTO.getCategoriaId());
 
         LinhaCategoria linhaCategoria = new LinhaCategoria();
-        linhaCategoria.setCodLinhaCategoria(linhaCategoriaDTO.getCodLinhaCategoria());
+        String codLinha = new String();
+        codLinha = linhaCategoriaDTO.getCodLinhaCategoria().toUpperCase();
+
+        String codLinhaFinal = StringUtils.leftPad(codLinha,10,"0");
+
+        linhaCategoria.setCodLinhaCategoria(codLinhaFinal);
         linhaCategoria.setCategoriaId(categoriaService.findCategoriaById(linhaCategoriaDTO.getCategoriaId()));
         linhaCategoria.setNomeLinhaCategoria(linhaCategoriaDTO.getNomeLinhaCategoria());
 

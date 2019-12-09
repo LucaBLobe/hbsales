@@ -53,10 +53,10 @@ public class CategoriaService {
         if (categoriaDTO.getCodigoCategoria().length() == 3){
             categoriaDigito = categoriaDTO.getCodigoCategoria();
         }
-        if (categoriaDTO.getCodigoCategoria().length()== 2){
+        else if (categoriaDTO.getCodigoCategoria().length()== 2){
             categoriaDigito = "0"+categoriaDTO.getCodigoCategoria();
         }
-        if (categoriaDTO.getCodigoCategoria().length()== 1){
+        else if (categoriaDTO.getCodigoCategoria().length()== 1){
             categoriaDigito = "00"+categoriaDTO.getCodigoCategoria();
         }else { throw new IllegalArgumentException("Nome da categoria não deve ser nulo");}
 
@@ -104,22 +104,33 @@ public class CategoriaService {
     }
 
 
-
-
     public CategoriaDTO update(CategoriaDTO categoriaDTO, Long id) {
         Optional<Categoria> categoriaExistenteOptional = this.iCategoriaRepositoy.findById(id);
 
 
         if (categoriaExistenteOptional.isPresent()) {
             Categoria categoriaExistente = categoriaExistenteOptional.get();
+            this.validate(categoriaDTO);
+
 
 
             LOGGER.info("Atualizado categoria... id: [{}]", categoriaExistente.getId());
             LOGGER.debug("Payload: {}", categoriaDTO);
             LOGGER.debug("Categoria Existente: {}", categoriaExistente);
 
-            categoriaExistente.setCodigoCategoria(categoriaDTO.getCodigoCategoria());
             categoriaExistente.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
+            String categoriaDigito;
+            if (categoriaDTO.getCodigoCategoria().length() == 3){
+                categoriaDigito = categoriaDTO.getCodigoCategoria();
+            }
+            if (categoriaDTO.getCodigoCategoria().length()== 2){
+                categoriaDigito = "0"+categoriaDTO.getCodigoCategoria();
+            }
+            if (categoriaDTO.getCodigoCategoria().length()== 1){
+                categoriaDigito = "00"+categoriaDTO.getCodigoCategoria();
+            }else { throw new IllegalArgumentException("Nome da categoria não deve ser nulo");}
+
+            categoriaExistente.setCodigoCategoria("CAT"+categoriaExistente.getFornecedorId().getCnpj().substring(10,14)+categoriaDigito);
             categoriaExistente.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
             categoriaExistente = this.iCategoriaRepositoy.save(categoriaExistente);
