@@ -15,9 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.MaskFormatter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +49,6 @@ public class CategoriaService {
         FornecedorDTO fornecedorDTO = new FornecedorDTO();
         Categoria categoria = new Categoria();
         categoria.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
-        categoria.getFornecedorId().getCNPJ();
         String categoriaDigito;
         if (categoriaDTO.getCodigoCategoria().length() == 3){
             categoriaDigito = categoriaDTO.getCodigoCategoria();
@@ -59,7 +60,7 @@ public class CategoriaService {
             categoriaDigito = "00"+categoriaDTO.getCodigoCategoria();
         }else { throw new IllegalArgumentException("Nome da categoria não deve ser nulo");}
 
-        categoria.setCodigoCategoria("CAT"+categoria.getFornecedorId().getCNPJ().substring(9,13)+categoriaDigito);
+        categoria.setCodigoCategoria("CAT"+categoria.getFornecedorId().getCNPJ().substring(10,14)+categoriaDigito);
         categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
 
@@ -162,7 +163,7 @@ public class CategoriaService {
          this.iCategoriaRepositoy.saveAll(saveLista);
     }
 
-    public void exportCsv(HttpServletResponse response) throws IOException {
+    public void exportCsv(HttpServletResponse response) throws IOException, ParseException {
 
 
         String file = "categorias.csv";
@@ -179,12 +180,16 @@ public class CategoriaService {
 
         ICSVWriter csvWriter = new CSVWriterBuilder(response.getWriter()).withSeparator(';').build();
 
-        String[] header = {"id", "codigoCategoria", "nomeCategoria", "fornecedorId"};
+        String[] header = {"Codigo de categoria", "Categoria", "Razão Social Fornecedor","CNPJ Forncedor"};
+
+        MaskFormatter mascaraCnpj = new MaskFormatter("##.###.###/####-##");
+        mascaraCnpj.setValueContainsLiteralCharacters(false);
+
 
         csvWriter.writeNext(header);
 
         for (Categoria categoria : lista) {
-            csvWriter.writeNext(new String[]{categoria.getId().toString(),categoria.getCodigoCategoria(),categoria.getNomeCategoria(),categoria.getFornecedorId().getId().toString()});
+            csvWriter.writeNext(new String[]{categoria.getCodigoCategoria(),categoria.getNomeCategoria(),categoria.getFornecedorId().getRazaoSocial(),mascaraCnpj.valueToString(categoria.getFornecedorId().getCNPJ())});
         }
 
         csvWriter.close();
