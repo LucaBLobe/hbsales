@@ -60,7 +60,7 @@ public class CategoriaService {
             categoriaDigito = "00"+categoriaDTO.getCodigoCategoria();
         }else { throw new IllegalArgumentException("Nome da categoria não deve ser nulo");}
 
-        categoria.setCodigoCategoria("CAT"+categoria.getFornecedorId().getCnpj().substring(10,14)+categoriaDigito);
+        categoria.setCodigoCategoria("CAT"+categoria.getFornecedorId().getCnpj().substring(10,13)+categoriaDigito);
         categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
 
