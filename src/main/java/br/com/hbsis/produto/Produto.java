@@ -33,6 +33,9 @@ public class Produto {
     @Column(name = "peso_unitario", nullable = false, length = 25)
     private Double pesoUnitario;
 
+    @Column(name = "unidade_medida", nullable = false, length = 2)
+    private String unidadeMedida;
+
     @Column(name = "validade_produto", nullable = false, length = 8)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate validadeProduto;
@@ -67,6 +70,10 @@ public class Produto {
     public Double getPesoUnitario() { return pesoUnitario; }
 
     public void setPesoUnitario(Double pesoUnitario) { this.pesoUnitario = pesoUnitario; }
+
+    public String getUnidadeMedida() { return unidadeMedida; }
+
+    public void setUnidadeMedida(String unidadeMedida) { this.unidadeMedida = unidadeMedida; }
 
     public LocalDate getValidadeProduto() { return validadeProduto; }
 

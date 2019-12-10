@@ -12,6 +12,7 @@ public class ProdutoDTO {
     private Double precoProduto;
     private Long linhaCategoriaId;
     private int unidadesCaixa;
+    private String unidadeMedida;
     private Double pesoUnitario;
     private LocalDate validadeProduto;
 
@@ -19,13 +20,14 @@ public class ProdutoDTO {
 
     }
 
-    public ProdutoDTO(Long id, String codProduto, String nomeProduto, Double precoProduto, Long linhaCategoriaId, int unidadesCaixa, Double pesoUnitario, LocalDate validadeProduto) {
+    public ProdutoDTO(Long id, String codProduto, String nomeProduto, Double precoProduto, Long linhaCategoriaId, int unidadesCaixa, String unidadeMedida, Double pesoUnitario, LocalDate validadeProduto) {
         this.id = id;
         this.codProduto = codProduto;
         this.nomeProduto = nomeProduto;
         this.precoProduto = precoProduto;
         this.linhaCategoriaId = linhaCategoriaId;
         this.unidadesCaixa = unidadesCaixa;
+        this.unidadeMedida = unidadeMedida;
         this.pesoUnitario = pesoUnitario;
         this.validadeProduto = validadeProduto;
     }
@@ -39,6 +41,7 @@ public class ProdutoDTO {
                 produto.getPrecoProduto(),
                 produto.getLinhaCategoriaId().getId(),
                 produto.getUnidadesCaixa(),
+                produto.getUnidadeMedida(),
                 produto.getPesoUnitario(),
                 produto.getValidadeProduto()
         );
@@ -68,6 +71,10 @@ public class ProdutoDTO {
     public int getUnidadesCaixa() { return unidadesCaixa; }
 
     public void setUnidadesCaixa(int unidadesCaixa) { this.unidadesCaixa = unidadesCaixa; }
+
+    public String getUnidadeMedida() { return unidadeMedida; }
+
+    public void setUnidadeMedida(String unidadeMedida) { this.unidadeMedida = unidadeMedida; }
 
     public Double getPesoUnitario() { return pesoUnitario; }
 
