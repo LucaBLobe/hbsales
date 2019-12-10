@@ -164,10 +164,10 @@ public class LinhaCategoriaService {
             String[] linhaColunaCategoria = linhaCategoria[0].replaceAll("\"", "").split(";");
             LinhaCategoria linhaCategoriaImport = new LinhaCategoria();
 
-            linhaCategoriaImport.setCodLinhaCategoria(linhaColunaCategoria[1]);
-            linhaCategoriaImport.setNomeLinhaCategoria(linhaColunaCategoria[2]);
+            linhaCategoriaImport.setCodLinhaCategoria(linhaColunaCategoria[0]);
+            linhaCategoriaImport.setNomeLinhaCategoria(linhaColunaCategoria[1]);
             Categoria categoria = new Categoria();
-            categoria = categoriaService.findCategoriaById(Long.parseLong(linhaColunaCategoria[3]));
+            categoria = categoriaService.findByCodigoCategoria(linhaColunaCategoria[2]);
             linhaCategoriaImport.setCategoriaId(categoria);
 
             saveLista.add(linhaCategoriaImport);
