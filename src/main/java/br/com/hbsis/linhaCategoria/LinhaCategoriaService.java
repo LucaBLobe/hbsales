@@ -140,7 +140,7 @@ public class LinhaCategoriaService {
 
         ICSVWriter csvWriter = new CSVWriterBuilder(response.getWriter()).withSeparator(';').build();
 
-        String[] header = {"Codigo Linha Categoria", "Nome Linha Categoria", "Codigo Categoria, Nome da Categoria"};
+        String[] header = {"Codigo Linha Categoria", "Nome Linha Categoria", "Codigo Categoria", "Nome da Categoria"};
 
         csvWriter.writeNext(header);
 
@@ -159,6 +159,8 @@ public class LinhaCategoriaService {
 
 
         for (String[] linhaCategoria : lista) {
+            try {
+
             String[] linhaColunaCategoria = linhaCategoria[0].replaceAll("\"", "").split(";");
             LinhaCategoria linhaCategoriaImport = new LinhaCategoria();
 
@@ -169,6 +171,9 @@ public class LinhaCategoriaService {
             linhaCategoriaImport.setCategoriaId(categoria);
 
             saveLista.add(linhaCategoriaImport);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
         this.iLinhaCategoriaRepository.saveAll(saveLista);
     }
