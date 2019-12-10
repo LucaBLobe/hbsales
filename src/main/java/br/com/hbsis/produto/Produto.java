@@ -17,20 +17,20 @@ public class Produto {
     @Column(name = "cod_produto", unique = true, nullable = false, length = 10)
     private String codProduto;
 
-    @Column(name = "nome_produto", unique = true, nullable = false, length = 255)
+    @Column(name = "nome_produto", unique = true, nullable = false, length = 200)
     private String nomeProduto;
 
-    @Column(name = "preco_produto", nullable = false, length = 255)
+    @Column(name = "preco_produto", nullable = false, length = 25)
     private Double precoProduto;
 
     @ManyToOne
     @JoinColumn(name = "linha_categoria_id", referencedColumnName = "id")
     private LinhaCategoria linhaCategoriaId;
 
-    @Column(name = "unidades_caixa", nullable = false, length = 255)
+    @Column(name = "unidades_caixa", nullable = false, length = 25)
     private int unidadesCaixa;
 
-    @Column(name = "peso_unidade", nullable = false, length = 255)
+    @Column(name = "peso_unitario", nullable = false, length = 25)
     private Double pesoUnitario;
 
     @Column(name = "validade_produto", nullable = false, length = 8)

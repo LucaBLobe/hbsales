@@ -1,6 +1,7 @@
 package br.com.hbsis.categoria;
 
 import br.com.hbsis.fornecedor.Fornecedor;
+import br.com.hbsis.fornecedor.FornecedorDTO;
 import br.com.hbsis.fornecedor.FornecedorService;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
@@ -14,9 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.MaskFormatter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,9 +46,21 @@ public class CategoriaService {
         LOGGER.info("Salvando categoria");
         LOGGER.debug("Categoria: {}", categoriaDTO.getFornecedorId());
 
+        FornecedorDTO fornecedorDTO = new FornecedorDTO();
         Categoria categoria = new Categoria();
-        categoria.setCodigoCategoria(categoriaDTO.getCodigoCategoria());
         categoria.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
+        String categoriaDigito;
+        if (categoriaDTO.getCodigoCategoria().length() == 3){
+            categoriaDigito = categoriaDTO.getCodigoCategoria();
+        }
+        else if (categoriaDTO.getCodigoCategoria().length()== 2){
+            categoriaDigito = "0"+categoriaDTO.getCodigoCategoria();
+        }
+        else if (categoriaDTO.getCodigoCategoria().length()== 1){
+            categoriaDigito = "00"+categoriaDTO.getCodigoCategoria();
+        }else { throw new IllegalArgumentException("Nome da categoria não deve ser nulo");}
+
+        categoria.setCodigoCategoria("CAT"+categoria.getFornecedorId().getCnpj().substring(10)+categoriaDigito);
         categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
 
@@ -97,14 +112,27 @@ public class CategoriaService {
 
         if (categoriaExistenteOptional.isPresent()) {
             Categoria categoriaExistente = categoriaExistenteOptional.get();
+            this.validate(categoriaDTO);
+
 
 
             LOGGER.info("Atualizado categoria... id: [{}]", categoriaExistente.getId());
             LOGGER.debug("Payload: {}", categoriaDTO);
             LOGGER.debug("Categoria Existente: {}", categoriaExistente);
 
-            categoriaExistente.setCodigoCategoria(categoriaDTO.getCodigoCategoria());
             categoriaExistente.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
+            String categoriaDigito;
+            if (categoriaDTO.getCodigoCategoria().length() == 3){
+                categoriaDigito = categoriaDTO.getCodigoCategoria();
+            }
+            if (categoriaDTO.getCodigoCategoria().length()== 2){
+                categoriaDigito = "0"+categoriaDTO.getCodigoCategoria();
+            }
+            if (categoriaDTO.getCodigoCategoria().length()== 1){
+                categoriaDigito = "00"+categoriaDTO.getCodigoCategoria();
+            }else { throw new IllegalArgumentException("Nome da categoria não deve ser nulo");}
+
+            categoriaExistente.setCodigoCategoria("CAT"+categoriaExistente.getFornecedorId().getCnpj().substring(10)+categoriaDigito);
             categoriaExistente.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
             categoriaExistente = this.iCategoriaRepositoy.save(categoriaExistente);
@@ -136,21 +164,27 @@ public class CategoriaService {
 
 
         for (String[] categoria : lista) {
+            try {
+
+
             String[] colunaCategoria = categoria[0].replaceAll("\"", "").split(";");
             Categoria categoriaImport = new Categoria();
 
-            categoriaImport.setCodigoCategoria(colunaCategoria[1]);
-            categoriaImport.setNomeCategoria(colunaCategoria[2]);
+            categoriaImport.setCodigoCategoria(colunaCategoria[0]);
+            categoriaImport.setNomeCategoria(colunaCategoria[1]);
             Fornecedor fornecedor = new Fornecedor();
-            fornecedor = fornecedorService.findFornecedorById(Long.parseLong(colunaCategoria[3]));
+            fornecedor = fornecedorService.findByCnpj(colunaCategoria[3].replaceAll("\\D", ""));
             categoriaImport.setFornecedorId(fornecedor);
 
             saveLista.add(categoriaImport);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
          this.iCategoriaRepositoy.saveAll(saveLista);
     }
 
-    public void exportCsv(HttpServletResponse response) throws IOException {
+    public void exportCsv(HttpServletResponse response) throws IOException, ParseException {
 
 
         String file = "categorias.csv";
@@ -167,15 +201,28 @@ public class CategoriaService {
 
         ICSVWriter csvWriter = new CSVWriterBuilder(response.getWriter()).withSeparator(';').build();
 
-        String[] header = {"id", "codigoCategoria", "nomeCategoria", "fornecedorId"};
+        String[] header = {"Codigo de categoria", "Categoria", "Razão Social Fornecedor","CNPJ Forncedor"};
+
+        MaskFormatter mascaraCnpj = new MaskFormatter("##.###.###/####-##");
+        mascaraCnpj.setValueContainsLiteralCharacters(false);
+
 
         csvWriter.writeNext(header);
 
         for (Categoria categoria : lista) {
-            csvWriter.writeNext(new String[]{categoria.getId().toString(),categoria.getCodigoCategoria(),categoria.getNomeCategoria(),categoria.getFornecedorId().getId().toString()});
+            csvWriter.writeNext(new String[]{categoria.getCodigoCategoria(),categoria.getNomeCategoria(),categoria.getFornecedorId().getRazaoSocial(),mascaraCnpj.valueToString(categoria.getFornecedorId().getCnpj())});
         }
 
         csvWriter.close();
+    }
+
+    public Categoria findByCodigoCategoria(String codigoCategoria) {
+        Optional<Categoria> categoriaOptional = Optional.ofNullable(this.iCategoriaRepositoy.findByCodigoCategoria(codigoCategoria));
+        if (categoriaOptional.isPresent()){
+            return categoriaOptional.get();
+        }
+        throw new IllegalArgumentException(String.format("ID %s não esxiste", codigoCategoria));
+
     }
 }
 

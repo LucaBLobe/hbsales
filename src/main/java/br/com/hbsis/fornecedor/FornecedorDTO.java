@@ -33,7 +33,7 @@ public class FornecedorDTO {
         return new FornecedorDTO(
                 fornecedor.getId(),
                 fornecedor.getRazaoSocial(),
-                fornecedor.getCNPJ(),
+                fornecedor.getCnpj(),
                 fornecedor.getNomeFantasia(),
                 fornecedor.getEndereco(),
                 fornecedor.getTelefoneContato(),
@@ -49,7 +49,7 @@ public class FornecedorDTO {
         return razaoSocial;
     }
 
-    public String getCNPJ() {
+    public String getCnpj() {
         return cnpj;
     }
 
@@ -77,7 +77,7 @@ public class FornecedorDTO {
         this.razaoSocial = razaoSocial;
     }
 
-    public void setCNPJ(String cnpj) {
+    public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
     }
 

@@ -10,7 +10,7 @@ public class LinhaCategoriaDTO {
     public LinhaCategoriaDTO() {
     }
 
-    public LinhaCategoriaDTO(Long id, String codLinhaCategoria, String nomeLinhaCategoria, Long categoriaId) {
+    public LinhaCategoriaDTO(Long id, String codLinhaCategoria, Long categoriaId, String nomeLinhaCategoria) {
         this.id = id;
         this.codLinhaCategoria = codLinhaCategoria;
         this.nomeLinhaCategoria = nomeLinhaCategoria;
@@ -28,8 +28,9 @@ public class LinhaCategoriaDTO {
         return new LinhaCategoriaDTO(
                 linhaCategoria.getId(),
                 linhaCategoria.getCodLinhaCategoria(),
-                linhaCategoria.getNomeLinhaCategoria(),
-                linhaCategoria.getCategoriaId().getId()
+                linhaCategoria.getCategoriaId().getId(),
+                linhaCategoria.getNomeLinhaCategoria()
+
         );
     }
 
@@ -69,8 +70,8 @@ public class LinhaCategoriaDTO {
         return "Linha Categoria{" +
                 "ID:" + id +
                 "Codigo Linha Categoria= " + codLinhaCategoria + '\'' +
-                ", Nome Linha Categoria='" + nomeLinhaCategoria + '\'' +
                 ", Categoria Id ='" + categoriaId + '\'' +
+                ", Nome Linha Categoria='" + nomeLinhaCategoria + '\'' +
                 '}';
     }
 }

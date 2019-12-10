@@ -15,7 +15,7 @@ public class LinhaCategoria {
         @Column(name = "cod_linha_categoria", unique = true, nullable = false, length = 10)
         private String codLinhaCategoria;
 
-        @Column(name = "nome_linha_categoria", unique = true, nullable = false, length = 255)
+        @Column(name = "nome_linha_categoria", unique = true, nullable = false, length = 50)
         private String nomeLinhaCategoria;
 
         @ManyToOne

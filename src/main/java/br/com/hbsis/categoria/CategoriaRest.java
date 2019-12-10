@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
 
 
 @RestController
@@ -60,7 +61,7 @@ public class CategoriaRest {
     }
 
     @RequestMapping(value = "/export_csv")
-    public void downloadCSV(HttpServletResponse response) throws IOException {
+    public void downloadCSV(HttpServletResponse response) throws IOException, ParseException {
         LOGGER.info("Recebendo Delete para Categoria de ID: {}", response);
         this.categoriaService.exportCsv(response);
 

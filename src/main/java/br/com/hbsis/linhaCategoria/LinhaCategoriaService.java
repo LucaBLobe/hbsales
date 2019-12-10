@@ -43,7 +43,12 @@ public class LinhaCategoriaService {
         LOGGER.debug("Linha categoria: {}", linhaCategoriaDTO.getCategoriaId());
 
         LinhaCategoria linhaCategoria = new LinhaCategoria();
-        linhaCategoria.setCodLinhaCategoria(linhaCategoriaDTO.getCodLinhaCategoria());
+        String codLinha = new String();
+        codLinha = linhaCategoriaDTO.getCodLinhaCategoria().toUpperCase();
+
+        String codLinhaFinal = StringUtils.leftPad(codLinha,10,"0");
+
+        linhaCategoria.setCodLinhaCategoria(codLinhaFinal);
         linhaCategoria.setCategoriaId(categoriaService.findCategoriaById(linhaCategoriaDTO.getCategoriaId()));
         linhaCategoria.setNomeLinhaCategoria(linhaCategoriaDTO.getNomeLinhaCategoria());
 
@@ -135,12 +140,12 @@ public class LinhaCategoriaService {
 
         ICSVWriter csvWriter = new CSVWriterBuilder(response.getWriter()).withSeparator(';').build();
 
-        String[] header = {"id", "codLinhaCategoria", "nomeLinhaCategoria", "categoriaId"};
+        String[] header = {"Codigo Linha Categoria", "Nome Linha Categoria", "Codigo Categoria", "Nome da Categoria"};
 
         csvWriter.writeNext(header);
 
         for (LinhaCategoria linhaCategoria : lista) {
-            csvWriter.writeNext(new String[]{linhaCategoria.getId().toString(),linhaCategoria.getCodLinhaCategoria(),linhaCategoria.getNomeLinhaCategoria(),linhaCategoria.getCategoriaId().getId().toString()});
+            csvWriter.writeNext(new String[]{linhaCategoria.getCodLinhaCategoria(),linhaCategoria.getNomeLinhaCategoria(),linhaCategoria.getCategoriaId().getCodigoCategoria(),linhaCategoria.getCategoriaId().getNomeCategoria()});
         }
 
         csvWriter.close();
@@ -154,16 +159,21 @@ public class LinhaCategoriaService {
 
 
         for (String[] linhaCategoria : lista) {
+            try {
+
             String[] linhaColunaCategoria = linhaCategoria[0].replaceAll("\"", "").split(";");
             LinhaCategoria linhaCategoriaImport = new LinhaCategoria();
 
-            linhaCategoriaImport.setCodLinhaCategoria(linhaColunaCategoria[1]);
-            linhaCategoriaImport.setNomeLinhaCategoria(linhaColunaCategoria[2]);
+            linhaCategoriaImport.setCodLinhaCategoria(linhaColunaCategoria[0]);
+            linhaCategoriaImport.setNomeLinhaCategoria(linhaColunaCategoria[1]);
             Categoria categoria = new Categoria();
-            categoria = categoriaService.findCategoriaById(Long.parseLong(linhaColunaCategoria[3]));
+            categoria = categoriaService.findByCodigoCategoria(linhaColunaCategoria[2]);
             linhaCategoriaImport.setCategoriaId(categoria);
 
             saveLista.add(linhaCategoriaImport);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
         this.iLinhaCategoriaRepository.saveAll(saveLista);
     }
