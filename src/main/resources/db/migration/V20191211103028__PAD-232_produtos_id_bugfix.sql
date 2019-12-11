@@ -1,0 +1,1 @@
+ALTER TABLE cad_produtos ADD PRIMARY KEY (id);

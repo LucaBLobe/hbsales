@@ -1,6 +1,5 @@
 package br.com.hbsis.produto;
 
-import br.com.hbsis.linhaCategoria.LinhaCategoria;
 import br.com.hbsis.linhaCategoria.LinhaCategoriaService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -17,7 +16,6 @@ public class ProdutoService {
 
     private final IProdutoRepository iProdutoRepository;
     private final LinhaCategoriaService LinhaCategoriaService;
-    private ProdutoService iLinhaCategoriaRepository;
 
 
     public ProdutoService(IProdutoRepository iProdutoRepository, br.com.hbsis.linhaCategoria.LinhaCategoriaService linhaCategoriaService) {
@@ -45,7 +43,7 @@ public class ProdutoService {
         produto.setLinhaCategoriaId(LinhaCategoriaService.findLinhaCategoriaById(produtoDTO.getLinhaCategoriaId()));
         produto.setUnidadesCaixa(produtoDTO.getUnidadesCaixa());
         produto.setPesoUnitario(produtoDTO.getPesoUnitario());
-        produto.setUnidadeMedida(produtoDTO.getUnidadeMedida().toLowerCase());
+        produto.setUnidadeMedida(produtoDTO.getUnidadeMedida());
         produto.setValidadeProduto(produtoDTO.getValidadeProduto());
 
         produto = this.iProdutoRepository.save(produto);
@@ -78,10 +76,10 @@ public class ProdutoService {
         if (StringUtils.isEmpty((produtoDTO.getUnidadeMedida()))) {
             throw new IllegalArgumentException("A unidade de medida não deve ser nulo");
         }
-        if ((produtoDTO.getUnidadeMedida()) != "kg" || (produtoDTO.getUnidadeMedida()) != "g" ||
-                (produtoDTO.getUnidadeMedida()) != "mg") {
-            throw new IllegalArgumentException("Unidade de medida invalida, deve ser mg, g ou kg");
-        }
+      //  if (!((produtoDTO.getUnidadeMedida().toLowerCase()) == "kg" || (produtoDTO.getUnidadeMedida()).toLowerCase() == "g" ||
+      //          (produtoDTO.getUnidadeMedida().toLowerCase()) == "mg")) {
+      //      throw new IllegalArgumentException("Unidade de medida invalida, deve ser mg, g ou kg");
+      //  }
         if (StringUtils.isEmpty((String.valueOf(produtoDTO.getValidadeProduto())))) {
             throw new IllegalArgumentException("A validade não deve ser nula não deve ser nulo");
         }
