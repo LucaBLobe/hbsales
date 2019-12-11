@@ -59,7 +59,6 @@ public class Categoria {
         this.nomeCategoria = nomeCategoria;
     }
 
-
     public Fornecedor getFornecedorId() {
         return fornecedorId;
     }

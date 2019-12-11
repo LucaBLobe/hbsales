@@ -57,7 +57,7 @@ public class LinhaCategoriaRest {
     }
     @RequestMapping(value = "/export_csv")
     public void downloadCSV(HttpServletResponse response) throws IOException {
-        LOGGER.info("Recebendo Delete para linha de categoria de ID: {}", response);
+        LOGGER.info("Exportando CSV da linha de categoria de ID: {}", response);
         this.linhaCategoriaService.exportCsv(response);
 
     }

@@ -1,0 +1,1 @@
+alter table cad_produtos add constraint nome_linha_categoria_id unique (nome_produto,linha_categoria_id)
