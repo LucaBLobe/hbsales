@@ -33,16 +33,20 @@ public class ProdutoService {
         LOGGER.info("Salvando produto");
         LOGGER.debug("Linha categoria: {}", produtoDTO.getLinhaCategoriaId());
 
+        String codProduto = new String();
+        codProduto = produtoDTO.getCodProduto().toUpperCase();
+
+        String codProdutoFinal = StringUtils.leftPad(codProduto,10,"0");
+
         Produto produto = new Produto();
-        produto.setCodProduto(produtoDTO.getCodProduto());
+        produto.setCodProduto(codProdutoFinal);
         produto.setNomeProduto(produtoDTO.getNomeProduto());
         produto.setPrecoProduto(produtoDTO.getPrecoProduto());
         produto.setLinhaCategoriaId(LinhaCategoriaService.findLinhaCategoriaById(produtoDTO.getLinhaCategoriaId()));
         produto.setUnidadesCaixa(produtoDTO.getUnidadesCaixa());
         produto.setPesoUnitario(produtoDTO.getPesoUnitario());
+        produto.setUnidadeMedida(produtoDTO.getUnidadeMedida().toLowerCase());
         produto.setValidadeProduto(produtoDTO.getValidadeProduto());
-
-
 
         produto = this.iProdutoRepository.save(produto);
 
@@ -59,8 +63,27 @@ public class ProdutoService {
         if (StringUtils.isEmpty(produtoDTO.getCodProduto())) {
             throw new IllegalArgumentException("Codigo da Linha de Categoria não deve ser nula/vazia");
         }
-        if (StringUtils.isEmpty(produtoDTO.getNomeProduto())) {
+        if (StringUtils.isEmpty(String.valueOf(produtoDTO.getPrecoProduto()))) {
+            throw new IllegalArgumentException("Preço do produto não deve ser nulo");
+        }
+        if (StringUtils.isEmpty(String.valueOf(produtoDTO.getLinhaCategoriaId()))) {
             throw new IllegalArgumentException("Nome da categoria não deve ser nulo");
+        }
+        if (StringUtils.isEmpty(String.valueOf(produtoDTO.getUnidadesCaixa()))) {
+            throw new IllegalArgumentException("A quantidade de caixas não deve ser nulo");
+        }
+        if (StringUtils.isEmpty(String.valueOf(produtoDTO.getPesoUnitario()))) {
+            throw new IllegalArgumentException("O peso unitario não deve ser nulo");
+        }
+        if (StringUtils.isEmpty((produtoDTO.getUnidadeMedida()))) {
+            throw new IllegalArgumentException("A unidade de medida não deve ser nulo");
+        }
+        if ((produtoDTO.getUnidadeMedida()) != "kg" || (produtoDTO.getUnidadeMedida()) != "g" ||
+                (produtoDTO.getUnidadeMedida()) != "mg") {
+            throw new IllegalArgumentException("Unidade de medida invalida, deve ser mg, g ou kg");
+        }
+        if (StringUtils.isEmpty((String.valueOf(produtoDTO.getValidadeProduto())))) {
+            throw new IllegalArgumentException("A validade não deve ser nula não deve ser nulo");
         }
 
     }
@@ -97,6 +120,7 @@ public class ProdutoService {
             produtoExistente.setLinhaCategoriaId(LinhaCategoriaService.findLinhaCategoriaById(produtoDTO.getLinhaCategoriaId()));
             produtoExistente.setUnidadesCaixa(produtoDTO.getUnidadesCaixa());
             produtoExistente.setPesoUnitario(produtoDTO.getPesoUnitario());
+            produtoExistente.setUnidadeMedida(produtoDTO.getUnidadeMedida());
             produtoExistente.setValidadeProduto(produtoDTO.getValidadeProduto());
 
             produtoExistente = this.iProdutoRepository.save(produtoExistente);
@@ -110,6 +134,5 @@ public class ProdutoService {
         LOGGER.info("Executando delete para categoria de ID: [{}]", id);
         this.iProdutoRepository.deleteById(id);
     }
-
 
 }

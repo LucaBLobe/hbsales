@@ -89,6 +89,7 @@ public class Produto {
                 ", Linha da Categoria Id:'"+ linhaCategoriaId +'\''+
                 ", Unidades por caixa:'"+ unidadesCaixa +'\''+
                 ", Peso Unitário:'"+ pesoUnitario +'\''+
+                ", Unidade de medida:'"+ unidadeMedida +'\''+
                 ", Validade do :'"+ validadeProduto +'\''+
                 '}';
     }

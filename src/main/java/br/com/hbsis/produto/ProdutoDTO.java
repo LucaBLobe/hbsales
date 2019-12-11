@@ -93,6 +93,7 @@ public class ProdutoDTO {
             ", Preço Produto:'"+ precoProduto +'\''+
             ", Linha da Categoria Id:'"+ linhaCategoriaId +'\''+
             ", Unidades por caixa:'"+ unidadesCaixa +'\''+
+            ", Unidade de medida:'"+ unidadeMedida +'\''+
             ", Peso Unitário:'"+ pesoUnitario +'\''+
             ", Validade do :'"+ validadeProduto +'\''+
             '}';
