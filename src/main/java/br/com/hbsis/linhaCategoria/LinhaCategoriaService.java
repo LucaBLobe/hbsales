@@ -163,7 +163,6 @@ public class LinhaCategoriaService {
 
             String[] linhaColunaCategoria = linhaCategoria[0].replaceAll("\"", "").split(";");
             LinhaCategoria linhaCategoriaImport = new LinhaCategoria();
-
             linhaCategoriaImport.setCodLinhaCategoria(linhaColunaCategoria[0]);
             linhaCategoriaImport.setNomeLinhaCategoria(linhaColunaCategoria[1]);
             Categoria categoria = new Categoria();

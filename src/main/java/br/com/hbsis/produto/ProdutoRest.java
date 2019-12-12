@@ -69,6 +69,11 @@ public class ProdutoRest {
         LOGGER.info("Recebendo Arquivo CSV para linha de ategoria de ID: {}", file);
         produtoService.importCsv(file);
     }
+    @PostMapping("/import_por_fornecedor")
+    public void importFornecedor(@RequestParam("file") MultipartFile file) throws IOException, CsvException {
+        LOGGER.info("Recebendo Arquivo CSV para linha de ategoria de ID: {}", file);
+        produtoService.importFornecedor(file);
+    }
 
 
 }
