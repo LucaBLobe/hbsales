@@ -177,6 +177,15 @@ public class LinhaCategoriaService {
         }
         this.iLinhaCategoriaRepository.saveAll(saveLista);
     }
+
+    public LinhaCategoria findByCodLinhaCategoria(String codLinhaCategoria) {
+        Optional<LinhaCategoria> linhaCategoriaOptional = Optional.ofNullable(this.iLinhaCategoriaRepository.findByCodLinhaCategoria(codLinhaCategoria));
+        if (linhaCategoriaOptional.isPresent()){
+            return linhaCategoriaOptional.get();
+        }
+        throw new IllegalArgumentException(String.format("ID %s não esxiste", codLinhaCategoria));
+
+    }
 }
 
 

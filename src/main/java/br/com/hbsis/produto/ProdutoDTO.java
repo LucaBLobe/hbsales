@@ -86,7 +86,7 @@ public class ProdutoDTO {
 
     @Override
     public String toString() {
-    return"Linha Categoria{"+
+    return"Produto{"+
             "ID:"+id +
             "Codigo Produto: "+ codProduto +'\''+
             ", Nome Produto:'"+ nomeProduto +'\''+

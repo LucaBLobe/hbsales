@@ -11,6 +11,7 @@ import com.opencsv.exceptions.CsvException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +21,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -207,11 +210,16 @@ public class ProdutoService {
 
                 produtoImport.setCodProduto(produtoColuna[0]);
                 produtoImport.setNomeProduto(produtoColuna[1]);
-                produtoImport.setPrecoProduto(Double.parseDouble(produtoColuna[2].substring(2)));
+                produtoImport.setPrecoProduto(Double.parseDouble(produtoColuna[2].substring(3)));
                 produtoImport.setUnidadesCaixa(Integer.parseInt(produtoColuna[3]));
-                produtoImport.
+                produtoImport.setUnidadeMedida(produtoColuna[4].replaceAll("\\d","").replace(".",""));
+
+                produtoImport.setPesoUnitario(Double.parseDouble(produtoColuna[4].replaceAll("k","").replaceAll("g","").replaceAll("m", "")));
+                produtoImport.setValidadeProduto(LocalDate.parse(produtoColuna[5].replaceAll("/","-"), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+
                 LinhaCategoria linhaCategoria = new LinhaCategoria();
-                linhacategoria = categoriaService.findByCodigoCategoria(produtoColuna[2]);
+                linhaCategoria = LinhaCategoriaService.findByCodLinhaCategoria(produtoColuna[6]);
+                produtoImport.setLinhaCategoriaId(linhaCategoria);
 
 
                 saveLista.add(produtoImport);

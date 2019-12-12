@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ILinhaCategoriaRepository extends JpaRepository<LinhaCategoria, Long> {
 
+    LinhaCategoria findByCodLinhaCategoria(String codLinhaCategoria);
 
 }
