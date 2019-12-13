@@ -164,7 +164,6 @@ public class CategoriaService {
         for (String[] categoria : lista) {
             try {
 
-
             String[] colunaCategoria = categoria[0].replaceAll("\"", "").split(";");
             Categoria categoriaImport = new Categoria();
 
@@ -219,7 +218,7 @@ public class CategoriaService {
         if (categoriaOptional.isPresent()){
             return categoriaOptional.get();
         }
-        throw new IllegalArgumentException(String.format("ID %s não esxiste", codigoCategoria));
+        throw  new IllegalArgumentException(String.format("ID %s não esxiste", codigoCategoria));
 
     }
 }

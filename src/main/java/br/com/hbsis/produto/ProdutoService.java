@@ -112,6 +112,16 @@ public class ProdutoService {
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
 
+    public Produto findByCodProduto(String codProduto) {
+        Optional<Produto> produtoOptional = this.iProdutoRepository.findByCodProduto(codProduto);
+        if (produtoOptional.isPresent()) {
+            LOGGER.info("Recebendo find by Codigo do produto... id: [{}]", produtoOptional.get());
+            return produtoOptional.get(); }
+        System.out.println(String.format("ID %s não existe", codProduto));
+        return null;
+    }
+
+
     public IProdutoRepository findAll() {
         List<Produto> produtoOptional = this.iProdutoRepository.findAll();
         return iProdutoRepository;
@@ -206,8 +216,13 @@ public class ProdutoService {
         for (String[] produto : lista) {
             try {
                 String[] produtoColuna = produto[0].replaceAll("\"", "").split(";");
-                Produto produtoImport = new Produto();
+                Optional<Produto> produtoExistente = iProdutoRepository.findByCodProduto(produtoColuna[0]);
 
+
+                if (produtoExistente.isPresent()){
+                    continue;
+                }
+                Produto produtoImport = new Produto();
                 produtoImport.setCodProduto(produtoColuna[0]);
                 produtoImport.setNomeProduto(produtoColuna[1]);
                 produtoImport.setPrecoProduto(Double.parseDouble(produtoColuna[2].substring(3)));
@@ -215,18 +230,13 @@ public class ProdutoService {
                 produtoImport.setUnidadeMedida(produtoColuna[4].replaceAll("\\d","").replace(".",""));
                 produtoImport.setPesoUnitario(Double.parseDouble(produtoColuna[4].replaceAll("k","").replaceAll("g","").replaceAll("m", "")));
                 produtoImport.setValidadeProduto(LocalDate.parse(produtoColuna[5].replaceAll("/","-"), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-
-                if (produtoImport.getCodProduto().equals(iProdutoRepository)){
-                    throw new IllegalArgumentException(String.format("Linha de categoria %s não existe",));
-                }
-
                 LinhaCategoria linhaCategoria = new LinhaCategoria();
                 linhaCategoria = LinhaCategoriaService.findByCodLinhaCategoria(produtoColuna[6]);
-                if (linhaCategoria.getCodLinhaCategoria() == null){
-                    throw new IllegalArgumentException(String.format("Linha de categoria %s não existe", linhaCategoria.getCodLinhaCategoria()));
-                }else{
+                if(linhaCategoria == null){
+                    continue;
+                }
                 produtoImport.setLinhaCategoriaId(linhaCategoria);
-                saveLista.add(produtoImport);}
+                saveLista.add(produtoImport);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
