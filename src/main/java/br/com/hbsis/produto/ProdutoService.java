@@ -245,24 +245,23 @@ public class ProdutoService {
         this.iProdutoRepository.saveAll(saveLista);
     }
 
-  /*  public void importFornecedor(MultipartFile file) throws IOException, CsvException {
+    public void importFornecedor(MultipartFile file) throws IOException, CsvException {
 
         Reader reader = new InputStreamReader(file.getInputStream());
         CSVReader read = new CSVReaderBuilder(reader).withSkipLines(1).build();
         List<String[]> lista = read.readAll();
         List<Produto> saveLista = new ArrayList<>();
 
-        for (String[])
-
-        List<String[]> lista = read.readAll();
-        List<Produto> saveLista = new ArrayList<>();
-
-
         for (String[] produto : lista) {
             try {
                 String[] produtoColuna = produto[0].replaceAll("\"", "").split(";");
-                Produto produtoImport = new Produto();
+                Optional<Produto> produtoExistente = iProdutoRepository.findByCodProduto(produtoColuna[0]);
 
+
+                if (produtoExistente.isPresent()){
+                    continue;
+                }
+                Produto produtoImport = new Produto();
                 produtoImport.setCodProduto(produtoColuna[0]);
                 produtoImport.setNomeProduto(produtoColuna[1]);
                 produtoImport.setPrecoProduto(Double.parseDouble(produtoColuna[2].substring(3)));
@@ -270,17 +269,18 @@ public class ProdutoService {
                 produtoImport.setUnidadeMedida(produtoColuna[4].replaceAll("\\d","").replace(".",""));
                 produtoImport.setPesoUnitario(Double.parseDouble(produtoColuna[4].replaceAll("k","").replaceAll("g","").replaceAll("m", "")));
                 produtoImport.setValidadeProduto(LocalDate.parse(produtoColuna[5].replaceAll("/","-"), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-
                 LinhaCategoria linhaCategoria = new LinhaCategoria();
                 linhaCategoria = LinhaCategoriaService.findByCodLinhaCategoria(produtoColuna[6]);
+                if(linhaCategoria == null){
+                    continue;
+                }
                 produtoImport.setLinhaCategoriaId(linhaCategoria);
-
-
                 saveLista.add(produtoImport);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
+
         }
         this.iProdutoRepository.saveAll(saveLista);
-    }*/
+    }
 }
