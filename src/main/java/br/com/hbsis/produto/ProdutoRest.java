@@ -1,10 +1,19 @@
 package br.com.hbsis.produto;
 
 import br.com.hbsis.linhaCategoria.LinhaCategoriaDTO;
+import com.opencsv.exceptions.CsvException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.ParseException;
+
+@RestController
+@RequestMapping("/produtos")
 
 public class ProdutoRest {
 
@@ -47,6 +56,23 @@ public class ProdutoRest {
     public void delete(@PathVariable("id") Long id) {
         LOGGER.info("Recebendo Delete para linha de categoria de ID: {}", id);
         this.produtoService.delete(id);
+    }
+
+    @RequestMapping(value = "/export_csv")
+    public void downloadCSV(HttpServletResponse response) throws IOException, ParseException {
+        LOGGER.info("Recebendo Delete para linha de categoria de ID: {}", response);
+        this.produtoService.exportCsv(response);
+
+    }
+    @PostMapping("/import_csv")
+    public void importCsv(@RequestParam("file") MultipartFile file) throws IOException, CsvException {
+        LOGGER.info("Recebendo Arquivo CSV para linha de ategoria de ID: {}", file);
+        produtoService.importCsv(file);
+    }
+    @PutMapping("/import_por_fornecedor/{id}")
+    public void importFornecedor(@RequestParam("file") MultipartFile file, @PathVariable("id") Long id) throws IOException, CsvException {
+        LOGGER.info("Recebendo Arquivo CSV produtos com base no fornecedor: {}", file, id);
+        produtoService.importFornecedor(file, id);
     }
 
 

@@ -50,17 +50,17 @@ public class CategoriaService {
         Categoria categoria = new Categoria();
         categoria.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
         String categoriaDigito;
-        if (categoriaDTO.getCodigoCategoria().length() == 3){
+        if (categoriaDTO.getCodigoCategoria().length() == 3) {
             categoriaDigito = categoriaDTO.getCodigoCategoria();
+        } else if (categoriaDTO.getCodigoCategoria().length() == 2) {
+            categoriaDigito = "0" + categoriaDTO.getCodigoCategoria();
+        } else if (categoriaDTO.getCodigoCategoria().length() == 1) {
+            categoriaDigito = "00" + categoriaDTO.getCodigoCategoria();
+        } else {
+            throw new IllegalArgumentException("Nome da categoria não deve ser nulo");
         }
-        else if (categoriaDTO.getCodigoCategoria().length()== 2){
-            categoriaDigito = "0"+categoriaDTO.getCodigoCategoria();
-        }
-        else if (categoriaDTO.getCodigoCategoria().length()== 1){
-            categoriaDigito = "00"+categoriaDTO.getCodigoCategoria();
-        }else { throw new IllegalArgumentException("Nome da categoria não deve ser nulo");}
 
-        categoria.setCodigoCategoria("CAT"+categoria.getFornecedorId().getCnpj().substring(10)+categoriaDigito);
+        categoria.setCodigoCategoria("CAT" + categoria.getFornecedorId().getCnpj().substring(10) + categoriaDigito);
         categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
 
@@ -95,6 +95,7 @@ public class CategoriaService {
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
+
     public Categoria findCategoriaById(Long id) {
         Optional<Categoria> categoriaOptional = this.iCategoriaRepositoy.findById(id);
         if (categoriaOptional.isPresent()) {
@@ -115,24 +116,25 @@ public class CategoriaService {
             this.validate(categoriaDTO);
 
 
-
             LOGGER.info("Atualizado categoria... id: [{}]", categoriaExistente.getId());
             LOGGER.debug("Payload: {}", categoriaDTO);
             LOGGER.debug("Categoria Existente: {}", categoriaExistente);
 
             categoriaExistente.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
             String categoriaDigito;
-            if (categoriaDTO.getCodigoCategoria().length() == 3){
+            if (categoriaDTO.getCodigoCategoria().length() == 3) {
                 categoriaDigito = categoriaDTO.getCodigoCategoria();
             }
-            if (categoriaDTO.getCodigoCategoria().length()== 2){
-                categoriaDigito = "0"+categoriaDTO.getCodigoCategoria();
+            if (categoriaDTO.getCodigoCategoria().length() == 2) {
+                categoriaDigito = "0" + categoriaDTO.getCodigoCategoria();
             }
-            if (categoriaDTO.getCodigoCategoria().length()== 1){
-                categoriaDigito = "00"+categoriaDTO.getCodigoCategoria();
-            }else { throw new IllegalArgumentException("Nome da categoria não deve ser nulo");}
+            if (categoriaDTO.getCodigoCategoria().length() == 1) {
+                categoriaDigito = "00" + categoriaDTO.getCodigoCategoria();
+            } else {
+                throw new IllegalArgumentException("Nome da categoria não deve ser nulo");
+            }
 
-            categoriaExistente.setCodigoCategoria("CAT"+categoriaExistente.getFornecedorId().getCnpj().substring(10)+categoriaDigito);
+            categoriaExistente.setCodigoCategoria("CAT" + categoriaExistente.getFornecedorId().getCnpj().substring(10) + categoriaDigito);
             categoriaExistente.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
             categoriaExistente = this.iCategoriaRepositoy.save(categoriaExistente);
@@ -166,22 +168,26 @@ public class CategoriaService {
         for (String[] categoria : lista) {
             try {
 
+                String[] colunaCategoria = categoria[0].replaceAll("\"", "").split(";");
+                Optional<Categoria> categoriaExistente = iCategoriaRepositoy.findByCodigoCategoria(colunaCategoria[0]);
 
-            String[] colunaCategoria = categoria[0].replaceAll("\"", "").split(";");
-            Categoria categoriaImport = new Categoria();
+                if (categoriaExistente.isPresent()) {
+                    continue;
+                }
 
-            categoriaImport.setCodigoCategoria(colunaCategoria[0]);
-            categoriaImport.setNomeCategoria(colunaCategoria[1]);
-            Fornecedor fornecedor = new Fornecedor();
-            fornecedor = fornecedorService.findByCnpj(colunaCategoria[3].replaceAll("\\D", ""));
-            categoriaImport.setFornecedorId(fornecedor);
+                Categoria categoriaImport = new Categoria();
+                categoriaImport.setCodigoCategoria(colunaCategoria[0]);
+                categoriaImport.setNomeCategoria(colunaCategoria[1]);
+                Fornecedor fornecedor = new Fornecedor();
+                fornecedor = fornecedorService.findByCnpj(colunaCategoria[3].replaceAll("\\D", ""));
+                categoriaImport.setFornecedorId(fornecedor);
 
-            saveLista.add(categoriaImport);
+                saveLista.add(categoriaImport);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-         this.iCategoriaRepositoy.saveAll(saveLista);
+        this.iCategoriaRepositoy.saveAll(saveLista);
     }
 
     public void exportCsv(HttpServletResponse response) throws IOException, ParseException {
@@ -201,7 +207,7 @@ public class CategoriaService {
 
         ICSVWriter csvWriter = new CSVWriterBuilder(response.getWriter()).withSeparator(';').build();
 
-        String[] header = {"Codigo de categoria", "Categoria", "Razão Social Fornecedor","CNPJ Forncedor"};
+        String[] header = {"Codigo de categoria", "Categoria", "Razão Social Fornecedor", "CNPJ Forncedor"};
 
         MaskFormatter mascaraCnpj = new MaskFormatter("##.###.###/####-##");
         mascaraCnpj.setValueContainsLiteralCharacters(false);
@@ -210,15 +216,15 @@ public class CategoriaService {
         csvWriter.writeNext(header);
 
         for (Categoria categoria : lista) {
-            csvWriter.writeNext(new String[]{categoria.getCodigoCategoria(),categoria.getNomeCategoria(),categoria.getFornecedorId().getRazaoSocial(),mascaraCnpj.valueToString(categoria.getFornecedorId().getCnpj())});
+            csvWriter.writeNext(new String[]{categoria.getCodigoCategoria(), categoria.getNomeCategoria(), categoria.getFornecedorId().getRazaoSocial(), mascaraCnpj.valueToString(categoria.getFornecedorId().getCnpj())});
         }
 
         csvWriter.close();
     }
 
     public Categoria findByCodigoCategoria(String codigoCategoria) {
-        Optional<Categoria> categoriaOptional = Optional.ofNullable(this.iCategoriaRepositoy.findByCodigoCategoria(codigoCategoria));
-        if (categoriaOptional.isPresent()){
+        Optional<Categoria> categoriaOptional = this.iCategoriaRepositoy.findByCodigoCategoria(codigoCategoria);
+        if (categoriaOptional.isPresent()) {
             return categoriaOptional.get();
         }
         throw new IllegalArgumentException(String.format("ID %s não esxiste", codigoCategoria));

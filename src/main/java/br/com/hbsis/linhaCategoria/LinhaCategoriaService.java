@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -46,7 +48,7 @@ public class LinhaCategoriaService {
         String codLinha = new String();
         codLinha = linhaCategoriaDTO.getCodLinhaCategoria().toUpperCase();
 
-        String codLinhaFinal = StringUtils.leftPad(codLinha,10,"0");
+        String codLinhaFinal = StringUtils.leftPad(codLinha, 10, "0");
 
         linhaCategoria.setCodLinhaCategoria(codLinhaFinal);
         linhaCategoria.setCategoriaId(categoriaService.findCategoriaById(linhaCategoriaDTO.getCategoriaId()));
@@ -118,11 +120,13 @@ public class LinhaCategoriaService {
         LOGGER.info("Executando delete para categoria de ID: [{}]", id);
         this.iLinhaCategoriaRepository.deleteById(id);
     }
+
     public List<LinhaCategoria> findAll() {
 
         List<LinhaCategoria> linhaCategoriaOptional = this.iLinhaCategoriaRepository.findAll();
         return linhaCategoriaOptional;
     }
+
     public void exportCsv(HttpServletResponse response) throws IOException {
 
 
@@ -145,11 +149,12 @@ public class LinhaCategoriaService {
         csvWriter.writeNext(header);
 
         for (LinhaCategoria linhaCategoria : lista) {
-            csvWriter.writeNext(new String[]{linhaCategoria.getCodLinhaCategoria(),linhaCategoria.getNomeLinhaCategoria(),linhaCategoria.getCategoriaId().getCodigoCategoria(),linhaCategoria.getCategoriaId().getNomeCategoria()});
+            csvWriter.writeNext(new String[]{linhaCategoria.getCodLinhaCategoria(), linhaCategoria.getNomeLinhaCategoria(), linhaCategoria.getCategoriaId().getCodigoCategoria(), linhaCategoria.getCategoriaId().getNomeCategoria()});
         }
 
         csvWriter.close();
     }
+
     public void importCsv(MultipartFile file) throws IOException, CsvException {
 
         Reader reader = new InputStreamReader(file.getInputStream());
@@ -160,22 +165,35 @@ public class LinhaCategoriaService {
 
         for (String[] linhaCategoria : lista) {
             try {
+                String[] linhaColunaCategoria = linhaCategoria[0].replaceAll("\"", "").split(";");
+                Optional<LinhaCategoria> linhaCategoriaExistente = iLinhaCategoriaRepository.findByCodLinhaCategoria(linhaColunaCategoria[0]);
 
-            String[] linhaColunaCategoria = linhaCategoria[0].replaceAll("\"", "").split(";");
-            LinhaCategoria linhaCategoriaImport = new LinhaCategoria();
+                if (linhaCategoriaExistente.isPresent()) {
+                    continue;
+                }
 
-            linhaCategoriaImport.setCodLinhaCategoria(linhaColunaCategoria[0]);
-            linhaCategoriaImport.setNomeLinhaCategoria(linhaColunaCategoria[1]);
-            Categoria categoria = new Categoria();
-            categoria = categoriaService.findByCodigoCategoria(linhaColunaCategoria[2]);
-            linhaCategoriaImport.setCategoriaId(categoria);
+                LinhaCategoria linhaCategoriaImport = new LinhaCategoria();
+                linhaCategoriaImport.setCodLinhaCategoria(linhaColunaCategoria[0]);
+                linhaCategoriaImport.setNomeLinhaCategoria(linhaColunaCategoria[1]);
+                Categoria categoria = new Categoria();
+                categoria = categoriaService.findByCodigoCategoria(linhaColunaCategoria[2]);
+                linhaCategoriaImport.setCategoriaId(categoria);
 
-            saveLista.add(linhaCategoriaImport);
+                saveLista.add(linhaCategoriaImport);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
         }
         this.iLinhaCategoriaRepository.saveAll(saveLista);
+    }
+
+    public LinhaCategoria findByCodLinhaCategoria(String codLinhaCategoria) {
+        Optional<LinhaCategoria> linhaCategoriaOptional = this.iLinhaCategoriaRepository.findByCodLinhaCategoria(codLinhaCategoria);
+        if (linhaCategoriaOptional.isPresent()) {
+            return linhaCategoriaOptional.get();
+        }
+        System.out.println(String.format("Codigo de Linha de Categoria %s não esxiste", codLinhaCategoria));
+        return null;
     }
 }
 

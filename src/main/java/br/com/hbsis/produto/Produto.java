@@ -33,6 +33,9 @@ public class Produto {
     @Column(name = "peso_unitario", nullable = false, length = 25)
     private Double pesoUnitario;
 
+    @Column(name = "unidade_medida", nullable = false, length = 2)
+    private String unidadeMedida;
+
     @Column(name = "validade_produto", nullable = false, length = 8)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate validadeProduto;
@@ -68,13 +71,17 @@ public class Produto {
 
     public void setPesoUnitario(Double pesoUnitario) { this.pesoUnitario = pesoUnitario; }
 
+    public String getUnidadeMedida() { return unidadeMedida; }
+
+    public void setUnidadeMedida(String unidadeMedida) { this.unidadeMedida = unidadeMedida; }
+
     public LocalDate getValidadeProduto() { return validadeProduto; }
 
     public void setValidadeProduto(LocalDate validadeProduto) { this.validadeProduto = validadeProduto; }
 
     @Override
     public String toString() {
-        return"Linha Categoria{"+
+        return"Produto{"+
                 "ID:"+id +
                 "Codigo Produto: "+ codProduto +'\''+
                 ", Nome Produto:'"+ nomeProduto +'\''+
@@ -82,6 +89,7 @@ public class Produto {
                 ", Linha da Categoria Id:'"+ linhaCategoriaId +'\''+
                 ", Unidades por caixa:'"+ unidadesCaixa +'\''+
                 ", Peso Unitário:'"+ pesoUnitario +'\''+
+                ", Unidade de medida:'"+ unidadeMedida +'\''+
                 ", Validade do :'"+ validadeProduto +'\''+
                 '}';
     }
