@@ -276,15 +276,6 @@ public class ProdutoService {
 
                     String[] produtoColuna = produto[0].replaceAll("\"", "").split(";");
 
-                    //    Optional<Produto> produtoExistente = iProdutoRepository.findByCodProduto(produtoColuna[0]);
-
-                    //   if (produtoExistente.isPresent()) {
-                    //       continue;
-                    //  }
-                    //   if (!(produtoExistente.get().getLinhaCategoriaId().getCategoriaId().getFornecedorId().equals(id))){
-                    //        continue;
-                    //  }
-
                     Optional<Categoria> categoriaExistente = iCategoriaRepositoy.findByCodigoCategoria(produtoColuna[8]);
 
 
@@ -322,30 +313,26 @@ public class ProdutoService {
                     Optional<Produto> produtoExistente = iProdutoRepository.findByCodProduto(produtoColuna[0]);
 
                     if (produtoExistente.isPresent()) {
-
-                    Produto produtoImport = new Produto();
-                    produtoImport.setCodProduto(produtoColuna[0]);
-                    produtoImport.setNomeProduto(produtoColuna[1]);
-                    produtoImport.setPrecoProduto(Double.parseDouble(produtoColuna[2].substring(3)));
-                    produtoImport.setUnidadesCaixa(Integer.parseInt(produtoColuna[3]));
-                    produtoImport.setUnidadeMedida(produtoColuna[4].replaceAll("\\d", "").replace(".", ""));
-                    produtoImport.setPesoUnitario(Double.parseDouble(produtoColuna[4].replaceAll("k", "").replaceAll("g", "").replaceAll("m", "")));
-                    produtoImport.setValidadeProduto(LocalDate.parse(produtoColuna[5].replaceAll("/", "-"), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-                    LinhaCategoria linhaCategoria = new LinhaCategoria();
-                    linhaCategoria = LinhaCategoriaService.findByCodLinhaCategoria(produtoColuna[6]);
-
-                    produtoImport.setLinhaCategoriaId(linhaCategoria);
-                    saveLista.add(produtoImport);
-
-                    }
-
-                    if (produtoExistente.isPresent()) {
+                        LOGGER.info("Atualizado Produto: [{}]", produtoExistente.get().getCodProduto());
                         Produto produtoImport = produtoExistente.get();
                         LinhaCategoria linhaCategoria = new LinhaCategoria();
                         linhaCategoria = LinhaCategoriaService.findByCodLinhaCategoria(produtoColuna[6]);
                         produtoImport.setLinhaCategoriaId(linhaCategoria);
                         saveLista.add(produtoImport);
+                    } else {
+                        Produto produtoImport = new Produto();
+                        produtoImport.setCodProduto(produtoColuna[0]);
+                        produtoImport.setNomeProduto(produtoColuna[1]);
+                        produtoImport.setPrecoProduto(Double.parseDouble(produtoColuna[2].substring(3)));
+                        produtoImport.setUnidadesCaixa(Integer.parseInt(produtoColuna[3]));
+                        produtoImport.setUnidadeMedida(produtoColuna[4].replaceAll("\\d", "").replace(".", ""));
+                        produtoImport.setPesoUnitario(Double.parseDouble(produtoColuna[4].replaceAll("k", "").replaceAll("g", "").replaceAll("m", "")));
+                        produtoImport.setValidadeProduto(LocalDate.parse(produtoColuna[5].replaceAll("/", "-"), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+                        LinhaCategoria linhaCategoria = new LinhaCategoria();
+                        linhaCategoria = LinhaCategoriaService.findByCodLinhaCategoria(produtoColuna[6]);
 
+                        produtoImport.setLinhaCategoriaId(linhaCategoria);
+                        saveLista.add(produtoImport);
                     }
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
