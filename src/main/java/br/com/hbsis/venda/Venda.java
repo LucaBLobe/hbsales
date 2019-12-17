@@ -8,8 +8,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "cad_vendas")
-public class Vendas {
+@Table(name = "cad_venda")
+public class Venda {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,17 +24,17 @@ public class Vendas {
     private LocalDate fimVendas;
 
     @ManyToOne
-    @JoinColumn(name = "fornecedor_Id", referencedColumnName = "id")
+    @JoinColumn(name = "fornecedor_id", referencedColumnName = "id")
     private Fornecedor fornecedorId;
 
     @Column(name = "Retirada_pedido", nullable = false, length = 8)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate RetiradaPedido;
+    private LocalDate retiradaPedido;
 
     @Column(name = "Descricao", nullable = false, length = 50)
     private String descricao;
 
-    public Vendas(){
+    public Venda(){
 
     }
 
@@ -58,24 +58,18 @@ public class Vendas {
         return fimVendas;
     }
 
-    public void setFimVendas(LocalDate fimVendas) {
-        this.fimVendas = fimVendas;
-    }
+    public void setFimVendas(LocalDate fimVendas) { this.fimVendas = fimVendas; }
 
-    public Fornecedor getFornecedorId() {
-        return fornecedorId;
-    }
+    public Fornecedor getFornecedorId() {        return fornecedorId; }
 
-    public void setFornecedorId(Fornecedor fornecedorId) {
-        this.fornecedorId = fornecedorId;
-    }
+    public void setFornecedorId(Fornecedor fornecedorId) { this.fornecedorId = fornecedorId; }
 
     public LocalDate getRetiradaPedido() {
-        return RetiradaPedido;
+        return retiradaPedido;
     }
 
     public void setRetiradaPedido(LocalDate retiradaPedido) {
-        RetiradaPedido = retiradaPedido;
+        retiradaPedido = retiradaPedido;
     }
 
     public String getDescricao() {
@@ -85,13 +79,16 @@ public class Vendas {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
     @Override
     public String toString() {
         return "Produto{" +
                 "ID:" + id +
-                "Codigo Categoria= " + ''codigoCategoria + '\'' +
+                "Inicio Vendas= " + inicioVendas + '\'' +
+                "Fim Vendas= " + fimVendas + '\'' +
                 ", Fornecedor Id='" + fornecedorId + '\'' +
-                ", Nome Categoria ='" + nomeCategoria + '\'' +
+                ", Retirada Pedidos ='" + retiradaPedido + '\'' +
+                ", Descrição ='" + descricao + '\'' +
                 '}';
     }
 

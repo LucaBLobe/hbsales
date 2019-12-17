@@ -1,6 +1,5 @@
 package br.com.hbsis.produto;
 
-import br.com.hbsis.linhaCategoria.LinhaCategoria;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
