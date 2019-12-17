@@ -27,11 +27,11 @@ public class Venda {
     @JoinColumn(name = "fornecedor_id", referencedColumnName = "id")
     private Fornecedor fornecedorId;
 
-    @Column(name = "Retirada_pedido", nullable = false, length = 8)
+    @Column(name = "retirada_pedido", nullable = false, length = 8)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate retiradaPedido;
 
-    @Column(name = "Descricao", nullable = false, length = 50)
+    @Column(name = "descricao", nullable = false, length = 50)
     private String descricao;
 
     public Venda(){
@@ -60,7 +60,7 @@ public class Venda {
 
     public void setFimVendas(LocalDate fimVendas) { this.fimVendas = fimVendas; }
 
-    public Fornecedor getFornecedorId() {        return fornecedorId; }
+    public Fornecedor getFornecedorId() {  return fornecedorId; }
 
     public void setFornecedorId(Fornecedor fornecedorId) { this.fornecedorId = fornecedorId; }
 
