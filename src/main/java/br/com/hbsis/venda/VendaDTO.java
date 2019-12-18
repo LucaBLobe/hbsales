@@ -31,9 +31,9 @@ public class VendaDTO {
 
     public void setInicioVendas(LocalDate inicioVendas) { this.inicioVendas = inicioVendas; }
 
-    public LocalDate getFimVrendas() { return fimVendas; }
+    public LocalDate getFimVendas() { return fimVendas; }
 
-    public void setFimVrendas(LocalDate fimVrendas) { this.fimVendas = fimVrendas; }
+    public void setFimVendas(LocalDate fimVrendas) { this.fimVendas = fimVrendas; }
 
     public Long getFornecedorId() { return fornecedorId; }
 

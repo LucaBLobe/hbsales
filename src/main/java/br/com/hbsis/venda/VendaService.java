@@ -2,7 +2,9 @@ package br.com.hbsis.venda;
 
 
 import br.com.hbsis.fornecedor.Fornecedor;
+import br.com.hbsis.fornecedor.FornecedorDTO;
 import br.com.hbsis.fornecedor.FornecedorService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,19 +26,48 @@ public class VendaService {
 
 
     public VendaDTO save(VendaDTO vendaDTO) {
-
+        this.validate(vendaDTO);
         LOGGER.info("Salvando Periodo de vendas");
         LOGGER.debug("Venda: {}", vendaDTO.getId());
 
         Venda venda = new Venda();
         venda.setInicioVendas(vendaDTO.getInicioVendas());
-        venda.setFimVendas(vendaDTO.getFimVrendas());
+        venda.setFimVendas(vendaDTO.getFimVendas());
         venda.setFornecedorId(fornecedorService.findFornecedorById(vendaDTO.getFornecedorId()));
         venda.setRetiradaPedido(vendaDTO.getRetiradaPedido());
         venda.setDescricao(vendaDTO.getDescricao());
 
 
         return vendaDTO.of(venda);
+    }
+
+    private void validate(VendaDTO vendaDTO) {
+        LOGGER.info("Validando Fornecedor");
+
+        if (vendaDTO == null) {
+            throw new IllegalArgumentException("VendaDTO não deve ser nulo");
+        }
+        if (StringUtils.isEmpty(String.valueOf(vendaDTO.getInicioVendas().isAfter(vendaDTO.getFimVendas())))) {
+            throw new IllegalArgumentException("Data inicio não pode ser posterior a data final de vendas.");
+        }
+        if (StringUtils.isEmpty(String.valueOf(vendaDTO.getInicioVendas().isAfter(vendaDTO.getRetiradaPedido())))) {
+            throw new IllegalArgumentException("Data inicio não pode ser posterior a data de retirada.");
+        }
+        if (StringUtils.isEmpty(String.valueOf(vendaDTO.getFimVendas().isAfter(vendaDTO.getRetiradaPedido())))) {
+            throw new IllegalArgumentException("Data fim de vendas não pode ser posterior a data de retirada.");
+        }
+        if (StringUtils.isEmpty(vendaDTO.getInicioVendas())) {
+            throw new IllegalArgumentException("Nome Fantasia não deve ser nula/vazia");
+        }
+        if (StringUtils.isEmpty(fornecedorDTO.getEndereco())) {
+            throw new IllegalArgumentException("Endereço não deve ser nula/vazia");
+        }
+        if (StringUtils.isEmpty(fornecedorDTO.getCnpj())) {
+            throw new IllegalArgumentException("CNPJ não deve ser nula/vazia");
+        }
+
+
+
     }
 
     public VendaDTO findById(Long id) {
