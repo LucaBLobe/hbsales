@@ -15,7 +15,7 @@ public class VendaRest {
     private VendaService vendaService;
 
     @Autowired
-    public VendaRest(VendaRest vendaRest) {
+    public VendaRest(VendaService vendaService) {
         this.vendaService = vendaService;
     }
     @PostMapping

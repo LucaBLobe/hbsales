@@ -5,6 +5,6 @@ create table cad_venda
     fim_vendas         DATE                  NOT NULL,
     retirada_pedido    DATE                  NOT NULL,
     descricao       VARCHAR(50)              NOT NULL,
-    fornecedor_id BIGINT                     NOT NULL,
+    fornecedor_Id BIGINT                     NOT NULL,
     FOREIGN KEY (fornecedor_Id) REFERENCES cad_fornecedor (id)
 );
