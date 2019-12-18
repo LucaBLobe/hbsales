@@ -1,8 +1,6 @@
 package br.com.hbsis.venda;
 
 
-import br.com.hbsis.fornecedor.Fornecedor;
-import br.com.hbsis.fornecedor.FornecedorDTO;
 import br.com.hbsis.fornecedor.FornecedorService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -20,8 +18,9 @@ public class VendaService {
     private final FornecedorService fornecedorService;
     private IVendaRepository iVendaRepository;
 
-    public VendaService(FornecedorService fornecedorService) {
+    public VendaService(FornecedorService fornecedorService, IVendaRepository iVendaRepository) {
         this.fornecedorService = fornecedorService;
+        this.iVendaRepository = iVendaRepository;
     }
 
 
@@ -47,7 +46,7 @@ public class VendaService {
         if (vendaDTO == null) {
             throw new IllegalArgumentException("VendaDTO não deve ser nulo");
         }
-        if (StringUtils.isEmpty(String.valueOf(vendaDTO.getInicioVendas().isAfter(vendaDTO.getFimVendas())))) {
+        if (vendaDTO.getInicioVendas().isAfter(vendaDTO.getFimVendas())) {
             throw new IllegalArgumentException("Data inicio não pode ser posterior a data final de vendas.");
         }
         if (StringUtils.isEmpty(String.valueOf(vendaDTO.getInicioVendas().isAfter(vendaDTO.getRetiradaPedido())))) {
@@ -56,7 +55,8 @@ public class VendaService {
         if (StringUtils.isEmpty(String.valueOf(vendaDTO.getFimVendas().isAfter(vendaDTO.getRetiradaPedido())))) {
             throw new IllegalArgumentException("Data fim de vendas não pode ser posterior a data de retirada.");
         }
-        if (StringUtils.isEmpty(vendaDTO.getInicioVendas())) {
+        if (StringUtils.isEmpty(fornecedorService.findFornecedorById(vendaDTO.getFornecedorId())(vendaDTO.getFornecedorId()))) {
+
             throw new IllegalArgumentException("Nome Fantasia não deve ser nula/vazia");
         }
         if (StringUtils.isEmpty(fornecedorDTO.getEndereco())) {
@@ -96,7 +96,7 @@ public class VendaService {
 
             Venda venda = new Venda();
             venda.setInicioVendas(vendaDTO.getInicioVendas());
-            venda.setFimVendas(vendaDTO.getFimVrendas());
+            venda.setFimVendas(vendaDTO.getFimVendas());
             venda.setFornecedorId(fornecedorService.findFornecedorById(vendaDTO.getFornecedorId()));
             venda.setRetiradaPedido(vendaDTO.getRetiradaPedido());
             venda.setDescricao(vendaDTO.getDescricao());
