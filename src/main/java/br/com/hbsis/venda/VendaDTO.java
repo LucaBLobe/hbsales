@@ -23,31 +23,6 @@ public class VendaDTO {
         this.descricao = descricao;
     }
 
-    public Long getId() {        return id; }
-
-    public void setId(Long id) { this.id = id; }
-
-    public LocalDate getInicioVendas() { return inicioVendas; }
-
-    public void setInicioVendas(LocalDate inicioVendas) { this.inicioVendas = inicioVendas; }
-
-    public LocalDate getFimVendas() { return fimVendas; }
-
-    public void setFimVendas(LocalDate fimVrendas) { this.fimVendas = fimVrendas; }
-
-    public Long getFornecedorId() { return fornecedorId; }
-
-    public void setFornecedorId(Long fornecedorId) { this.fornecedorId = fornecedorId; }
-
-    public LocalDate getRetiradaPedido() { return retiradaPedido; }
-
-    public void setRetiradaPedido(LocalDate retiradaPedido) {
-        this.retiradaPedido = retiradaPedido; }
-
-    public String getDescricao() { return descricao; }
-
-    public void setDescricao(String descricao) { this.descricao = descricao; }
-
     public static VendaDTO of(Venda venda){
 
         return new VendaDTO(
@@ -59,6 +34,32 @@ public class VendaDTO {
                 venda.getDescricao()
         );
     }
+
+    public Long getId() {   return id; }
+
+    public void setId(Long id) { this.id = id; }
+
+    public LocalDate getInicioVendas() { return inicioVendas; }
+
+    public void setInicioVendas(LocalDate inicioVendas) { this.inicioVendas = inicioVendas; }
+
+    public LocalDate getFimVendas() { return fimVendas; }
+
+    public void setFimVendas(LocalDate fimVendas) { this.fimVendas = fimVendas; }
+
+    public Long getFornecedorId() { return fornecedorId; }
+
+    public void setFornecedorId(Long fornecedorId) { this.fornecedorId = fornecedorId; }
+
+    public LocalDate getRetiradaPedido() { return retiradaPedido; }
+
+    public void setRetiradaPedido(LocalDate retiradaPedido) { this.retiradaPedido = retiradaPedido; }
+
+    public String getDescricao() { return descricao; }
+
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+
+
     @Override
     public String toString() {
         return "Produto{" +

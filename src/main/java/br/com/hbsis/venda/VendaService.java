@@ -36,8 +36,11 @@ public class VendaService {
         venda.setRetiradaPedido(vendaDTO.getRetiradaPedido());
         venda.setDescricao(vendaDTO.getDescricao());
 
+        venda = this.iVendaRepository.save(venda);
 
         return vendaDTO.of(venda);
+
+
     }
 
     private void validate(VendaDTO vendaDTO) {
@@ -55,16 +58,16 @@ public class VendaService {
         if (StringUtils.isEmpty(String.valueOf(vendaDTO.getFimVendas().isAfter(vendaDTO.getRetiradaPedido())))) {
             throw new IllegalArgumentException("Data fim de vendas não pode ser posterior a data de retirada.");
         }
-        if (StringUtils.isEmpty(fornecedorService.findFornecedorById(vendaDTO.getFornecedorId())(vendaDTO.getFornecedorId()))) {
-
-            throw new IllegalArgumentException("Nome Fantasia não deve ser nula/vazia");
-        }
-        if (StringUtils.isEmpty(fornecedorDTO.getEndereco())) {
-            throw new IllegalArgumentException("Endereço não deve ser nula/vazia");
-        }
-        if (StringUtils.isEmpty(fornecedorDTO.getCnpj())) {
-            throw new IllegalArgumentException("CNPJ não deve ser nula/vazia");
-        }
+      //  if (StringUtils.isEmpty(fornecedorService.findFornecedorById(vendaDTO.getFornecedorId())(vendaDTO.getFornecedorId()))) {
+//
+       //     throw new IllegalArgumentException("Nome Fantasia não deve ser nula/vazia");
+       // }
+      //  if (StringUtils.isEmpty(fornecedorDTO.getEndereco())) {
+     //       throw new IllegalArgumentException("Endereço não deve ser nula/vazia");
+      //  }
+      //  if (StringUtils.isEmpty(fornecedorDTO.getCnpj())) {
+     //       throw new IllegalArgumentException("CNPJ não deve ser nula/vazia");
+      //  }
 
 
 

@@ -68,9 +68,7 @@ public class Venda {
         return retiradaPedido;
     }
 
-    public void setRetiradaPedido(LocalDate retiradaPedido) {
-        retiradaPedido = retiradaPedido;
-    }
+    public void setRetiradaPedido(LocalDate retiradaPedido) { this.retiradaPedido = retiradaPedido; }
 
     public String getDescricao() {
         return descricao;
