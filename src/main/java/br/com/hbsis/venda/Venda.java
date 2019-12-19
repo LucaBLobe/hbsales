@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "cad_venda")
@@ -90,4 +91,16 @@ public class Venda {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Venda venda = (Venda) o;
+        return Objects.equals(id, venda.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, inicioVendas, fimVendas, fornecedorId, retiradaPedido, descricao);
+    }
 }

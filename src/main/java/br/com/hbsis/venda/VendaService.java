@@ -43,8 +43,17 @@ public class VendaService {
 
     }
 
+    public Venda findFornecedorById(Long fornecedorId) {
+        Optional<Venda> vendaOptional = this.iVendaRepository.findFornecedorById(fornecedorId);
+        if (vendaOptional.isPresent()) {
+            return vendaOptional.get();
+        }
+        throw new IllegalArgumentException(String.format("ID %s não esxiste", fornecedorId));
+
+    }
+
     private void validate(VendaDTO vendaDTO) {
-        LOGGER.info("Validando Fornecedor");
+        LOGGER.info("Validando vendas");
 
         if (vendaDTO == null) {
             throw new IllegalArgumentException("VendaDTO não deve ser nulo");
@@ -58,20 +67,28 @@ public class VendaService {
         if (StringUtils.isEmpty(String.valueOf(vendaDTO.getFimVendas().isAfter(vendaDTO.getRetiradaPedido())))) {
             throw new IllegalArgumentException("Data fim de vendas não pode ser posterior a data de retirada.");
         }
-      //  if (StringUtils.isEmpty(fornecedorService.findFornecedorById(vendaDTO.getFornecedorId())(vendaDTO.getFornecedorId()))) {
-//
-       //     throw new IllegalArgumentException("Nome Fantasia não deve ser nula/vazia");
-       // }
-      //  if (StringUtils.isEmpty(fornecedorDTO.getEndereco())) {
-     //       throw new IllegalArgumentException("Endereço não deve ser nula/vazia");
-      //  }
-      //  if (StringUtils.isEmpty(fornecedorDTO.getCnpj())) {
-     //       throw new IllegalArgumentException("CNPJ não deve ser nula/vazia");
-      //  }
 
 
+        List<Venda> listaExistente = iVendaRepository.findAll();
+        for (Venda venda : listaExistente) {
+            LOGGER.info(venda.getFornecedorId().toString());
+            LOGGER.info(venda.getInicioVendas().toString());
+            LOGGER.info(venda.getFimVendas().toString());
+            LOGGER.info(vendaDTO.getFornecedorId().toString());
+            if (venda.getFornecedorId().getId().equals(vendaDTO.getFornecedorId())) {
+                if (!(vendaDTO.getInicioVendas().isBefore(venda.getInicioVendas()) && vendaDTO.getFimVendas().isBefore(venda.getInicioVendas())) && !(vendaDTO.getInicioVendas().isAfter(venda.getFimVendas()) && vendaDTO.getFimVendas().isAfter(venda.getFimVendas()))) {
+                    throw new IllegalArgumentException("Periodo invalido para cadastrar Periodo para fornecedor");
+                } else {
+                    continue;
+                }
+            } else {
+                continue;
+            }
+
+        }
 
     }
+
 
     public VendaDTO findById(Long id) {
         Optional<Venda> vendaOptional = this.iVendaRepository.findById(id);
