@@ -58,10 +58,25 @@ public class VendaService {
         if (vendaDTO == null) {
             throw new IllegalArgumentException("VendaDTO não deve ser nulo");
         }
+        if (StringUtils.isEmpty(vendaDTO.getInicioVendas().toString())) {
+            throw new IllegalArgumentException("Inicio vendas não deve ser nula/vazia");
+        }
+        if (StringUtils.isEmpty(vendaDTO.getFimVendas().toString())) {
+            throw new IllegalArgumentException("Fim vendas não deve ser nula/vazia");
+        }
+        if (StringUtils.isEmpty(vendaDTO.getRetiradaPedido().toString())) {
+            throw new IllegalArgumentException("Retirada pedido não deve ser nula/vazia");
+        }
+        if (StringUtils.isEmpty(vendaDTO.getFornecedorId().toString())) {
+            throw new IllegalArgumentException("fornecedor Id não deve ser nula/vazia");
+        }
+        if (StringUtils.isEmpty(vendaDTO.getDescricao())) {
+            throw new IllegalArgumentException("Descrição não deve ser nula/vazia");
+        }
         if (vendaDTO.getInicioVendas().isAfter(vendaDTO.getFimVendas())) {
             throw new IllegalArgumentException("Data inicio não pode ser posterior a data final de vendas.");
         }
-        if (StringUtils.isEmpty(String.valueOf(vendaDTO.getInicioVendas().isAfter(vendaDTO.getRetiradaPedido())))) {
+        if (vendaDTO.getInicioVendas().isAfter(vendaDTO.getRetiradaPedido())) {
             throw new IllegalArgumentException("Data inicio não pode ser posterior a data de retirada.");
         }
         if (StringUtils.isEmpty(String.valueOf(vendaDTO.getFimVendas().isAfter(vendaDTO.getRetiradaPedido())))) {
