@@ -22,9 +22,7 @@ public class ProdutoRest {
     private ProdutoService produtoService;
 
     @Autowired
-    public ProdutoRest(ProdutoService produtoService) {
-        this.produtoService = produtoService;
-    }
+    public ProdutoRest(ProdutoService produtoService) { this.produtoService = produtoService; }
     @PostMapping
     public ProdutoDTO save(@RequestBody ProdutoDTO produtoDTO) {
         LOGGER.info("Resebendo Solicitação de persistencia de categoria...");
@@ -47,26 +45,25 @@ public class ProdutoRest {
     }
     @PutMapping("/{id}")
     public ProdutoDTO update(@PathVariable("id") Long id, @RequestBody ProdutoDTO produtoDTO) {
-        LOGGER.info("Recebendo Upadate para linha de categoria de ID: {}", id);
+        LOGGER.info("Recebendo Upadate para produto de ID: {}", id);
         LOGGER.debug("Payload {}", produtoDTO);
 
         return this.produtoService.update(produtoDTO, id);
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
-        LOGGER.info("Recebendo Delete para linha de categoria de ID: {}", id);
+        LOGGER.info("Recebendo Delete para produto de ID: {}", id);
         this.produtoService.delete(id);
     }
 
     @RequestMapping(value = "/export_csv")
     public void downloadCSV(HttpServletResponse response) throws IOException, ParseException {
-        LOGGER.info("Recebendo Delete para linha de categoria de ID: {}", response);
+        LOGGER.info("Recebendo Delete para produto de ID: {}", response);
         this.produtoService.exportCsv(response);
-
     }
     @PostMapping("/import_csv")
     public void importCsv(@RequestParam("file") MultipartFile file) throws IOException, CsvException {
-        LOGGER.info("Recebendo Arquivo CSV para linha de ategoria de ID: {}", file);
+        LOGGER.info("Recebendo Arquivo CSV para produto de ID: {}", file);
         produtoService.importCsv(file);
     }
     @PutMapping("/import_por_fornecedor/{id}")
@@ -74,6 +71,4 @@ public class ProdutoRest {
         LOGGER.info("Recebendo Arquivo CSV produtos com base no fornecedor: {}", file, id);
         produtoService.importFornecedor(file, id);
     }
-
-
 }
