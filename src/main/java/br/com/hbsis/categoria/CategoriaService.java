@@ -46,7 +46,7 @@ public class CategoriaService {
         LOGGER.info("Salvando categoria");
         LOGGER.debug("Categoria: {}", categoriaDTO.getFornecedorId());
 
-        FornecedorDTO fornecedorDTO = new FornecedorDTO();
+
         Categoria categoria = new Categoria();
         categoria.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
         String categoriaDigito = StringUtils.leftPad(categoriaDTO.getCodigoCategoria(), 3, "0");
@@ -161,8 +161,8 @@ public class CategoriaService {
                 Categoria categoriaImport = new Categoria();
                 categoriaImport.setCodigoCategoria(colunaCategoria[0]);
                 categoriaImport.setNomeCategoria(colunaCategoria[1]);
-                Fornecedor fornecedor = new Fornecedor();
-                fornecedor = fornecedorService.findByCnpj(colunaCategoria[3].replaceAll("\\D", ""));
+
+                Fornecedor fornecedor = fornecedorService.findByCnpj(colunaCategoria[3].replaceAll("\\D", ""));
                 categoriaImport.setFornecedorId(fornecedor);
 
                 saveLista.add(categoriaImport);
