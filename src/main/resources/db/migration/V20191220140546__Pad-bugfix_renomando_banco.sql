@@ -1,0 +1,1 @@
+sp_rename 'cad_fornecedor.Email', 'email', 'COLUMN';
