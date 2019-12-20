@@ -49,18 +49,10 @@ public class CategoriaService {
         FornecedorDTO fornecedorDTO = new FornecedorDTO();
         Categoria categoria = new Categoria();
         categoria.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
-        String categoriaDigito;
-        if (categoriaDTO.getCodigoCategoria().length() == 3) {
-            categoriaDigito = categoriaDTO.getCodigoCategoria();
-        } else if (categoriaDTO.getCodigoCategoria().length() == 2) {
-            categoriaDigito = "0" + categoriaDTO.getCodigoCategoria();
-        } else if (categoriaDTO.getCodigoCategoria().length() == 1) {
-            categoriaDigito = "00" + categoriaDTO.getCodigoCategoria();
-        } else {
-            throw new IllegalArgumentException("Nome da categoria não deve ser nulo");
-        }
-
-        categoria.setCodigoCategoria("CAT" + categoria.getFornecedorId().getCnpj().substring(10) + categoriaDigito);
+        String categoriaDigito = StringUtils.leftPad(categoriaDTO.getCodigoCategoria(), 3, "0");
+        String codigoFormatado;
+        codigoFormatado = "CAT" + categoria.getFornecedorId().getCnpj().substring(10) + categoriaDigito;
+        categoria.setCodigoCategoria(codigoFormatado);
         categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
 
@@ -86,6 +78,7 @@ public class CategoriaService {
 
 
     }
+
 
     public CategoriaDTO findById(Long id) {
         Optional<Categoria> categoriaOptional = this.iCategoriaRepositoy.findById(id);
@@ -121,20 +114,10 @@ public class CategoriaService {
             LOGGER.debug("Categoria Existente: {}", categoriaExistente);
 
             categoriaExistente.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
-            String categoriaDigito;
-            if (categoriaDTO.getCodigoCategoria().length() == 3) {
-                categoriaDigito = categoriaDTO.getCodigoCategoria();
-            }
-            if (categoriaDTO.getCodigoCategoria().length() == 2) {
-                categoriaDigito = "0" + categoriaDTO.getCodigoCategoria();
-            }
-            if (categoriaDTO.getCodigoCategoria().length() == 1) {
-                categoriaDigito = "00" + categoriaDTO.getCodigoCategoria();
-            } else {
-                throw new IllegalArgumentException("Nome da categoria não deve ser nulo");
-            }
-
-            categoriaExistente.setCodigoCategoria("CAT" + categoriaExistente.getFornecedorId().getCnpj().substring(10) + categoriaDigito);
+            String categoriaDigito = StringUtils.leftPad(categoriaDTO.getCodigoCategoria(), 3, "0");
+            String codigoFormatado;
+            codigoFormatado = "CAT" + categoriaExistente.getFornecedorId().getCnpj().substring(10) + categoriaDigito;
+            categoriaExistente.setCodigoCategoria(codigoFormatado);
             categoriaExistente.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
             categoriaExistente = this.iCategoriaRepositoy.save(categoriaExistente);
