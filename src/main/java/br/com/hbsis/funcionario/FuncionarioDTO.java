@@ -34,7 +34,7 @@ public class FuncionarioDTO {
         return nomeFuncionario;
     }
 
-    public void setNomeFuncionario(String nomeFuncionario) { nomeFuncionario = nomeFuncionario; }
+    public void setNomeFuncionario(String nomeFuncionario) { this.nomeFuncionario = nomeFuncionario; }
 
     public String getEmail() { return email; }
 

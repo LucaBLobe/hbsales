@@ -1,7 +1,5 @@
 package br.com.hbsis.produto;
 
-import br.com.hbsis.linhaCategoria.LinhaCategoriaDTO;
-
 import java.time.LocalDate;
 
 public class ProdutoDTO {
