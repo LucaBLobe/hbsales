@@ -75,7 +75,7 @@ public class FornecedorService {
 
             throw new IllegalArgumentException("Telefone de contato deve ser numero de celular.");
         }
-        if (fornecedorDTO.getTelefoneContato().length() != 14) {
+        if (fornecedorDTO.getTelefoneContato().length() > 14) {
             throw new IllegalArgumentException("Telefone com numerção incorreta");
         }
 

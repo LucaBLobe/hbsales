@@ -1,0 +1,1 @@
+sp_rename 'cad_categoria.fornecedor_Id', 'fornecedor_id', 'COLUMN';
