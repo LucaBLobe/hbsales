@@ -14,8 +14,11 @@ public class FuncionarioService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FuncionarioService.class);
 
     private final IFuncionarioRepository iFuncionarioRepository;
+    private final EmployeeSavingDTO employeeSavingDTO;
 
-    public FuncionarioService(IFuncionarioRepository iFuncionarioRepository) { this.iFuncionarioRepository = iFuncionarioRepository; }
+    public FuncionarioService(IFuncionarioRepository iFuncionarioRepository, EmployeeSavingDTO employeeSavingDTO) { this.iFuncionarioRepository = iFuncionarioRepository;
+        this.employeeSavingDTO = employeeSavingDTO;
+    }
 
     public FuncionarioDTO save(FuncionarioDTO funcionarioDTO) {
 
@@ -27,7 +30,7 @@ public class FuncionarioService {
         Funcionario funcionario = new Funcionario();
         funcionario.setNomeFuncionario(funcionarioDTO.getNomeFuncionario());
         funcionario.setEmail(funcionarioDTO.getEmail());
-        funcionario.setUuid(funcionarioDTO.getUuid());
+        funcionario.setUuid(employeeSavingDTO.getEmployeeUuid());
 
         funcionario = this.iFuncionarioRepository.save(funcionario);
 
