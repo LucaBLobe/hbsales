@@ -5,9 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+
 @SpringBootApplication
 public class HbsalesApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(HbsalesApplication.class, args);
 	}
