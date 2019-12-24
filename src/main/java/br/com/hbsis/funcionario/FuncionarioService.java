@@ -41,7 +41,7 @@ public class FuncionarioService {
         Funcionario funcionario = new Funcionario();
         funcionario.setNomeFuncionario(funcionarioDTO.getNome());
         funcionario.setEmail(funcionarioDTO.getEmail());
-        funcionario.setUuid(UUID.randomUUID().toString());
+        funcionario.setUuid(funcionarioDTO.getUuid());
 
 
 
