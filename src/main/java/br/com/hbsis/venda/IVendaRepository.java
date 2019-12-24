@@ -12,5 +12,7 @@ public interface IVendaRepository extends JpaRepository<Venda, Long> {
 
     Optional<Venda> findFornecedorById(Long fornecedorId);
 
+ //  @Query("SELECT u FROM User u WHERE u.status = 1")
+ //   Collection<Venda> findAllActiveUsers();
 
 }
