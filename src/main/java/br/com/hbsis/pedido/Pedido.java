@@ -19,7 +19,7 @@ public class Pedido {
     @Column(name = "cod_pedido", unique = true, nullable = false, length = 10)
     private String codPedido;
 
-    @Column(name = "status", unique = true, nullable = false, length = 200)
+    @Column(name = "status", unique = true, nullable = false, length = 25)
     private StatusPedido status;
 
     @ManyToOne
@@ -76,7 +76,7 @@ public class Pedido {
         return criacaoPedido;
     }
 
-    public void setCriacaoProduto(LocalDate criacaoPedido) {
+    public void setCriacaoPedido(LocalDate criacaoPedido) {
         this.criacaoPedido = criacaoPedido;
     }
 

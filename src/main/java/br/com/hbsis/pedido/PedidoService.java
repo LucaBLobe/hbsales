@@ -26,7 +26,8 @@ public class PedidoService {
         Pedido pedido = new Pedido();
         pedido.setCodPedido(pedidoDTO.getCodPedido());
         pedido.setFornecedorId(fornecedorService.findFornecedorById(pedidoDTO.getFornecedorId()));
-        pedido.setCriacaoProduto(LocalDate.now());
+        pedido.setCriacaoPedido(LocalDate.now());
+        pedido.setStatus(StatusPedido.ATIVO);
 
         pedido = this.iPedidoRepository.save(pedido);
         return pedidoDTO.of(pedido);
@@ -51,7 +52,7 @@ public class PedidoService {
 
             pedidoExistente.setCodPedido(pedidoDTO.getCodPedido());
             pedidoExistente.setFornecedorId(fornecedorService.findFornecedorById(pedidoDTO.getFornecedorId()));
-            pedidoExistente.setCriacaoProduto(LocalDate.now());
+            pedidoExistente.setCriacaoPedido(LocalDate.now());
 
             pedidoExistente = this.iPedidoRepository.save(pedidoExistente);
             return pedidoDTO.of(pedidoExistente);
