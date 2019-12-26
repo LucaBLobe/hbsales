@@ -16,7 +16,7 @@ public class Pedido {
     private String codPedido;
 
     @Column(name = "status", unique = true, nullable = false, length = 200)
-    private String status;
+    private StatusPedido status;
 
 
 
