@@ -12,7 +12,6 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(name = "cod_pedido", unique = true, nullable = false, length = 10)
     private String codPedido;
 
