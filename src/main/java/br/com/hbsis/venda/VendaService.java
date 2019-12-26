@@ -16,7 +16,7 @@ public class VendaService {
     private static final Logger LOGGER = LoggerFactory.getLogger(br.com.hbsis.venda.VendaService.class);
 
     private final FornecedorService fornecedorService;
-    private IVendaRepository iVendaRepository;
+    private final IVendaRepository iVendaRepository;
 
     public VendaService(FornecedorService fornecedorService, IVendaRepository iVendaRepository) {
         this.fornecedorService = fornecedorService;
@@ -39,7 +39,6 @@ public class VendaService {
         venda = this.iVendaRepository.save(venda);
 
         return vendaDTO.of(venda);
-
 
     }
 
@@ -129,18 +128,16 @@ public class VendaService {
         if (vendaExistenteOptional.isPresent()) {
             Venda vendaExistente = vendaExistenteOptional.get();
 
-            Venda venda = new Venda();
-            venda.setInicioVendas(vendaDTO.getInicioVendas());
-            venda.setFimVendas(vendaDTO.getFimVendas());
-            venda.setFornecedorId(fornecedorService.findFornecedorById(vendaDTO.getFornecedorId()));
-            venda.setRetiradaPedido(vendaDTO.getRetiradaPedido());
-            venda.setDescricao(vendaDTO.getDescricao());
+            vendaExistente.setInicioVendas(vendaDTO.getInicioVendas());
+            vendaExistente.setFimVendas(vendaDTO.getFimVendas());
+            vendaExistente.setFornecedorId(fornecedorService.findFornecedorById(vendaDTO.getFornecedorId()));
+            vendaExistente.setRetiradaPedido(vendaDTO.getRetiradaPedido());
+            vendaExistente.setDescricao(vendaDTO.getDescricao());
 
-            return vendaDTO;
+            return vendaDTO.of(vendaExistente);
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
-
     public void delete(Long id) {
         LOGGER.info("Executando delete para fornecedor de ID: [{}]", id);
         this.iVendaRepository.deleteById(id);
