@@ -19,8 +19,8 @@ public class PedidoRest {
     public PedidoRest(PedidoService pedidoService) {
         this.pedidoService = pedidoService;
     }
-    @PostMapping
-    public PedidoDTO save(@RequestBody PedidoDTO pedidoDTO) {
+    @PostMapping("/{id}")
+    public PedidoDTO save(@PathVariable("id") PedidoDTO pedidoDTO) {
         LOGGER.info("Resebendo Solicitação de persistencia do Pedido...");
         LOGGER.debug("Payload {}", pedidoDTO);
 

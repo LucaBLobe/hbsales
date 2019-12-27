@@ -39,7 +39,7 @@ public class CategoriaRest {
         return this.categoriaService.findById(id);
     }
 
-    @RequestMapping("/all")
+    @GetMapping
     public CategoriaDTO findAll() {
 
         LOGGER.info("Recebendp find by ID... id: [{}]");

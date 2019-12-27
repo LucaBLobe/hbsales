@@ -2,6 +2,7 @@ package br.com.hbsis.pedido;
 
 
 import br.com.hbsis.fornecedor.Fornecedor;
+import br.com.hbsis.produto.Produto;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -23,22 +24,29 @@ public class Pedido {
     private StatusPedido status;
 
     @ManyToOne
-    @JoinColumn(name = "fornecedor_Id", referencedColumnName = "id")
+    @JoinColumn(name = "produto_id", referencedColumnName = "id")
+    private Produto produtoId;
+
+    @ManyToOne
+    @JoinColumn(name = "fornecedor_id", referencedColumnName = "id")
     private Fornecedor fornecedorId;
 
     @Column(name = "criacao_pedido", nullable = false, length = 8)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate criacaoPedido;
 
+
     public Pedido() {
+
     }
 
-    public Pedido(Long id, String codPedido, StatusPedido status, Fornecedor fornecedorId, LocalDate criacaoPedido) {
+    public Pedido(Long id, String codPedido, StatusPedido status, Produto produtoId,  Fornecedor fornecedorId, LocalDate criacaoPedido) {
         this.id = id;
         this.codPedido = codPedido;
         this.status = status;
         this.fornecedorId = fornecedorId;
-        this.criacaoPedido = criacaoPedido;    }
+        this.produtoId = produtoId;
+        this.criacaoPedido = criacaoPedido;  }
 
     public Long getId() {
         return id;
@@ -68,13 +76,15 @@ public class Pedido {
         return fornecedorId;
     }
 
+    public Produto getProdutoId() { return produtoId; }
+
+    public void setProdutoId(Produto produtoId) { this.produtoId = produtoId; }
+
     public void setFornecedorId(Fornecedor fornecedorId) {
         this.fornecedorId = fornecedorId;
     }
 
-    public LocalDate getCriacaoPedido() {
-        return criacaoPedido;
-    }
+    public LocalDate getCriacaoPedido() { return criacaoPedido; }
 
     public void setCriacaoPedido(LocalDate criacaoPedido) {
         this.criacaoPedido = criacaoPedido;
@@ -87,6 +97,7 @@ public class Pedido {
                 "Codigo Pedido: "+ codPedido +'\''+
                 ", Status:'"+ status +'\''+
                 ", Criação Pedido:'"+ criacaoPedido +'\''+
+                ", Produto ID:'"+ produtoId +'\''+
                 ", Forncededor ID:'"+ fornecedorId +'\''+
                 '}';
     }

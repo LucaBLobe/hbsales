@@ -95,11 +95,7 @@ public class CategoriaService {
             return categoriaOptional.get();
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
-
-
     }
-
-
     public CategoriaDTO update(CategoriaDTO categoriaDTO, Long id) {
         Optional<Categoria> categoriaExistenteOptional = this.iCategoriaRepositoy.findById(id);
 
@@ -133,10 +129,13 @@ public class CategoriaService {
     }
 
 
-    public List<Categoria> findAll() {
+    public Categoria findAll() {
 
         List<Categoria> categoriaOptional = this.iCategoriaRepositoy.findAll();
-        return categoriaOptional;
+        for (int i=0; i<(categoriaOptional.size()-1); i++) {
+
+        }
+
     }
 
 

@@ -7,23 +7,24 @@ public class PedidoDTO {
     private Long id;
     private String codPedido;
     private StatusPedido status;
+    private Long produtoId;
     private Long fornecedorId;
     private LocalDate criacaoPedido;
 
     public PedidoDTO() {
     }
 
-    public PedidoDTO(Long id, String codPedido, StatusPedido status, Long fornecedorId, LocalDate criacaoPedido) {
+    public PedidoDTO(Long id, String codPedido, StatusPedido status, Long produtoId, Long fornecedorId, LocalDate criacaoPedido) {
         this.id = id;
         this.codPedido = codPedido;
         this.status = status;
+        this.produtoId = produtoId;
         this.fornecedorId = fornecedorId;
         this.criacaoPedido = criacaoPedido;
     }
 
     public static PedidoDTO of(Pedido pedido) {
         return new PedidoDTO(
-
 
         );
 
@@ -52,6 +53,10 @@ public class PedidoDTO {
     public void setStatus(StatusPedido status) {
         this.status = status;
     }
+
+    public Long getProdutoId() { return produtoId; }
+
+    public void setProdutoId(Long produtoId) { this.produtoId = produtoId; }
 
     public Long getFornecedorId() {
         return fornecedorId;
