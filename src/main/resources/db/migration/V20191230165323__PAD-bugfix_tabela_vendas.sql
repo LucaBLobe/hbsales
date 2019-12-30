@@ -1,0 +1,1 @@
+sp_rename 'cad_venda', 'cad_periodo_venda';
