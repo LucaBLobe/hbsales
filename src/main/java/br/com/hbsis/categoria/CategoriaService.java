@@ -76,7 +76,6 @@ public class CategoriaService {
             throw new IllegalArgumentException("Nome da categoria não deve ser nulo");
         }
 
-
     }
 
 
@@ -128,15 +127,6 @@ public class CategoriaService {
         this.iCategoriaRepositoy.deleteById(id);
     }
 
-
-    public Categoria findAll() {
-
-        List<Categoria> categoriaOptional = this.iCategoriaRepositoy.findAll();
-        for (int i=0; i<(categoriaOptional.size()-1); i++) {
-
-        }
-
-    }
 
 
     public void importCsv(MultipartFile file) throws IOException, CsvException {

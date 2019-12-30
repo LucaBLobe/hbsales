@@ -17,11 +17,6 @@ public class LinhaCategoriaDTO {
         this.categoriaId = categoriaId;
     }
 
-    public LinhaCategoriaDTO(Long id, String codLinhaCategoria, String nomeLinhaCategoria) {
-        this.id = id;
-        this.codLinhaCategoria = codLinhaCategoria;
-        this.nomeLinhaCategoria = nomeLinhaCategoria;
-    }
 
     public static LinhaCategoriaDTO of(LinhaCategoria linhaCategoria){
 

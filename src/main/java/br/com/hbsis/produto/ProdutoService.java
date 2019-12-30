@@ -135,10 +135,6 @@ public class ProdutoService {
     }
 
 
-    public IProdutoRepository findAll() {
-        List<Produto> produtoOptional = this.iProdutoRepository.findAll();
-        return iProdutoRepository;
-    }
 
     public ProdutoDTO update(ProdutoDTO produtoDTO, Long id) {
         Optional<Produto> produtoExistenteOptional = this.iProdutoRepository.findById(id);

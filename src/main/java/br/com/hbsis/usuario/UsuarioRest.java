@@ -1,9 +1,12 @@
 package br.com.hbsis.usuario;
 
+import br.com.hbsis.categoria.Categoria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Classe resposável por receber as requisições externas ao sistema
@@ -14,10 +17,12 @@ public class UsuarioRest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UsuarioRest.class);
 
 	private final UsuarioService usuarioService;
+	private final IUsuarioRepository iUsuarioRepository;
 
 	@Autowired
-	public UsuarioRest(UsuarioService usuarioService) {
+	public UsuarioRest(UsuarioService usuarioService, IUsuarioRepository iUsuarioRepository) {
 		this.usuarioService = usuarioService;
+		this.iUsuarioRepository = iUsuarioRepository;
 	}
 
 	@PostMapping
@@ -34,6 +39,10 @@ public class UsuarioRest {
 		LOGGER.info("Recebendo find by ID... id: [{}]", id);
 
 		return this.usuarioService.findById(id);
+	}
+	@GetMapping
+	public List<Usuario> findAll() {
+		return iUsuarioRepository.findAll();
 	}
 
 	@PutMapping("/{id}")

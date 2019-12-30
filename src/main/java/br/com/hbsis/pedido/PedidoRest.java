@@ -1,11 +1,12 @@
 package br.com.hbsis.pedido;
 
 
-import br.com.hbsis.venda.VendaDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -13,11 +14,14 @@ public class PedidoRest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(br.com.hbsis.pedido.PedidoRest.class);
 
-    private PedidoService pedidoService;
+    private final PedidoService pedidoService;
+    private final IPedidoRepository iPedidoRepository;
+
 
     @Autowired
-    public PedidoRest(PedidoService pedidoService) {
+    public PedidoRest(PedidoService pedidoService, IPedidoRepository iPedidoRepository) {
         this.pedidoService = pedidoService;
+        this.iPedidoRepository = iPedidoRepository;
     }
     @PostMapping("/{id}")
     public PedidoDTO save(@PathVariable("id") PedidoDTO pedidoDTO) {
@@ -31,6 +35,12 @@ public class PedidoRest {
 
         LOGGER.info("Recebendo find by ID... id: [{}]", id);
         return this.pedidoService.findById(id);
+
+    }
+    @GetMapping
+    public List<Pedido> findAll() {
+        LOGGER.info("Recebendp find by ID... id: [{}]");
+        return iPedidoRepository.findAll();
     }
     @PutMapping("/{id}")
     public PedidoDTO update(@PathVariable("id") Long id, @RequestBody PedidoDTO pedidoDTO) {

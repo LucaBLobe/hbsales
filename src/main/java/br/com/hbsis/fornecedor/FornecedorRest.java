@@ -5,16 +5,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/fornecedores")
 public class FornecedorRest {
     private static final Logger LOGGER = LoggerFactory.getLogger(FornecedorRest.class);
 
-    private FornecedorService fornecedorService;
+    private final FornecedorService fornecedorService;
+    private final IFornecedorRepository iFornecedorRepository;
 
     @Autowired
-    public FornecedorRest(FornecedorService fornecedorService) {this.fornecedorService = fornecedorService;}
+    public FornecedorRest(FornecedorService fornecedorService, IFornecedorRepository iFornecedorRepository) {this.fornecedorService = fornecedorService;
+        this.iFornecedorRepository = iFornecedorRepository;
+    }
 
     @PostMapping
     public FornecedorDTO save(@RequestBody FornecedorDTO fornecedorDTO){
@@ -29,6 +34,12 @@ public class FornecedorRest {
 
         LOGGER.info("Recebendo find by ID... id: [{}]",id);
         return this.fornecedorService.findById(id);
+    }
+    @GetMapping
+    public List<Fornecedor> findAll() {
+
+        LOGGER.info("Recebendp find by ID... id: [{}]");
+        return iFornecedorRepository.findAll();
     }
 
     @PutMapping("/{id}")

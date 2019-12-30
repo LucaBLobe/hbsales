@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/linha_categorias")
@@ -16,12 +17,14 @@ import java.io.IOException;
 public class LinhaCategoriaRest {
     private static final Logger LOGGER = LoggerFactory.getLogger(br.com.hbsis.linhaCategoria.LinhaCategoriaRest.class);
 
-    private LinhaCategoriaService linhaCategoriaService;
+    private final LinhaCategoriaService linhaCategoriaService;
+    private final ILinhaCategoriaRepository iLinhaCategoriaRepository;
 
 
     @Autowired
-    public LinhaCategoriaRest(LinhaCategoriaService linhaCategoriaService) {
+    public LinhaCategoriaRest(LinhaCategoriaService linhaCategoriaService, ILinhaCategoriaRepository iLinhaCategoriaRepository) {
         this.linhaCategoriaService = linhaCategoriaService;
+        this.iLinhaCategoriaRepository = iLinhaCategoriaRepository;
     }
 
     @PostMapping
@@ -37,12 +40,12 @@ public class LinhaCategoriaRest {
         LOGGER.info("Recebendo find by ID... id: [{}]", id);
         return this.linhaCategoriaService.findById(id);
     }
-    @RequestMapping("/all")
-    public LinhaCategoriaDTO findAll() {
 
-        LOGGER.info("Recebendp find by ID... id: [{}]");
-        return (LinhaCategoriaDTO) this.linhaCategoriaService.findAll();
+    @GetMapping
+    public List<LinhaCategoria> findAll() {
+        return iLinhaCategoriaRepository.findAll();
     }
+
     @PutMapping("/{id}")
     public LinhaCategoriaDTO update(@PathVariable("id") Long id, @RequestBody LinhaCategoriaDTO linhaCategoriaDTO) {
         LOGGER.info("Recebendo Upadate para linha de categoria de ID: {}", id);

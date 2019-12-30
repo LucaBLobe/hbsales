@@ -1,6 +1,5 @@
 package br.com.hbsis.produto;
 
-import br.com.hbsis.linhaCategoria.LinhaCategoriaDTO;
 import com.opencsv.exceptions.CsvException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/produtos")
@@ -19,10 +19,13 @@ public class ProdutoRest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(br.com.hbsis.produto.ProdutoRest.class);
 
-    private ProdutoService produtoService;
+    private final ProdutoService produtoService;
+    private final IProdutoRepository iProdutoRepository;
 
     @Autowired
-    public ProdutoRest(ProdutoService produtoService) { this.produtoService = produtoService; }
+    public ProdutoRest(ProdutoService produtoService, IProdutoRepository iProdutoRepository) { this.produtoService = produtoService;
+        this.iProdutoRepository = iProdutoRepository;
+    }
     @PostMapping
     public ProdutoDTO save(@RequestBody ProdutoDTO produtoDTO) {
         LOGGER.info("Resebendo Solicitação de persistencia de categoria...");
@@ -37,11 +40,9 @@ public class ProdutoRest {
         LOGGER.info("Recebendo find by ID... id: [{}]", id);
         return this.produtoService.findById(id);
     }
-    @RequestMapping("/all")
-    public ProdutoDTO findAll() {
-
-        LOGGER.info("Recebendp find by ID... id: [{}]");
-        return (ProdutoDTO) this.produtoService.findAll();
+    @GetMapping
+    public List<Produto> findAll() {
+        return iProdutoRepository.findAll();
     }
     @PutMapping("/{id}")
     public ProdutoDTO update(@PathVariable("id") Long id, @RequestBody ProdutoDTO produtoDTO) {
@@ -56,7 +57,7 @@ public class ProdutoRest {
         this.produtoService.delete(id);
     }
 
-    @RequestMapping(value = "/export_csv")
+    @GetMapping(value = "/export_csv")
     public void downloadCSV(HttpServletResponse response) throws IOException, ParseException {
         LOGGER.info("Recebendo Delete para produto de ID: {}", response);
         this.produtoService.exportCsv(response);

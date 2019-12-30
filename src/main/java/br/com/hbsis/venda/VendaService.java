@@ -39,17 +39,8 @@ public class VendaService {
         venda = this.iVendaRepository.save(venda);
 
         return vendaDTO.of(venda);
-
     }
 
-    public Venda findFornecedorById(Long fornecedorId) {
-        Optional<Venda> vendaOptional = this.iVendaRepository.findFornecedorById(fornecedorId);
-        if (vendaOptional.isPresent()) {
-            return vendaOptional.get();
-        }
-        throw new IllegalArgumentException(String.format("ID %s não esxiste", fornecedorId));
-
-    }
 
     private void validate(VendaDTO vendaDTO) {
         LOGGER.info("Validando vendas");
@@ -117,10 +108,7 @@ public class VendaService {
 
     }
 
-    public Object findAll() {
-        List<Venda> vendaOptional = this.iVendaRepository.findAll();
-        return vendaOptional;
-    }
+
 
     public VendaDTO update(VendaDTO vendaDTO, Long id) {
         Optional<Venda> vendaExistenteOptional = this.iVendaRepository.findById(id);
