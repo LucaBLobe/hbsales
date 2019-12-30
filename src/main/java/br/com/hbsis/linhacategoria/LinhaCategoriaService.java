@@ -1,4 +1,4 @@
-package br.com.hbsis.linhaCategoria;
+package br.com.hbsis.linhacategoria;
 
 import br.com.hbsis.categoria.Categoria;
 import br.com.hbsis.categoria.CategoriaService;
@@ -24,7 +24,7 @@ import java.util.Optional;
 @Service
 public class LinhaCategoriaService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(br.com.hbsis.linhaCategoria.LinhaCategoriaService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(br.com.hbsis.linhacategoria.LinhaCategoriaService.class);
 
     private final ILinhaCategoriaRepository iLinhaCategoriaRepository;
     private final CategoriaService categoriaService;

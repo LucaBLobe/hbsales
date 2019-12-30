@@ -1,16 +1,14 @@
-package br.com.hbsis.venda;
+package br.com.hbsis.periodovenda;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 @Repository
-public interface IVendaRepository extends JpaRepository<Venda, Long> {
+public interface IPeriodoVendaRepository extends JpaRepository<PeriodoVenda, Long> {
 
-    Optional<Venda> findFornecedorById(Long fornecedorId);
+    Optional<PeriodoVenda> findFornecedorById(Long fornecedorId);
 
  //  @Query("SELECT u FROM User u WHERE u.status = 1")
  //   Collection<Venda> findAllActiveUsers();

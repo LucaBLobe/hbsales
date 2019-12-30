@@ -1,4 +1,4 @@
-package br.com.hbsis.linhaCategoria;
+package br.com.hbsis.linhacategoria;
 
 import com.opencsv.exceptions.CsvException;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/linha_categorias")
 
 public class LinhaCategoriaRest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(br.com.hbsis.linhaCategoria.LinhaCategoriaRest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(br.com.hbsis.linhacategoria.LinhaCategoriaRest.class);
 
     private final LinhaCategoriaService linhaCategoriaService;
     private final ILinhaCategoriaRepository iLinhaCategoriaRepository;
@@ -26,7 +26,6 @@ public class LinhaCategoriaRest {
         this.linhaCategoriaService = linhaCategoriaService;
         this.iLinhaCategoriaRepository = iLinhaCategoriaRepository;
     }
-
     @PostMapping
     public LinhaCategoriaDTO save(@RequestBody LinhaCategoriaDTO linhaCategoriaDTO) {
         LOGGER.info("Resebendo Solicitação de persistencia de categoria...");

@@ -2,12 +2,12 @@ package br.com.hbsis.produto;
 
 import br.com.hbsis.categoria.Categoria;
 import br.com.hbsis.categoria.CategoriaService;
-import br.com.hbsis.categoria.ICategoriaRepositoy;
+import br.com.hbsis.categoria.ICategoriaRepository;
 import br.com.hbsis.fornecedor.Fornecedor;
 import br.com.hbsis.fornecedor.FornecedorService;
-import br.com.hbsis.linhaCategoria.ILinhaCategoriaRepository;
-import br.com.hbsis.linhaCategoria.LinhaCategoria;
-import br.com.hbsis.linhaCategoria.LinhaCategoriaService;
+import br.com.hbsis.linhacategoria.ILinhaCategoriaRepository;
+import br.com.hbsis.linhacategoria.LinhaCategoria;
+import br.com.hbsis.linhacategoria.LinhaCategoriaService;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriterBuilder;
@@ -39,16 +39,16 @@ public class ProdutoService {
     private final IProdutoRepository iProdutoRepository;
     private final LinhaCategoriaService LinhaCategoriaService;
     private final FornecedorService fornecedorService;
-    private final ICategoriaRepositoy iCategoriaRepositoy;
+    private final ICategoriaRepository iCategoriaRepository;
     private final CategoriaService categoriaService;
     private final ILinhaCategoriaRepository iLinhaCategoriaRepository;
 
 
-    public ProdutoService(IProdutoRepository iProdutoRepository, br.com.hbsis.linhaCategoria.LinhaCategoriaService linhaCategoriaService, FornecedorService fornecedorService, CategoriaService categoriaService, ICategoriaRepositoy iCategoriaRepositoy, CategoriaService categoriaService1, ILinhaCategoriaRepository iLinhaCategoriaRepository) {
+    public ProdutoService(IProdutoRepository iProdutoRepository, br.com.hbsis.linhacategoria.LinhaCategoriaService linhaCategoriaService, FornecedorService fornecedorService, CategoriaService categoriaService, ICategoriaRepository iCategoriaRepository, CategoriaService categoriaService1, ILinhaCategoriaRepository iLinhaCategoriaRepository) {
         this.iProdutoRepository = iProdutoRepository;
         this.LinhaCategoriaService = linhaCategoriaService;
         this.fornecedorService = fornecedorService;
-        this.iCategoriaRepositoy = iCategoriaRepositoy;
+        this.iCategoriaRepository = iCategoriaRepository;
         this.categoriaService = categoriaService1;
         this.iLinhaCategoriaRepository = iLinhaCategoriaRepository;
     }
@@ -123,17 +123,6 @@ public class ProdutoService {
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
-
-    public Produto findByCodProduto(String codProduto) {
-        Optional<Produto> produtoOptional = this.iProdutoRepository.findByCodProduto(codProduto);
-        if (produtoOptional.isPresent()) {
-            LOGGER.info("Recebendo find by Codigo do produto... id: [{}]", produtoOptional.get());
-            return produtoOptional.get();
-        }
-        System.out.println(String.format("ID %s não existe", codProduto));
-        return null;
-    }
-
 
 
     public ProdutoDTO update(ProdutoDTO produtoDTO, Long id) {
@@ -272,7 +261,7 @@ public class ProdutoService {
 
                     String[] produtoColuna = produto[0].replaceAll("\"", "").split(";");
 
-                    Optional<Categoria> categoriaExistente = iCategoriaRepositoy.findByCodigoCategoria(produtoColuna[8]);
+                    Optional<Categoria> categoriaExistente = iCategoriaRepository.findByCodigoCategoria(produtoColuna[8]);
 
 
                     if (!categoriaExistente.isPresent()) {
@@ -282,14 +271,14 @@ public class ProdutoService {
                         categoriaImport.setNomeCategoria(produtoColuna[9]);
                         categoriaImport.setFornecedorId(fornecedorExistente);
 
-                        iCategoriaRepositoy.save(categoriaImport);
+                        iCategoriaRepository.save(categoriaImport);
 
 
                     } else if (categoriaExistente.isPresent()) {
 
                         Categoria categoriaImport = categoriaExistente.get();
                         categoriaImport.setFornecedorId(fornecedorExistente);
-                        iCategoriaRepositoy.save(categoriaImport);
+                        iCategoriaRepository.save(categoriaImport);
                     }
 
 

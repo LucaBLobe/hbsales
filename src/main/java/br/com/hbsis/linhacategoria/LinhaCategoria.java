@@ -1,4 +1,4 @@
-package br.com.hbsis.linhaCategoria;
+package br.com.hbsis.linhacategoria;
 
 import br.com.hbsis.categoria.Categoria;
 
@@ -23,13 +23,6 @@ public class LinhaCategoria {
         private Categoria categoriaId;
 
         public LinhaCategoria() {
-        }
-
-        public LinhaCategoria(Long id, String codLinhaCategoria, String nomeLinhaCategoria, Categoria categoriaId) {
-            this.id = id;
-            this.codLinhaCategoria = codLinhaCategoria;
-            this.nomeLinhaCategoria = nomeLinhaCategoria;
-            this.categoriaId = categoriaId;
         }
 
         public Long getId() {

@@ -37,8 +37,6 @@ public class FornecedorRest {
     }
     @GetMapping
     public List<Fornecedor> findAll() {
-
-        LOGGER.info("Recebendp find by ID... id: [{}]");
         return iFornecedorRepository.findAll();
     }
 

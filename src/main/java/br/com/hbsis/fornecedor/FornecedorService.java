@@ -1,5 +1,6 @@
 package br.com.hbsis.fornecedor;
 
+import br.com.hbsis.categoria.ICategoriaRepository;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +14,14 @@ public class FornecedorService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FornecedorService.class);
 
     private final IFornecedorRepository iFornecedorRepository;
+    private final ICategoriaRepository iCategoriaRepository;
 
 
-    public FornecedorService(IFornecedorRepository iFornecedorRepository) {
+
+    public FornecedorService(IFornecedorRepository iFornecedorRepository, ICategoriaRepository iCategoriaRepository) {
         this.iFornecedorRepository = iFornecedorRepository;
+
+        this.iCategoriaRepository = iCategoriaRepository;
     }
 
     public FornecedorDTO save(FornecedorDTO fornecedorDTO) {
@@ -79,10 +84,7 @@ public class FornecedorService {
         if (fornecedorDTO.getTelefoneContato().length() > 14) {
             throw new IllegalArgumentException("Telefone com numerção incorreta");
         }
-
-
     }
-
     public FornecedorDTO findById(Long id) {
         Optional<Fornecedor> fornecedorOptional = this.iFornecedorRepository.findById(id);
         if (fornecedorOptional.isPresent()) {
@@ -91,8 +93,6 @@ public class FornecedorService {
             return FornecedorDTO.of(fornecedor);
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
-
-
     }
 
     public Fornecedor findFornecedorById(Long id) {
@@ -102,10 +102,6 @@ public class FornecedorService {
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
-
-
-
-
     public FornecedorDTO update(FornecedorDTO fornecedorDTO, Long id) {
         Optional<Fornecedor> fornecedorExistenteOptional = this.iFornecedorRepository.findById(id);
 
@@ -125,7 +121,6 @@ public class FornecedorService {
             fornecedorExistente.setTelefoneContato(fornecedorDTO.getTelefoneContato());
             fornecedorExistente.setCnpj(fornecedorDTO.getCnpj());
             fornecedorExistente.setEmail(fornecedorDTO.getEmail());
-
             fornecedorExistente = this.iFornecedorRepository.save(fornecedorExistente);
 
             return FornecedorDTO.of(fornecedorExistente);

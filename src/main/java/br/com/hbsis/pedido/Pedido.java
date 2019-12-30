@@ -40,14 +40,6 @@ public class Pedido {
 
     }
 
-    public Pedido(Long id, String codPedido, StatusPedido status, Produto produtoId,  Fornecedor fornecedorId, LocalDate criacaoPedido) {
-        this.id = id;
-        this.codPedido = codPedido;
-        this.status = status;
-        this.fornecedorId = fornecedorId;
-        this.produtoId = produtoId;
-        this.criacaoPedido = criacaoPedido;  }
-
     public Long getId() {
         return id;
     }

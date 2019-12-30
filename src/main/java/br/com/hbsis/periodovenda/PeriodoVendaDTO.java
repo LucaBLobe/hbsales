@@ -1,20 +1,25 @@
-package br.com.hbsis.venda;
+package br.com.hbsis.periodovenda;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-public class VendaDTO {
+public class PeriodoVendaDTO {
 
     private Long id;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate inicioVendas;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate fimVendas;
     private Long fornecedorId;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate retiradaPedido;
     private String descricao;
 
-    public VendaDTO() {
+    public PeriodoVendaDTO() {
     }
 
-    public VendaDTO(Long id, LocalDate inicioVendas, LocalDate fimVrendas, Long fornecedorId, LocalDate retiradaPedido, String descricao) {
+    public PeriodoVendaDTO(Long id, LocalDate inicioVendas, LocalDate fimVrendas, Long fornecedorId, LocalDate retiradaPedido, String descricao) {
         this.id = id;
         this.inicioVendas = inicioVendas;
         this.fimVendas = fimVrendas;
@@ -23,15 +28,15 @@ public class VendaDTO {
         this.descricao = descricao;
     }
 
-    public static VendaDTO of(Venda venda){
+    public static PeriodoVendaDTO of(PeriodoVenda periodoVenda){
 
-        return new VendaDTO(
-                venda.getId(),
-                venda.getInicioVendas(),
-                venda.getFimVendas(),
-                venda.getFornecedorId().getId(),
-                venda.getRetiradaPedido(),
-                venda.getDescricao()
+        return new PeriodoVendaDTO(
+                periodoVenda.getId(),
+                periodoVenda.getInicioVendas(),
+                periodoVenda.getFimVendas(),
+                periodoVenda.getFornecedorId().getId(),
+                periodoVenda.getRetiradaPedido(),
+                periodoVenda.getDescricao()
         );
     }
 

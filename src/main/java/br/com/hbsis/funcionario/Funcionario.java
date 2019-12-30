@@ -18,7 +18,6 @@ public class Funcionario {
     private String uuid;
 
     public Funcionario() {
-
     }
 
     public Long getId() { return id; }

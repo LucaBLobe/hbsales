@@ -14,15 +14,6 @@ public class PedidoDTO {
     public PedidoDTO() {
     }
 
-    public PedidoDTO(Long id, String codPedido, StatusPedido status, Long produtoId, Long fornecedorId, LocalDate criacaoPedido) {
-        this.id = id;
-        this.codPedido = codPedido;
-        this.status = status;
-        this.produtoId = produtoId;
-        this.fornecedorId = fornecedorId;
-        this.criacaoPedido = criacaoPedido;
-    }
-
     public static PedidoDTO of(Pedido pedido) {
         return new PedidoDTO(
 

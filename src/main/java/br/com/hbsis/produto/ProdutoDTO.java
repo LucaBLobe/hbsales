@@ -1,5 +1,7 @@
 package br.com.hbsis.produto;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 
 public class ProdutoDTO {
@@ -12,10 +14,10 @@ public class ProdutoDTO {
     private int unidadesCaixa;
     private String unidadeMedida;
     private Double pesoUnitario;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate validadeProduto;
 
     public ProdutoDTO() {
-
     }
 
     public ProdutoDTO(Long id, String codProduto, String nomeProduto, Double precoProduto, Long linhaCategoriaId, int unidadesCaixa, String unidadeMedida, Double pesoUnitario, LocalDate validadeProduto) {

@@ -1,11 +1,8 @@
 package br.com.hbsis.fornecedor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class FornecedorDTO {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FornecedorDTO.class);
+
     private Long id;
     private String razaoSocial;
     private String cnpj;

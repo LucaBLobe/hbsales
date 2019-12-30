@@ -19,13 +19,13 @@ public class CategoriaRest {
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoriaRest.class);
 
     private final CategoriaService categoriaService;
-    private final ICategoriaRepositoy iCategoriaRepositoy;
+    private final ICategoriaRepository iCategoriaRepository;
 
 
     @Autowired
-    public CategoriaRest(CategoriaService categoriaService, ICategoriaRepositoy iCategoriaRepositoy) {
+    public CategoriaRest(CategoriaService categoriaService, ICategoriaRepository iCategoriaRepository) {
         this.categoriaService = categoriaService;
-        this.iCategoriaRepositoy = iCategoriaRepositoy;
+        this.iCategoriaRepository = iCategoriaRepository;
     }
 
     @PostMapping
@@ -44,9 +44,7 @@ public class CategoriaRest {
     }
     @GetMapping
     public List<Categoria> findAll() {
-
-        LOGGER.info("Recebendp find by ID... id: [{}]");
-        return iCategoriaRepositoy.findAll();
+        return iCategoriaRepository.findAll();
     }
     @PutMapping("/{id}")
     public CategoriaDTO update(@PathVariable("id") Long id, @RequestBody CategoriaDTO categoriaDTO) {

@@ -1,7 +1,6 @@
 package br.com.hbsis.produto;
 
-import br.com.hbsis.linhaCategoria.LinhaCategoria;
-import org.springframework.format.annotation.DateTimeFormat;
+import br.com.hbsis.linhacategoria.LinhaCategoria;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -37,7 +36,6 @@ public class Produto {
     private String unidadeMedida;
 
     @Column(name = "validade_produto", nullable = false, length = 8)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate validadeProduto;
 
     public Produto() {

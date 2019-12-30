@@ -1,8 +1,7 @@
-package br.com.hbsis.venda;
+package br.com.hbsis.periodovenda;
 
 
 import br.com.hbsis.fornecedor.Fornecedor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,18 +9,16 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "cad_venda")
-public class Venda {
+public class PeriodoVenda {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "inicio_vendas", nullable = false, length = 8)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate inicioVendas;
 
     @Column(name = "fim_vendas", nullable = false, length = 8)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate fimVendas;
 
     @ManyToOne
@@ -29,13 +26,12 @@ public class Venda {
     private Fornecedor fornecedorId;
 
     @Column(name = "retirada_pedido", nullable = false, length = 8)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate retiradaPedido;
 
     @Column(name = "descricao", nullable = false, length = 50)
     private String descricao;
 
-    public Venda(){
+    public PeriodoVenda(){
 
     }
 
@@ -95,8 +91,8 @@ public class Venda {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Venda venda = (Venda) o;
-        return Objects.equals(id, venda.id);
+        PeriodoVenda periodoVenda = (PeriodoVenda) o;
+        return Objects.equals(id, periodoVenda.id);
     }
 
     @Override

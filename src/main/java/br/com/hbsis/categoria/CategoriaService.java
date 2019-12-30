@@ -1,7 +1,6 @@
 package br.com.hbsis.categoria;
 
 import br.com.hbsis.fornecedor.Fornecedor;
-import br.com.hbsis.fornecedor.FornecedorDTO;
 import br.com.hbsis.fornecedor.FornecedorService;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
@@ -29,12 +28,12 @@ public class CategoriaService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoriaService.class);
 
-    private final ICategoriaRepositoy iCategoriaRepositoy;
+    private final ICategoriaRepository iCategoriaRepository;
     private final FornecedorService fornecedorService;
 
 
-    public CategoriaService(ICategoriaRepositoy iCategoriaRepositoy, FornecedorService fornecedorService) {
-        this.iCategoriaRepositoy = iCategoriaRepositoy;
+    public CategoriaService(ICategoriaRepository iCategoriaRepository, FornecedorService fornecedorService) {
+        this.iCategoriaRepository = iCategoriaRepository;
         this.fornecedorService = fornecedorService;
     }
 
@@ -49,14 +48,14 @@ public class CategoriaService {
 
         Categoria categoria = new Categoria();
         categoria.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
-        String categoriaDigito = StringUtils.leftPad(categoriaDTO.getCodigoCategoria(), 3, "0");
-        String codigoFormatado;
-        codigoFormatado = "CAT" + categoria.getFornecedorId().getCnpj().substring(10) + categoriaDigito;
-        categoria.setCodigoCategoria(codigoFormatado);
+//        String categoriaDigito = StringUtils.leftPad(categoriaDTO.getCodigoCategoria(), 3, "0");
+//        String codigoFormatado;
+//        codigoFormatado = "CAT" + categoria.getFornecedorId().getCnpj().substring(10) + categoriaDigito;
+        categoria.setCodigoCategoria(this.codigoCategoriaCompleto(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()),categoriaDTO));
         categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
 
-        categoria = this.iCategoriaRepositoy.save(categoria);
+        categoria = this.iCategoriaRepository.save(categoria);
 
         return categoriaDTO.of(categoria);
 
@@ -75,12 +74,16 @@ public class CategoriaService {
         if (StringUtils.isEmpty(categoriaDTO.getNomeCategoria())) {
             throw new IllegalArgumentException("Nome da categoria não deve ser nulo");
         }
+    }
 
+    public String codigoCategoriaCompleto(Fornecedor cnpj, CategoriaDTO codigo){
+        String codigoFormatado = "CAT" + cnpj.getCnpj().substring(10) + StringUtils.leftPad(codigo.getCodigoCategoria(), 3, "0");
+        return codigoFormatado;
     }
 
 
     public CategoriaDTO findById(Long id) {
-        Optional<Categoria> categoriaOptional = this.iCategoriaRepositoy.findById(id);
+        Optional<Categoria> categoriaOptional = this.iCategoriaRepository.findById(id);
         if (categoriaOptional.isPresent()) {
             LOGGER.info("Recebendo find by ID... id: [{}]", CategoriaDTO.of(categoriaOptional.get()));
             return CategoriaDTO.of(categoriaOptional.get());
@@ -88,15 +91,17 @@ public class CategoriaService {
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
 
+
+
     public Categoria findCategoriaById(Long id) {
-        Optional<Categoria> categoriaOptional = this.iCategoriaRepositoy.findById(id);
+        Optional<Categoria> categoriaOptional = this.iCategoriaRepository.findById(id);
         if (categoriaOptional.isPresent()) {
             return categoriaOptional.get();
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
     public CategoriaDTO update(CategoriaDTO categoriaDTO, Long id) {
-        Optional<Categoria> categoriaExistenteOptional = this.iCategoriaRepositoy.findById(id);
+        Optional<Categoria> categoriaExistenteOptional = this.iCategoriaRepository.findById(id);
 
 
         if (categoriaExistenteOptional.isPresent()) {
@@ -109,13 +114,13 @@ public class CategoriaService {
             LOGGER.debug("Categoria Existente: {}", categoriaExistente);
 
             categoriaExistente.setFornecedorId(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()));
-            String categoriaDigito = StringUtils.leftPad(categoriaDTO.getCodigoCategoria(), 3, "0");
-            String codigoFormatado;
-            codigoFormatado = "CAT" + categoriaExistente.getFornecedorId().getCnpj().substring(10) + categoriaDigito;
-            categoriaExistente.setCodigoCategoria(codigoFormatado);
+//            String categoriaDigito = StringUtils.leftPad(categoriaDTO.getCodigoCategoria(), 3, "0");
+//            String codigoFormatado;
+//            codigoFormatado = "CAT" + categoriaExistente.getFornecedorId().getCnpj().substring(10) + categoriaDigito;
+            categoriaExistente.setCodigoCategoria(codigoCategoriaCompleto(fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId()),categoriaDTO));
             categoriaExistente.setNomeCategoria(categoriaDTO.getNomeCategoria());
 
-            categoriaExistente = this.iCategoriaRepositoy.save(categoriaExistente);
+            categoriaExistente = this.iCategoriaRepository.save(categoriaExistente);
 
             return categoriaDTO.of(categoriaExistente);
         }
@@ -124,10 +129,8 @@ public class CategoriaService {
 
     public void delete(Long id) {
         LOGGER.info("Executando delete para categoria de ID: [{}]", id);
-        this.iCategoriaRepositoy.deleteById(id);
+        this.iCategoriaRepository.deleteById(id);
     }
-
-
 
     public void importCsv(MultipartFile file) throws IOException, CsvException {
 
@@ -141,7 +144,7 @@ public class CategoriaService {
             try {
 
                 String[] colunaCategoria = categoria[0].replaceAll("\"", "").split(";");
-                Optional<Categoria> categoriaExistente = iCategoriaRepositoy.findByCodigoCategoria(colunaCategoria[0]);
+                Optional<Categoria> categoriaExistente = iCategoriaRepository.findByCodigoCategoria(colunaCategoria[0]);
 
                 if (categoriaExistente.isPresent()) {
                     continue;
@@ -159,7 +162,7 @@ public class CategoriaService {
                 e.printStackTrace();
             }
         }
-        this.iCategoriaRepositoy.saveAll(saveLista);
+        this.iCategoriaRepository.saveAll(saveLista);
     }
 
     public void exportCsv(HttpServletResponse response) throws IOException, ParseException {
@@ -175,7 +178,7 @@ public class CategoriaService {
         response.setHeader(headerKey, headerValue);
 
 
-        List<Categoria> lista = iCategoriaRepositoy.findAll();
+        List<Categoria> lista = iCategoriaRepository.findAll();
 
         ICSVWriter csvWriter = new CSVWriterBuilder(response.getWriter()).withSeparator(';').build();
 
@@ -195,7 +198,7 @@ public class CategoriaService {
     }
 
     public Categoria findByCodigoCategoria(String codigoCategoria) {
-        Optional<Categoria> categoriaOptional = this.iCategoriaRepositoy.findByCodigoCategoria(codigoCategoria);
+        Optional<Categoria> categoriaOptional = this.iCategoriaRepository.findByCodigoCategoria(codigoCategoria);
         if (categoriaOptional.isPresent()) {
             return categoriaOptional.get();
         }
